@@ -1,6 +1,8 @@
-/** @type {import('tailwindcss').Config} */
-import { config } from '@typelabs/tailwind-config'
-module.exports = {
+import type { Config } from 'tailwindcss'
+import defaultTheme from 'tailwindcss/defaultTheme'
+import animate from 'tailwindcss-animate'
+
+export default {
   darkMode: ['class'],
   content: [
     './pages/**/*.{ts,tsx}',
@@ -22,11 +24,11 @@ module.exports = {
         line: '0px 0px 0px 3px hsl(var(--background))',
       },
       fontFamily: {
-        robotoMono: 'Roboto Mono',
-        jetbrains: 'JetBrains Mono',
-        plexMono: 'IBM Plex Mono',
-        reddit: 'Reddit Sans',
-        poppins: 'Poppins',
+        robotoMono: ['Roboto Mono', ...defaultTheme.fontFamily.sans],
+        jetbrains: ['JetBrains Mono', ...defaultTheme.fontFamily.sans],
+        plexMono: ['IBM Plex Mono', ...defaultTheme.fontFamily.sans],
+        reddit: ['Reddit Sans', ...defaultTheme.fontFamily.sans],
+        poppins: ['Poppins', ...defaultTheme.fontFamily.sans],
       },
       colors: {
         background: 'hsl(var(--sub-alt-color))',
@@ -139,5 +141,5 @@ module.exports = {
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
-}
+  plugins: [animate],
+} satisfies Config
