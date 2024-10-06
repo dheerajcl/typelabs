@@ -1,11 +1,11 @@
-import { useNotificationsVolume } from '@/atoms/atoms'
+import { useNotificationsVolume } from '@/state/atoms'
 
 import uiSounds from '@/assets/sfx/ui-sounds.wav'
 import useSound from 'use-sound'
 
-type sfx = 'error' | 'success' | 'neutral' | 'click' | 'delete'
+const sounds = ['error', 'success', 'neutral', 'click', 'delete'] as const
 
-const sounds = ['error', 'success', 'neutral', 'click', 'delete']
+type sfx = (typeof sounds)[number]
 
 export const useSoundFx = () => {
   const [vol] = useNotificationsVolume()

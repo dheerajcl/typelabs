@@ -1,6 +1,6 @@
 import create from 'zustand-store-addons'
-import { useShallow } from 'zustand/react/shallow'
-import { getStoreValuesByKeys } from './utils'
+import { createSelector } from 'better-zustand-selector'
+import { StoreApi, UseBoundStore } from 'zustand'
 
 type TimerStore = {
   interval: NodeJS.Timeout | null
@@ -16,14 +16,12 @@ type TimerStore = {
   setHasTimerEnded: (bool: boolean) => void
   setInterval: (interval: TimerStore['interval']) => void
   setTimeLeft: (time: number, updateBy?: boolean) => void
+  updateTimeBy: (time: number) => void
   setTotalTime: (time: number) => void
   startTimer: () => void
   pauseTimer: () => void
   resetTimer: () => void
 }
-
-export const useTimer = <T extends keyof TimerStore>(...keys: T[]) =>
-  timerStore(useShallow(getStoreValuesByKeys(keys)))
 
 export const timerStore = create<TimerStore>(
   (set) => ({
@@ -36,43 +34,45 @@ export const timerStore = create<TimerStore>(
     isRunning: false,
     timeInt: 0,
 
-    setIsRunning: (bool: boolean) => {
-      set((state) => ({ ...state, isRunning: bool }))
+    setIsRunning: (isRunning: boolean) => {
+      set({ isRunning })
     },
-    setIsPaused: (bool: boolean) => {
-      set((state) => ({ ...state, isPaused: bool }))
+    setIsPaused: (isPaused: boolean) => {
+      set({ isPaused })
     },
     setInterval: (interval: TimerStore['interval']) => {
-      set((state) => ({ ...state, interval }))
+      set({ interval })
     },
-    setHasTimerEnded: (bool: boolean) => {
-      set((state) => ({ ...state, hasTimerEnded: bool }))
+    setHasTimerEnded: (hasTimerEnded: boolean) => {
+      set({ hasTimerEnded })
     },
-    setTimeLeft: (time: number, updateBy?: boolean) => {
-      set((s) => ({ ...s, timeLeft: updateBy ? s.timeLeft + time : time }))
+    setTimeLeft: (timeLeft: number) => {
+      set({ timeLeft })
+    },
+    updateTimeBy: (dTime: number) => {
+      set((s) => ({ timeLeft: s.timeLeft + dTime }))
     },
     setTotalTime: (time: number) => {
-      set((state) => ({
-        ...state,
+      set({
         hasTimerEnded: false,
         totalTime: time,
         timeLeft: time,
-      }))
+      })
     },
 
     startTimer: () => {
       set((state) => {
         if (state.interval) clearInterval(state.interval)
 
-        const interval = setInterval(() => state.setTimeLeft(-0.1, true), 100)
-        return { ...state, hasTimerEnded: false, interval, isPaused: false }
+        const interval = setInterval(() => state.updateTimeBy(-0.1), 100)
+        return { hasTimerEnded: false, interval, isPaused: false }
       })
     },
     pauseTimer: () => {
       set((state) => {
         if (!state.isPaused && state.isRunning) {
           if (state.interval) clearInterval(state.interval)
-          return { ...state, isPaused: true, timeLeft: state.timeLeft - 1 }
+          return { isPaused: true, timeLeft: state.timeLeft - 1 }
         }
         return state
       })
@@ -80,9 +80,7 @@ export const timerStore = create<TimerStore>(
     resetTimer: () => {
       set((state) => {
         state.pauseTimer()
-
         return {
-          ...state,
           interval: null,
           isPaused: false,
           timeLeft: state.totalTime,
@@ -99,5 +97,9 @@ export const timerStore = create<TimerStore>(
         return !!this.interval
       },
     },
-  }
+  },
+)
+
+export const useTimer = createSelector(
+  timerStore as UseBoundStore<StoreApi<TimerStore>>,
 )

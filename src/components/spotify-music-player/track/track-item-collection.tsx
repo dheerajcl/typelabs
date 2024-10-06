@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { TrackItem } from './track-item'
 import { Virtuoso } from 'react-virtuoso'
 import { ScrollAreaRoot, ScrollAreaViewport } from '@/components/ui/scroll-area'
-import { usePlayerContext } from '@/atoms/atoms'
+import { usePlayerContext } from '@/state/atoms'
 import { useTrackListQuery } from '@/react-query/queries/use-tracklist.query'
 import {
   usePlaybackState,
@@ -28,7 +28,7 @@ export const TrackItemCollection = ({
   const [playerContext, setPlayerContext] = usePlayerContext()
   const [scrollParent, setScrollParent] = useState<HTMLDivElement | null>(null)
   const [trackList, setTrackList] = useState<SpotifyApi.PlaylistTrackObject[]>(
-    playlist.tracks.items
+    playlist.tracks.items,
   )
   const {
     data: tracks,
@@ -53,7 +53,7 @@ export const TrackItemCollection = ({
     if (!device?.device_id) return
     const trackIdx = trackList.findIndex(
       (track) =>
-        getTrackKey(track.track as SpotifyApi.TrackObjectFull) === trackKey
+        getTrackKey(track.track as SpotifyApi.TrackObjectFull) === trackKey,
     )
     setPlayerContext({
       ...playerContext,
@@ -73,37 +73,37 @@ export const TrackItemCollection = ({
     useOptimistic<string>(
       getTrackKey(
         playbackState?.track_window
-          .current_track as unknown as SpotifyApi.TrackObjectFull
+          .current_track as unknown as SpotifyApi.TrackObjectFull,
       ),
-      handlePlayTrack
+      handlePlayTrack,
     )
   useEffect(() => {
     const activeTrackKey = getTrackKey(
       playbackState?.track_window
-        .current_track as unknown as SpotifyApi.TrackObjectFull
+        .current_track as unknown as SpotifyApi.TrackObjectFull,
     )
     setActiveTrackKeyDirect(activeTrackKey)
   }, [playbackState?.track_window])
 
   return (
-    <div className="flex h-full w-full flex-col gap-1 pb-10">
-      <div className="flex items-center justify-between gap-2 px-4 pb-2">
-        <div className="flex flex-[3] gap-5">
-          <p className="text-xs text-muted-foreground">#</p>
-          <p className="text-xs text-muted-foreground">Title</p>
+    <div className='flex h-full w-full flex-col gap-1 pb-10'>
+      <div className='flex items-center justify-between gap-2 px-4 pb-2'>
+        <div className='flex flex-[3] gap-5'>
+          <p className='text-xs text-muted-foreground'>#</p>
+          <p className='text-xs text-muted-foreground'>Title</p>
         </div>
-        <div className="flex flex-[2] justify-between gap-4">
-          <p className="px-1 text-xs text-muted-foreground">Album</p>
-          <Clock className="mr-6 h-4 w-4 text-muted-foreground" />
+        <div className='flex flex-[2] justify-between gap-4'>
+          <p className='px-1 text-xs text-muted-foreground'>Album</p>
+          <Clock className='mr-6 h-4 w-4 text-muted-foreground' />
         </div>
       </div>
 
-      <ScrollAreaRoot className="no-scrollbar h-full overflow-y-auto pr-4">
-        <ScrollAreaViewport className="no-scrollbar" ref={setScrollParent}>
+      <ScrollAreaRoot className='no-scrollbar h-full overflow-y-auto pr-4'>
+        <ScrollAreaViewport className='no-scrollbar' ref={setScrollParent}>
           <Virtuoso
             rangeChanged={({ startIndex }) => onScrolled(startIndex)}
             data={trackList}
-            className="!h-0"
+            className='!h-0'
             customScrollParent={scrollParent ?? undefined}
             endReached={() => {
               if (trackList.length === playlist.tracks.total) return
@@ -111,7 +111,7 @@ export const TrackItemCollection = ({
             }}
             itemContent={(i, track) => {
               const trackKey = getTrackKey(
-                track.track as SpotifyApi.TrackObjectFull
+                track.track as SpotifyApi.TrackObjectFull,
               )
               const isActive = activeTrackKey === trackKey
               return (
@@ -134,12 +134,12 @@ export const TrackItemCollection = ({
 }
 
 const LoadingNewTracks = () => (
-  <div className="my-2 ml-4 flex items-center gap-1">
-    <Skeleton className="h-4 w-7 rounded-sm bg-sub" />
-    <Skeleton className="flex h-9 w-9 items-center gap-2 bg-sub px-2" />
+  <div className='my-2 ml-4 flex items-center gap-1'>
+    <Skeleton className='h-4 w-7 rounded-sm bg-sub' />
+    <Skeleton className='flex h-9 w-9 items-center gap-2 bg-sub px-2' />
     <div>
-      <Skeleton className="mb-1 h-4 w-20 rounded-sm bg-sub" />
-      <Skeleton className="h-3 w-[10rem] rounded-sm bg-sub" />
+      <Skeleton className='mb-1 h-4 w-20 rounded-sm bg-sub' />
+      <Skeleton className='h-3 w-[10rem] rounded-sm bg-sub' />
     </div>
   </div>
 )

@@ -17,7 +17,7 @@ import {
   usePlayerDevice,
   useSpotifyPlayer,
 } from 'react-spotify-web-playback-sdk'
-import { usePlayerContext } from '@/atoms/atoms'
+import { usePlayerContext } from '@/state/atoms'
 import { Skeleton } from '@/components/ui/skeleton'
 import { usePlayTrack } from '@/react-query/mutations/play-track.mutation'
 import { useSpotifyAuth } from '@/providers/spotify-auth.provider'
@@ -86,7 +86,7 @@ export const MusicPlayer: FC<MusicPlayerProps> = ({ className, ...props }) => {
     {
       mutationFn: () => spotifyClient.skipToPrevious(),
       mutationKey: ['previousTrack'],
-    }
+    },
   )
 
   useHotkeys(KEYBINDS.TOGGLE_PLAY.hotkey, () => player?.togglePlay())
@@ -101,11 +101,11 @@ export const MusicPlayer: FC<MusicPlayerProps> = ({ className, ...props }) => {
 
   if (deviceStatus !== 'ready' || isPlayerLoading) {
     return (
-      <div className="flex h-12 w-[10rem] gap-2 rounded-md text-sm text-muted-foreground">
-        <Skeleton className="h-12 w-12 rounded-sm bg-black/20" />
+      <div className='flex h-12 w-[10rem] gap-2 rounded-md text-sm text-muted-foreground'>
+        <Skeleton className='h-12 w-12 rounded-sm bg-black/20' />
         <div>
-          <Skeleton className="mb-1 h-3 w-24 rounded-sm bg-black/20" />
-          <Skeleton className="h-3 w-20 rounded-sm bg-black/20" />
+          <Skeleton className='mb-1 h-3 w-24 rounded-sm bg-black/20' />
+          <Skeleton className='h-3 w-20 rounded-sm bg-black/20' />
         </div>
       </div>
     )
@@ -113,49 +113,49 @@ export const MusicPlayer: FC<MusicPlayerProps> = ({ className, ...props }) => {
 
   if (!playerContext.uri && !currentTrack) {
     return (
-      <div className="flex h-12 w-fit cursor-pointer items-center gap-2 rounded-md px-4 text-sm font-semibold hover:bg-background/20">
-        <ListMusic className="h-6 w-6 text-primary" />
+      <div className='flex h-12 w-fit cursor-pointer items-center gap-2 rounded-md px-4 text-sm font-semibold hover:bg-background/20'>
+        <ListMusic className='h-6 w-6 text-primary' />
         Choose Playlist
-        <ChevronUp className="h-4 w-4 text-muted-foreground" />
+        <ChevronUp className='h-4 w-4 text-muted-foreground' />
       </div>
     )
   }
   return (
-    <div className="relative w-full">
+    <div className='relative w-full'>
       <div
         style={{
           fontFamily: generateFontCss('Poppins'),
         }}
         className={cn(
           'rounded-0 group absolute flex h-12 -translate-y-full cursor-pointer items-center gap-4 overflow-y-visible whitespace-nowrap px-0 py-0 transition-all hover:h-20 hover:rounded-md hover:bg-foreground/5 hover:px-4 hover:py-4 hover:shadow-md dark:hover:bg-background/20',
-          className
+          className,
         )}
         {...props}
       >
         {/*Progress Bar when not hovered */}
         <img
           src={currentTrack?.album.images[0].url || spotifyLogo}
-          alt="spotify"
-          className="z-10 h-10 shadow-md transition-all group-hover:h-14 group-hover:rounded-none"
+          alt='spotify'
+          className='z-10 h-10 shadow-md transition-all group-hover:h-14 group-hover:rounded-none'
         />
-        <div className="flex flex-col">
-          <div className="flex items-center gap-4">
+        <div className='flex flex-col'>
+          <div className='flex items-center gap-4'>
             <div>
               <Tooltip>
                 <TooltipTrigger>
-                  <h2 className="max-w-[12rem] overflow-hidden text-ellipsis text-sm font-medium">
+                  <h2 className='max-w-[12rem] overflow-hidden text-ellipsis text-sm font-medium'>
                     {currentTrack?.name}
                   </h2>
                 </TooltipTrigger>
-                <TooltipContent className="text-xs hover:underline">
+                <TooltipContent className='text-xs hover:underline'>
                   {currentTrack?.name}
                 </TooltipContent>
               </Tooltip>
-              <p className="-mb-2 text-xs text-muted-foreground transition-all group-hover:mb-2">
+              <p className='-mb-2 text-xs text-muted-foreground transition-all group-hover:mb-2'>
                 {currentTrack?.artists[0].name}
               </p>
             </div>
-            <div className="-ml-20 flex origin-left scale-0 items-center gap-1 transition-all group-hover:ml-0 group-hover:scale-100">
+            <div className='-ml-20 flex origin-left scale-0 items-center gap-1 transition-all group-hover:ml-0 group-hover:scale-100'>
               <TrackButton
                 disabled={isPrevPending}
                 tooltipContent={KEYBINDS.PREVIOUS_TRACK.label}
@@ -164,8 +164,8 @@ export const MusicPlayer: FC<MusicPlayerProps> = ({ className, ...props }) => {
                   handlePreviousTrack()
                 }}
               >
-                {isPrevPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                {!isPrevPending && <SkipBack className="h-4 w-4" />}
+                {isPrevPending && <Loader2 className='h-4 w-4 animate-spin' />}
+                {!isPrevPending && <SkipBack className='h-4 w-4' />}
               </TrackButton>
 
               <TrackButton
@@ -175,7 +175,7 @@ export const MusicPlayer: FC<MusicPlayerProps> = ({ className, ...props }) => {
                   player?.togglePlay()
                 }}
               >
-                <PlaypauseIcon className="h-4 w-4" />
+                <PlaypauseIcon className='h-4 w-4' />
               </TrackButton>
               <TrackButton
                 disabled={isNextPending}
@@ -185,8 +185,8 @@ export const MusicPlayer: FC<MusicPlayerProps> = ({ className, ...props }) => {
                   handleNextTrack()
                 }}
               >
-                {isNextPending && <Loader2 className="h-4 w-4 animate-spin" />}
-                {!isNextPending && <SkipForward className="h-4 w-4" />}
+                {isNextPending && <Loader2 className='h-4 w-4 animate-spin' />}
+                {!isNextPending && <SkipForward className='h-4 w-4' />}
               </TrackButton>
             </div>
           </div>
@@ -230,19 +230,19 @@ const TrackProgressBar = (props: TrackProgressBarProps) => {
   const durationFormatted = sf_ms(duration)
   return (
     <>
-      <div className="absolute -bottom-1 left-0 h-0.5 w-full scale-100 bg-foreground/10 transition-all group-hover:scale-0 dark:bg-background/20">
+      <div className='absolute -bottom-1 left-0 h-0.5 w-full scale-100 bg-foreground/10 transition-all group-hover:scale-0 dark:bg-background/20'>
         <div
-          className="h-full bg-primary"
+          className='h-full bg-primary'
           style={{
             width: positionPercentage + '%',
           }}
         />
       </div>
       <div
-        className="flex origin-bottom-left scale-0 gap-2 transition-all group-hover:scale-100"
+        className='flex origin-bottom-left scale-0 gap-2 transition-all group-hover:scale-100'
         {...props}
       >
-        <p className="text-xs text-muted-foreground">{positionFormatted}</p>
+        <p className='text-xs text-muted-foreground'>{positionFormatted}</p>
         <Slider
           onClick={(e) => {
             e.stopPropagation()
@@ -250,11 +250,11 @@ const TrackProgressBar = (props: TrackProgressBarProps) => {
           value={[isSeeking ? positionLocal : positionPercentage]}
           onValueChange={handleSeek}
           onValueCommit={confirmSeek}
-          className="w-full flex-1"
-          trackClassName="bg-foreground/10 h-1.5"
-          thumbClassName="h-4 w-4"
+          className='w-full flex-1'
+          trackClassName='bg-foreground/10 h-1.5'
+          thumbClassName='h-4 w-4'
         />
-        <p className="text-xs text-muted-foreground">{durationFormatted}</p>
+        <p className='text-xs text-muted-foreground'>{durationFormatted}</p>
       </div>
     </>
   )
@@ -263,12 +263,12 @@ const TrackProgressBar = (props: TrackProgressBarProps) => {
 const TrackButton = ({ className, ...props }: ButtonProps) => {
   return (
     <Button
-      size="icon"
-      variant="ghost"
+      size='icon'
+      variant='ghost'
       tooltipContentProps={{ className: 'text-xs' }}
       className={cn(
         'rounded-full p-0 transition-colors hover:bg-foreground/10',
-        className
+        className,
       )}
       {...props}
     />

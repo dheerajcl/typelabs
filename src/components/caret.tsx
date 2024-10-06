@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils'
-import { useTimer } from '@/global-state/timer.store'
+import { useTimer } from '@/state/timer.store'
 import { useMemo } from 'react'
-import { useEngine } from '@/global-state/game-engine.store'
-import { useCaretSmoothness, useCaretStyle, useFontSize } from '@/atoms/atoms'
+import { useEngine } from '@/state/game-engine.store'
+import { useCaretSmoothness, useCaretStyle, useFontSize } from '@/state/atoms'
 import { caretSmoothnessValues, caretStyles } from '@/config/caret.config'
 
 export const Caret = (props: { className?: string }) => {
@@ -11,9 +11,7 @@ export const Caret = (props: { className?: string }) => {
   const [caretSmoothness] = useCaretSmoothness()
   const { caretPosition: pos } = useEngine('caretPosition')
   const { isRunning, isPaused } = useTimer('isRunning', 'isPaused')
-  const baseStyles = {
-    height: fontSize + 8,
-  }
+
   const currentCaretStyle = useMemo(
     () =>
       ({
@@ -33,7 +31,7 @@ export const Caret = (props: { className?: string }) => {
           height: 2,
         },
       })[caretStyle],
-    [caretStyle, fontSize]
+    [caretStyle, fontSize],
   )
   return (
     <div
@@ -41,14 +39,14 @@ export const Caret = (props: { className?: string }) => {
         top: pos.y,
         left: pos.x,
         transition: `${caretSmoothnessValues[caretSmoothness]}s linear`,
-        ...baseStyles,
+        height: fontSize + 8,
         ...currentCaretStyle,
       }}
       className={cn(
         'absolute -z-10 -translate-y-full shadow-md',
         caretStyle !== caretStyles.BOX && 'bg-caret',
         (isPaused || !isRunning) && 'animate-blink',
-        props.className
+        props.className,
       )}
     />
   )

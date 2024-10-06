@@ -1,6 +1,7 @@
 import Axios from 'axios'
+import { env } from 'root/env'
 
 export const axios = Axios.create({
-  baseURL: import.meta.env.VITE_SERVER_URL,
+  baseURL: env.SERVER_URL,
   timeout: 10000,
 })

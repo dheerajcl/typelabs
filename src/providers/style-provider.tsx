@@ -1,4 +1,4 @@
-import { useBorderRadius, useFont, useStyle, useUserFonts } from '@/atoms/atoms'
+import { useBorderRadius, useFont, useStyle, useUserFonts } from '@/state/atoms'
 import { DEFAULT_FONT, FONTS } from '@/config/fonts.config'
 import { applyTheme } from '@/lib/utils'
 import { generateFontCss } from '@/lib/utils'
@@ -30,5 +30,5 @@ export const StyleProvider = () => {
     applyTheme(style)
   }, [style])
 
-  return <></>
+  return null
 }

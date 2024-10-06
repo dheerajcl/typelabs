@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
 import { cn } from '@/lib/utils'
 import { Slot } from '@radix-ui/react-slot'
-import { useTimer } from '@/global-state/timer.store'
+import { useTimer } from '@/state/timer.store'
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -14,7 +14,7 @@ export type BoxProps = DivProps & {
 export const Box = forwardRef<HTMLDivElement, BoxProps>(
   (
     { onClickOutside, asChild, gameResponsive = false, ...props },
-    forwardedRef
+    forwardedRef,
   ) => {
     const Comp = asChild ? Slot : 'div'
 
@@ -41,11 +41,11 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
         className={cn(
           'transition-opacity',
           props.className,
-          gameResponsive && !isPaused && isRunning && 'opacity-0'
+          gameResponsive && !isPaused && isRunning && 'opacity-0',
         )}
       >
         {props.children}
       </Comp>
     )
-  }
+  },
 )

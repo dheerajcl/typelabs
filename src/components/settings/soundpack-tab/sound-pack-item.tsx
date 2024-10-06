@@ -1,4 +1,4 @@
-import { useKeyboardSound } from '@/atoms/atoms'
+import { useKeyboardSound } from '@/state/atoms'
 import { Check, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { KeyboardSoundPackConfig } from '@/assets/sfx/keyboard-soundpacks/keyboard-soundpacks.type'
@@ -31,7 +31,7 @@ export const SoundPackItem = ({
       <RadioCardDescription
         className={cn(
           'font-bold text-muted-foreground',
-          isActive && 'text-foregrond'
+          isActive && 'text-foregrond',
         )}
       >
         {title}
@@ -42,14 +42,14 @@ export const SoundPackItem = ({
             'flex items-center gap-2 text-xs text-muted-foreground',
             {
               'text-foreground': isActive,
-            }
+            },
           )}
         >
           Includes Numpad:
           {soundPack.includes_numpad ? (
-            <Check className="h-4 w-4" />
+            <Check className='h-4 w-4' />
           ) : (
-            <X className="h-4 w-4" />
+            <X className='h-4 w-4' />
           )}
         </p>
       </RadioCardContent>

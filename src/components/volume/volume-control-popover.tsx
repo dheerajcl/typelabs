@@ -11,7 +11,7 @@ import {
   uiVolumeAtom,
   useUiVolume,
   notificationsVolumeAtom,
-} from '@/atoms/atoms'
+} from '@/state/atoms'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -40,18 +40,18 @@ export const VolumeControls = () => {
 
   useEffect(() => {
     const Icon = ICONS[getIndex()]
-    setIcon(<Icon className="w-5 h-5" />)
+    setIcon(<Icon className='h-5 w-5' />)
   }, [volume])
 
-  const [icon, setIcon] = useState(<SpeakerLoudIcon className="w-8 h-8" />)
+  const [icon, setIcon] = useState(<SpeakerLoudIcon className='h-8 w-8' />)
 
   return (
     <DropdownMenu>
-      <div className="flex items-end">
+      <div className='flex items-end'>
         <VolumeSlider
           label={
             <>
-              <AudioLines className="h-4 w-4" /> Volume
+              <AudioLines className='h-4 w-4' /> Volume
             </>
           }
           icon={icon}
@@ -59,31 +59,31 @@ export const VolumeControls = () => {
         />
         <DropdownMenuTrigger asChild>
           <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full p-3 w-fit h-fit"
+            size='icon'
+            variant='ghost'
+            className='h-fit w-fit rounded-full p-3'
           >
-            <ChevronUpIcon className="w-4 h-4" />
+            <ChevronUpIcon className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
       </div>
       <DropdownMenuContent>
         <DropdownMenuItem>
           <VolumeSlider
-            label="Notifications"
-            icon={<Bell className="w-4 h-4" />}
+            label='Notifications'
+            icon={<Bell className='h-4 w-4' />}
             atom={notificationsVolumeAtom}
           />
         </DropdownMenuItem>
         <DropdownMenuItem>
           <VolumeSlider
-            label="Keyboard"
-            icon={<KeyboardIcon className="w-4 h-4" />}
+            label='Keyboard'
+            icon={<KeyboardIcon className='h-4 w-4' />}
             atom={keyboardVolumeAtom}
           />
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <VolumeSlider label="Volume" icon={icon} atom={uiVolumeAtom} />
+          <VolumeSlider label='Volume' icon={icon} atom={uiVolumeAtom} />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

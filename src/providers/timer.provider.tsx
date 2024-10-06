@@ -1,5 +1,5 @@
-import { useGameConfig } from '@/atoms/atoms'
-import { useTimer } from '@/global-state/timer.store'
+import { useGameConfig } from '@/state/atoms'
+import { useTimer } from '@/state/timer.store'
 import { useEffect } from 'react'
 
 export const TimerProvider = () => {
@@ -14,7 +14,7 @@ export const TimerProvider = () => {
     'hasTimerEnded',
     'setHasTimerEnded',
     'timeLeft',
-    'setTotalTime'
+    'setTotalTime',
   )
   const [config] = useGameConfig()
 
@@ -30,5 +30,5 @@ export const TimerProvider = () => {
     setTotalTime(config.time)
   }, [config.time])
 
-  return <></>
+  return null
 }

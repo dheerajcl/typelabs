@@ -31,14 +31,14 @@ export const keyboardVolumeAtom = atomWithStorage<number>(LK.KB_VOLUME_KEY, 1)
 export const useNotificationsVolume = () => useAtom(notificationsVolumeAtom)
 export const notificationsVolumeAtom = atomWithStorage<number>(
   LK.NOTIFICATIONS_VOLUME_KEY,
-  1
+  1,
 )
 
 // Current Selected Keyboard Soundpack
 export const useKeyboardSound = () => useAtom(keyboardSoundAtom)
 export const keyboardSoundAtom = atomWithStorage<KeyboardSoundPackConfig>(
   LK.KEYBOARD_SOUND_ATOM,
-  nkCream
+  nkCream,
 )
 // Current TrackInfo (Playing Track & Playlist)
 export type PlayerContext = {
@@ -55,7 +55,7 @@ export const playerContextAtom = atomWithStorage<PlayerContext>(
     trackIdx: 0,
     playlistId: '',
     shuffle: false,
-  }
+  },
 )
 
 // List of tracks being played currently
@@ -75,13 +75,13 @@ export const useFontSize = () => useAtom(fontSizeAtom)
 
 export const caretStyleAtom = atomWithStorage<CaretStyle>(
   LK.CARET_STYLE_KEY,
-  DEFAULT_CARET_STYLE
+  DEFAULT_CARET_STYLE,
 )
 export const useCaretStyle = () => useAtom(caretStyleAtom)
 
 export const caretSmoothnessAtom = atomWithStorage<CaretSmoothness>(
   LK.CARET_SMOOTHNESS_KEY,
-  DEFAULT_CARET_SMOOTHNESS
+  DEFAULT_CARET_SMOOTHNESS,
 )
 export const useCaretSmoothness = () => useAtom(caretSmoothnessAtom)
 
