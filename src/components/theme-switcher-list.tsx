@@ -139,6 +139,7 @@ export const ThemeSwitcherList = () => {
             const isSelected = name === style
             return (
               <div
+                key={currStyle.name}
                 id={`style-${idx}`}
                 onMouseEnter={() => !isHoverDisabled && setFocusedStyle(name)}
                 onClick={updateStyle}

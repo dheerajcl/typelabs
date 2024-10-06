@@ -26,7 +26,7 @@ export const PlayerProvider = (props: { children: React.ReactNode }) => {
     (callback: (accessToken: string) => void) => {
       callback(accessToken)
     },
-    [accessToken]
+    [accessToken],
   )
 
   return (
@@ -55,5 +55,5 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         </TooltipProvider>
       </PlayerProvider>
     </SpotifyAuthProvider>
-  </QueryClientProvider>
+  </QueryClientProvider>,
 )

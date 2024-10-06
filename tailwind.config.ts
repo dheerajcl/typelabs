@@ -80,6 +80,9 @@ export default {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      transitionTimingFunction: {
+        spring: 'cubic-bezier(0.3, 2.7, 0.3, 0.9)',
+      },
       keyframes: {
         playing: {
           '0%': {
@@ -130,6 +133,7 @@ export default {
           to: { height: '0' },
         },
       },
+
       animation: {
         playing: 'playing 1s ease-out infinite',
         spinOnce: 'spin 0.5s ease-out',
