@@ -30,5 +30,5 @@ export const StyleProvider = () => {
     applyTheme(style)
   }, [style])
 
-  return <></>
+  return null
 }

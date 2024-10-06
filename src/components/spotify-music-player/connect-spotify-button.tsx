@@ -5,12 +5,13 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import spotifyIcon from '@/assets/svgs/spotify-icon.svg'
 import { useSpotifyAuth } from '@/providers/spotify-auth.provider'
+import { env } from 'root/env'
 
 sf.change('MM:SS')
 
 const AUTH_PARAMS = new URLSearchParams({
-  client_id: import.meta.env.VITE_CLIENT_ID,
-  redirect_uri: import.meta.env.VITE_REDIRECT_URI,
+  client_id: env.CLIENT_ID,
+  redirect_uri: window.location.origin,
   response_type: 'code',
   scope:
     'streaming user-read-email user-read-private user-library-read user-library-modify user-read-playback-state user-modify-playback-state playlist-read-private playlist-read-collaborative',
@@ -22,7 +23,7 @@ export const ConnectSpotifyButton = () => {
   const { user, accessToken } = useSpotifyAuth()
 
   let content = (
-    <a href={AUTH_URL} className="flex gap-2 items-center">
+    <a href={AUTH_URL} className="flex items-center gap-2">
       <img className="h-4 w-4" src={spotifyIcon} /> Connect Spotify
     </a>
   )
@@ -32,7 +33,7 @@ export const ConnectSpotifyButton = () => {
       <>
         <img className="h-4 w-4" src={spotifyIcon} />
         Loading
-        <Loader2 className="animate-spin h-4 w-4" />
+        <Loader2 className="h-4 w-4 animate-spin" />
       </>
     )
   }
@@ -41,15 +42,15 @@ export const ConnectSpotifyButton = () => {
     content = (
       <>
         <img
-          className={cn('h-4 w-4 rounded-full mr-1', {
-            'outline-offset-2 outline-1 outline outline-primary h-6 w-6':
+          className={cn('mr-1 h-4 w-4 rounded-full', {
+            'h-6 w-6 outline outline-1 outline-offset-2 outline-primary':
               userImage,
           })}
           src={user.data.images?.[0].url || spotifyIcon}
         />
         <div className="flex items-center gap-1">
           {user.data?.display_name}
-          <Music2Icon className="text-muted-foreground h-4 w-4" />
+          <Music2Icon className="h-4 w-4 text-muted-foreground" />
         </div>
         <ChevronUp className="h-4 w-4" />
       </>
@@ -57,7 +58,7 @@ export const ConnectSpotifyButton = () => {
   }
 
   return (
-    <Button variant="ghost" className="grouprelative gap-2 items-center">
+    <Button variant="ghost" className="grouprelative items-center gap-2">
       {content}
     </Button>
   )

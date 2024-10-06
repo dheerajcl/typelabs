@@ -94,7 +94,7 @@ export const EngineProvider = () => {
     ignoreEventWhen: () => !engineStore.getState().textAreaFocus,
   })
 
-  return <></>
+  return null
 }
 
 const getErrorPercentage = (input: string, trueStr: string) => {

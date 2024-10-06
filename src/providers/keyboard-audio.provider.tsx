@@ -39,5 +39,5 @@ export const KeyboardAudioProvider = () => {
     return () => document.removeEventListener('keydown', handleKeyStroke)
   }, [volume, interacted, soundPack.id])
 
-  return <></>
+  return null
 }

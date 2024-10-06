@@ -30,5 +30,5 @@ export const TimerProvider = () => {
     setTotalTime(config.time)
   }, [config.time])
 
-  return <></>
+  return null
 }
