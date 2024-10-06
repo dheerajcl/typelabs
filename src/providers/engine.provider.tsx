@@ -5,6 +5,7 @@ import { VALID_CHARACTERS_SET } from '@/config/game.config'
 import { engineStore } from '@/global-state/game-engine.store'
 import { useMetricsStore } from '@/global-state/metrics.store'
 import { timerStore, useTimer } from '@/global-state/timer.store'
+import { useFontSize } from '@/atoms/atoms'
 
 export const EngineProvider = () => {
   const {
@@ -16,13 +17,14 @@ export const EngineProvider = () => {
     setUserInput,
     generateText,
   } = engineStore()
+  const [fontSize] = useFontSize()
 
   const { updateMetrics } = useMetricsStore('updateMetrics')
   const { totalTime, hasTimerEnded, isRunning, startTimer } = useTimer(
     'totalTime',
     'hasTimerEnded',
     'isRunning',
-    'startTimer'
+    'startTimer',
   )
 
   useHasFocus({
@@ -51,12 +53,16 @@ export const EngineProvider = () => {
 
   function updateCaretPosition() {
     const { userInput } = engineStore.getState()
+
     const letter = document.getElementById(`letter-${userInput.length}`)
     if (!letter) return
+
     const newPos = {
       x: letter.offsetLeft,
-      y: letter.offsetTop + letter.offsetHeight,
+      // Setting the y position from the bottom for consistent caret styles
+      y: letter.offsetTop + fontSize * 1.6,
     }
+    console.log(letter.offsetTop, letter.offsetHeight)
     setCaretPosition(newPos)
   }
 

@@ -11,9 +11,7 @@ export const Caret = (props: { className?: string }) => {
   const [caretSmoothness] = useCaretSmoothness()
   const { caretPosition: pos } = useEngine('caretPosition')
   const { isRunning, isPaused } = useTimer('isRunning', 'isPaused')
-  const baseStyles = {
-    height: fontSize + 8,
-  }
+
   const currentCaretStyle = useMemo(
     () =>
       ({
@@ -33,7 +31,7 @@ export const Caret = (props: { className?: string }) => {
           height: 2,
         },
       })[caretStyle],
-    [caretStyle, fontSize]
+    [caretStyle, fontSize],
   )
   return (
     <div
@@ -41,14 +39,14 @@ export const Caret = (props: { className?: string }) => {
         top: pos.y,
         left: pos.x,
         transition: `${caretSmoothnessValues[caretSmoothness]}s linear`,
-        ...baseStyles,
+        height: fontSize + 8,
         ...currentCaretStyle,
       }}
       className={cn(
         'absolute -z-10 -translate-y-full shadow-md',
         caretStyle !== caretStyles.BOX && 'bg-caret',
         (isPaused || !isRunning) && 'animate-blink',
-        props.className
+        props.className,
       )}
     />
   )
