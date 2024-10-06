@@ -1,8 +1,8 @@
 import { cn } from '@/lib/utils'
-import { useTimer } from '@/global-state/timer.store'
+import { useTimer } from '@/state/timer.store'
 import { useMemo } from 'react'
-import { useEngine } from '@/global-state/game-engine.store'
-import { useCaretSmoothness, useCaretStyle, useFontSize } from '@/atoms/atoms'
+import { useEngine } from '@/state/game-engine.store'
+import { useCaretSmoothness, useCaretStyle, useFontSize } from '@/state/atoms'
 import { caretSmoothnessValues, caretStyles } from '@/config/caret.config'
 
 export const Caret = (props: { className?: string }) => {

@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState } from 'react'
-import { useKeyboardSound, useKeyboardVolume } from '@/atoms/atoms'
+import { useKeyboardSound, useKeyboardVolume } from '@/state/atoms'
 import { Howl } from 'howler'
 import { sounds } from '../config/keyboard-soundpacks.config'
 
@@ -13,9 +13,9 @@ export const KeyboardAudioProvider = () => {
             sprite: sound.sprites,
           })
           return [sound.name, howl]
-        })
+        }),
       ),
-    []
+    [],
   )
   const [volume] = useKeyboardVolume()
   const [soundPack] = useKeyboardSound()

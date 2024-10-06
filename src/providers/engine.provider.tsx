@@ -2,10 +2,10 @@ import { useEffect } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useHasFocus } from '@/hooks/use-has-focus.hook'
 import { VALID_CHARACTERS_SET } from '@/config/game.config'
-import { engineStore } from '@/global-state/game-engine.store'
-import { useMetricsStore } from '@/global-state/metrics.store'
-import { timerStore, useTimer } from '@/global-state/timer.store'
-import { useFontSize } from '@/atoms/atoms'
+import { engineStore } from '@/state/game-engine.store'
+import { useMetricsStore } from '@/state/metrics.store'
+import { timerStore, useTimer } from '@/state/timer.store'
+import { useFontSize } from '@/state/atoms'
 
 export const EngineProvider = () => {
   const {

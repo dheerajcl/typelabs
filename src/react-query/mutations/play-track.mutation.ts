@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { spotifyClient } from '@/config/spotify-client.config'
-import { usePlayerContext } from '@/atoms/atoms'
+import { usePlayerContext } from '@/state/atoms'
 
 export const usePlayTrack = (options?: {
   onSuccess?: () => void

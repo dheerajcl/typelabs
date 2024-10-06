@@ -1,4 +1,4 @@
-import { useCaretSmoothness, useCaretStyle } from '@/atoms/atoms'
+import { useCaretSmoothness, useCaretStyle } from '@/state/atoms'
 import { Setting } from '../setting'
 import { RadioCard, RadioCardContent } from '@/components/ui/radio-card'
 import {
@@ -15,17 +15,17 @@ export const CaretTab = () => {
   return (
     <div>
       <Setting
-        title="Caret Style"
+        title='Caret Style'
         resetAction={() => setCaretStyle(DEFAULT_CARET_STYLE)}
       >
-        <div className="flex items-end gap-4">
+        <div className='flex items-end gap-4'>
           {Object.values(caretStyles).map((style) => {
             return (
               <RadioCard
                 isActive={caretStyle === style}
                 key={style}
                 onClick={() => setCaretStyle(style)}
-                className="flex aspect-square h-9 w-7 items-center justify-center"
+                className='flex aspect-square h-9 w-7 items-center justify-center'
                 tooltipContent={style}
               >
                 <RadioCardContent>
@@ -37,10 +37,10 @@ export const CaretTab = () => {
         </div>
       </Setting>
       <Setting
-        title="Caret Smoothness"
+        title='Caret Smoothness'
         resetAction={() => setCaretSmoothness(DEFAULT_CARET_SMOOTHNESS)}
       >
-        <div className="flex gap-4">
+        <div className='flex gap-4'>
           {Object.values(caretSmoothnessVariants).map((key) => {
             return (
               <RadioCard

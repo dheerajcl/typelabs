@@ -1,10 +1,10 @@
 import { cn } from '@/lib/utils'
-import { useTimer } from '@/global-state/timer.store'
+import { useTimer } from '@/state/timer.store'
 import { useEffect, useRef, useState } from 'react'
 import { ThickArrowUpIcon } from '@radix-ui/react-icons'
 import { Focus } from 'lucide-react'
-import { useEngine } from '@/global-state/game-engine.store'
-import { useFontSize } from '@/atoms/atoms'
+import { useEngine } from '@/state/game-engine.store'
+import { useFontSize } from '@/state/atoms'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Caret } from './caret'
 import { TimeSelector } from './test-time-selector'
@@ -62,7 +62,6 @@ export const TextArea = () => {
   return (
     <div>
       <TimeSelector />
-      {pos.y + ' - ' + lineHeight + ' - ' + scroll}
       <div
         className={cn(
           `absolute left-1/2 top-1/2 -z-10 flex -translate-x-1/2 -translate-y-1/2 items-center gap-2 text-lg text-foreground/90 opacity-0 drop-shadow-md transition-all`,

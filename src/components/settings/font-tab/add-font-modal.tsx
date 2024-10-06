@@ -9,7 +9,7 @@ import { FONTS } from '@/config/fonts.config'
 import { ReactNode, useRef } from 'react'
 import { Button } from '../../ui/button'
 import { Input } from '../../ui/input'
-import { useUserFonts } from '@/atoms/atoms'
+import { useUserFonts } from '@/state/atoms'
 import { useToast } from '../../ui/use-toast'
 import { useSoundFx } from '@/hooks/use-sound-fx.hook'
 import { MyFonts } from './my-fonts'
@@ -45,7 +45,7 @@ const Content = () => {
       .map((s) => {
         trueFontInput.push(s)
         const fontAlreadyAdded = [...FONTS, ...userFontsCopy].some(
-          (i) => i.toLowerCase() === s.toLowerCase()
+          (i) => i.toLowerCase() === s.toLowerCase(),
         )
 
         if (!fontAlreadyAdded) {
@@ -99,7 +99,7 @@ const Content = () => {
   }
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className='sm:max-w-[425px]'>
       <MyFonts />
       <DialogHeader>
         <DialogTitle>Add new Font</DialogTitle>
@@ -111,15 +111,15 @@ const Content = () => {
           You can add multiple fonts at once by comma separating them.
         </DialogDescription>
       </DialogHeader>
-      <form action="submit" id="font-form" onSubmit={handleSubmit}>
+      <form action='submit' id='font-form' onSubmit={handleSubmit}>
         <Input
-          className="z-10 border border-border bg-muted"
+          className='z-10 border border-border bg-muted'
           ref={inputRef}
-          form="font-form"
-          id="font-input"
-          placeholder="Roboto Mono, Poppins"
+          form='font-form'
+          id='font-input'
+          placeholder='Roboto Mono, Poppins'
         />
-        <Button type="submit" className="float-right mt-6">
+        <Button type='submit' className='float-right mt-6'>
           Add Fonts
         </Button>
       </form>

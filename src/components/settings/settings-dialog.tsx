@@ -9,7 +9,7 @@ import { useMemo, useRef, useState } from 'react'
 import { KEYBINDS } from '@/config/keybinds.config'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { TabButton } from '../compound-ui/tab-button'
-import { useBorderRadius } from '@/atoms/atoms'
+import { useBorderRadius } from '@/state/atoms'
 import { AppearanceTab } from './appearance-tab/appearance-tab'
 import { SoundPackTab } from './soundpack-tab/sound-pack-tab'
 import { CaretTab } from './caret-tab/caret-tab'
@@ -22,7 +22,7 @@ export const SettingsDialog = () => {
       {
         label: 'Font',
         icon: (
-          <FontFamilyIcon className="rounded-sm border border-foreground/10" />
+          <FontFamilyIcon className='rounded-sm border border-foreground/10' />
         ),
         comp: <FontSelect />,
       },
@@ -33,7 +33,7 @@ export const SettingsDialog = () => {
       },
       {
         label: 'Appearance',
-        icon: <PaintbrushIcon className="h-4 w-4" />,
+        icon: <PaintbrushIcon className='h-4 w-4' />,
         comp: (
           <AppearanceTab
             setBorderRadius={setBorderRadius}
@@ -43,11 +43,11 @@ export const SettingsDialog = () => {
       },
       {
         label: 'Caret',
-        icon: <TextCursor className="h-4 w-4" />,
+        icon: <TextCursor className='h-4 w-4' />,
         comp: <CaretTab />,
       },
     ],
-    [borderRadius, setBorderRadius]
+    [borderRadius, setBorderRadius],
   )
   const [currentTab, setCurrentTab] = useState(SETTINGS_TABS[0].label)
   useHotkeys(KEYBINDS.SETTINGS.hotkey, () => {
@@ -59,20 +59,20 @@ export const SettingsDialog = () => {
       <DialogTrigger asChild>
         <Button
           ref={dialogTriggerRef}
-          variant="ghost"
-          className="group gap-2 p-2"
+          variant='ghost'
+          className='group gap-2 p-2'
           tooltipContent={KEYBINDS.SETTINGS.label}
           tooltipContentProps={{
             className: 'text-xs',
           }}
         >
-          <SettingsIcon className="h-4 text-muted-foreground/60 transition-all group-hover:animate-spinOnce group-hover:text-accent-foreground" />
+          <SettingsIcon className='h-4 text-muted-foreground/60 transition-all group-hover:animate-spinOnce group-hover:text-accent-foreground' />
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-3/4 w-full max-w-5xl overflow-hidden">
-        <div className="max-h-full w-fit">
-          <h2 className="mb-4 text-2xl font-bold">Settings</h2>
-          <div className="flex w-[12rem] flex-col gap-2">
+      <DialogContent className='flex h-3/4 w-full max-w-5xl overflow-hidden'>
+        <div className='max-h-full w-fit'>
+          <h2 className='mb-4 text-2xl font-bold'>Settings</h2>
+          <div className='flex w-[12rem] flex-col gap-2'>
             {SETTINGS_TABS.map((tab, i) => (
               <TabButton
                 key={tab.label}
@@ -85,14 +85,14 @@ export const SettingsDialog = () => {
             ))}
           </div>
         </div>
-        <div className="flex flex-1 flex-col">
-          <h2 className="mb-4 text-xl font-bold">{currentTab}</h2>
-          <ScrollArea className="w-full overflow-y-auto">
+        <div className='flex flex-1 flex-col'>
+          <h2 className='mb-4 text-xl font-bold'>{currentTab}</h2>
+          <ScrollArea className='w-full overflow-y-auto'>
             <Tabs
-              className="pb-8 pl-1 pr-4"
+              className='pb-8 pl-1 pr-4'
               value={currentTab}
-              orientation="vertical"
-              defaultValue="font"
+              orientation='vertical'
+              defaultValue='font'
             >
               {SETTINGS_TABS.map(({ label, comp }) => {
                 return (
