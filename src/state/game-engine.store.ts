@@ -1,6 +1,6 @@
 import { ID_TEXT_AREA } from '@/config/ids.config'
 import words from '@/config/words.config'
-import { timerStore } from './timer.store'
+import { TimerStore } from './timer.store'
 import { createSelector } from 'better-zustand-selector'
 import { create } from 'zustand'
 
@@ -30,7 +30,7 @@ export const engineStore = create<EngineStore>((set, get) => ({
   textAreaFocus: true,
   /********************************************************************/
   setTextAreaFocus: (textAreaFocus: boolean) => {
-    timerStore.getState().pauseTimer()
+    TimerStore.store.getState().pauseTimer()
     set({ textAreaFocus })
   },
   setCaretPosition: (caretPosition: EngineStore['caretPosition']) => {
@@ -50,14 +50,15 @@ export const engineStore = create<EngineStore>((set, get) => ({
     setUserInput('')
     setCaretPosition({ x: 0, y: 0 })
 
-    timerStore.getState().resetTimer()
+    TimerStore.store.getState().resetTimer()
   },
+
   generateText: () => {
     const { focusTextArea, restart, setText } = get()
-    const { setHasTimerEnded, resetTimer } = timerStore.getState()
+    const { resetTimer } = TimerStore.store.getState()
 
     focusTextArea()
-    setHasTimerEnded(false)
+    TimerStore.set({ hasTimerEnded: false })
     resetTimer()
 
     const currText = []

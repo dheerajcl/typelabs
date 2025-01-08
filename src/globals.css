@@ -6,6 +6,7 @@
 @layer base {
   :root {
     font-family:
+      var(--font-primary),
       Roboto Mono,
       monospace,
       -apple-system,

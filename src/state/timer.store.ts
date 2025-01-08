@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import create from 'zustand-store-addons'
 import { createSelector } from 'better-zustand-selector'
 import { StoreApi, UseBoundStore } from 'zustand'
@@ -11,11 +12,6 @@ type TimerStore = {
   timeLeft: number
   timeInt: number
 
-  setIsRunning: (bool: boolean) => void
-  setIsPaused: (bool: boolean) => void
-  setHasTimerEnded: (bool: boolean) => void
-  setInterval: (interval: TimerStore['interval']) => void
-  setTimeLeft: (time: number, updateBy?: boolean) => void
   updateTimeBy: (time: number) => void
   setTotalTime: (time: number) => void
   startTimer: () => void
@@ -23,36 +19,20 @@ type TimerStore = {
   resetTimer: () => void
 }
 
-export const timerStore = create<TimerStore>(
-  (set) => ({
+const store = create<TimerStore>(
+  (set, get) => ({
     totalTime: 0,
     interval: null,
     isPaused: false,
     timeLeft: 0,
-    // TODO: Redundant assignment of computed keys. Find a way to get rid of this.
     hasTimerEnded: false,
     isRunning: false,
     timeInt: 0,
 
-    setIsRunning: (isRunning: boolean) => {
-      set({ isRunning })
-    },
-    setIsPaused: (isPaused: boolean) => {
-      set({ isPaused })
-    },
-    setInterval: (interval: TimerStore['interval']) => {
-      set({ interval })
-    },
-    setHasTimerEnded: (hasTimerEnded: boolean) => {
-      set({ hasTimerEnded })
-    },
-    setTimeLeft: (timeLeft: number) => {
-      set({ timeLeft })
-    },
-    updateTimeBy: (dTime: number) => {
+    updateTimeBy(dTime: number) {
       set((s) => ({ timeLeft: s.timeLeft + dTime }))
     },
-    setTotalTime: (time: number) => {
+    setTotalTime(time: number) {
       set({
         hasTimerEnded: false,
         totalTime: time,
@@ -60,31 +40,45 @@ export const timerStore = create<TimerStore>(
       })
     },
 
-    startTimer: () => {
-      set((state) => {
-        if (state.interval) clearInterval(state.interval)
+    startTimer() {
+      const state = get()
+      if (state.interval) clearInterval(state.interval)
 
-        const interval = setInterval(() => state.updateTimeBy(-0.1), 100)
-        return { hasTimerEnded: false, interval, isPaused: false }
-      })
+      const interval = setInterval(() => {
+        set((prev) => {
+          if (prev.timeLeft <= 0) {
+            clearInterval(interval)
+            return {
+              hasTimerEnded: true,
+              interval: null,
+              isPaused: false,
+              timeLeft: state.totalTime,
+            }
+          }
+          return {
+            timeLeft: prev.timeLeft - 0.1,
+          }
+        })
+      }, 100)
+      set({ hasTimerEnded: false, interval, isPaused: false })
     },
     pauseTimer: () => {
-      set((state) => {
-        if (!state.isPaused && state.isRunning) {
-          if (state.interval) clearInterval(state.interval)
-          return { isPaused: true, timeLeft: state.timeLeft - 1 }
-        }
-        return state
+      const state = get()
+      if (state.isPaused || !state.isRunning) return
+      if (state.interval) clearInterval(state.interval)
+      set({
+        isPaused: true,
+        timeLeft: state.timeLeft - 0.1,
       })
     },
     resetTimer: () => {
-      set((state) => {
-        state.pauseTimer()
-        return {
-          interval: null,
-          isPaused: false,
-          timeLeft: state.totalTime,
-        }
+      const state = get()
+      state.pauseTimer()
+      set({
+        hasTimerEnded: false,
+        interval: null,
+        isPaused: false,
+        timeLeft: state.totalTime,
       })
     },
   }),
@@ -100,6 +94,11 @@ export const timerStore = create<TimerStore>(
   },
 )
 
-export const useTimer = createSelector(
-  timerStore as UseBoundStore<StoreApi<TimerStore>>,
-)
+const useTimer = createSelector(store as UseBoundStore<StoreApi<TimerStore>>)
+
+export const TimerStore = {
+  store,
+  useStore: useTimer,
+  set: store.setState,
+  get: store.getState,
+}

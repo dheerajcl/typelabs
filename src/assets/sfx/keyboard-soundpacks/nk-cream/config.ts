@@ -1,4 +1,4 @@
-import { KeyboardSoundPackConfig } from '../keyboard-soundpacks.type'
+import { KeyboardSoundPackConfig } from '@/config/keyboard.config'
 import sound from './nk-cream.wav'
 
 export const nkCream: KeyboardSoundPackConfig = {
@@ -65,7 +65,7 @@ export const nkCream: KeyboardSoundPackConfig = {
     ControlLeft: [5502, 348], // Tab
     AltLeft: [5502, 348], // Tab
     Space: [5049, 209],
-    AltRight: [5502, 348], // Tab
+    AltRight: [5502, 34], // Tab
     ControlRight: [5502, 348], // Tab
 
     ArrowUp: [2264, 190], // H

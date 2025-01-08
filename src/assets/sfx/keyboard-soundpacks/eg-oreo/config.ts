@@ -1,4 +1,4 @@
-import { KeyboardSoundPackConfig } from '../keyboard-soundpacks.type'
+import { KeyboardSoundPackConfig } from '@/config/keyboard.config'
 import sound from './oreo.ogg'
 
 export const egOreo: KeyboardSoundPackConfig = {

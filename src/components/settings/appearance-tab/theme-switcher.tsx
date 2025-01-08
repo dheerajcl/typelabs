@@ -1,6 +1,7 @@
-import { cn, formatThemeName } from '@/lib/utils'
+import { cn } from '@/utils/class-names.utils'
+import { formatThemeName } from '@/utils/theme.utils'
 import colors from '@/styles/theme-list.json'
-import { useStyle } from '@/state/atoms'
+import { AppStore } from '@/state/app-store'
 import {
   RadioCard,
   RadioCardContent,
@@ -8,7 +9,7 @@ import {
 } from '@/components/ui/radio-card'
 
 export const ThemeSwitcher = () => {
-  const [colorStyle, setColorStyle] = useStyle()
+  const { theme } = AppStore.useStore('theme')
 
   return (
     <div className='grid w-full grid-cols-6 flex-wrap gap-4'>
@@ -17,7 +18,7 @@ export const ThemeSwitcher = () => {
         const bg = color.bgColor
         const text = color.textColor
         const displayColors = [primary, bg, text]
-        const isActive = color.name === colorStyle
+        const isActive = color.name === theme
 
         return (
           <RadioCard
@@ -25,10 +26,10 @@ export const ThemeSwitcher = () => {
             isActive={isActive}
             className={cn(
               'col-span-6 flex-grow md:col-span-3',
-              isActive && 'outline-primary',
+              isActive && 'shadow-md outline-primary/50',
             )}
             onClick={() => {
-              setColorStyle(color.name)
+              AppStore.set({ theme: color.name })
             }}
           >
             <RadioCardDescription className='mb-1 flex items-center justify-between font-medium'>

@@ -1,25 +1,24 @@
-export const caretStyles = {
-  LINE: 'line',
-  UNDERLINE: 'underline',
-  BLOCK: 'block',
-  BOX: 'box',
-} as const
-export type CaretStyle = (typeof caretStyles)[keyof typeof caretStyles]
-export const DEFAULT_CARET_STYLE = caretStyles.LINE
+export enum CaretStyle {
+  Line = 'line',
+  Underline = 'underline',
+  Block = 'block',
+  Box = 'box',
+}
 
-export const caretSmoothnessVariants = {
-  OFF: 'off',
-  FAST: 'fast',
-  MEDIUM: 'medium',
-  SLOW: 'slow',
-} as const
+export const DEFAULT_CARET_STYLE = CaretStyle.Line
+
+export enum CaretSmoothness {
+  Off = 'off',
+  Fast = 'fast',
+  Medium = 'medium',
+  Slow = 'slow',
+}
 
 export const caretSmoothnessValues = {
-  [caretSmoothnessVariants.OFF]: 0,
-  [caretSmoothnessVariants.FAST]: 0.1,
-  [caretSmoothnessVariants.MEDIUM]: 0.2,
-  [caretSmoothnessVariants.SLOW]: 0.3,
+  [CaretSmoothness.Off]: 0,
+  [CaretSmoothness.Fast]: 0.1,
+  [CaretSmoothness.Medium]: 0.2,
+  [CaretSmoothness.Slow]: 0.3,
 } as const
-export type CaretSmoothness =
-  (typeof caretSmoothnessVariants)[keyof typeof caretSmoothnessVariants]
-export const DEFAULT_CARET_SMOOTHNESS = caretSmoothnessVariants.FAST
+
+export const DEFAULT_CARET_SMOOTHNESS = CaretSmoothness.Fast

@@ -24,6 +24,7 @@ export default {
         line: '0px 0px 0px 3px hsl(var(--background))',
       },
       fontFamily: {
+        player: ['Helvetica-Neue', ...defaultTheme.fontFamily.sans],
         robotoMono: ['Roboto Mono', ...defaultTheme.fontFamily.sans],
         jetbrains: ['JetBrains Mono', ...defaultTheme.fontFamily.sans],
         plexMono: ['IBM Plex Mono', ...defaultTheme.fontFamily.sans],

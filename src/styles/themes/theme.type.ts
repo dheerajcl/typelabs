@@ -1,4 +1,5 @@
 export type Theme = {
+  id: number
   '--bg-color': string
   '--main-color': string
   '--caret-color': string

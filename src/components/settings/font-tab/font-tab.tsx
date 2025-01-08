@@ -1,6 +1,6 @@
 import { DEFAULT_FONT, DEFAULT_FONT_SIZE, FONTS } from '@/config/fonts.config'
 import { Dispatch, HTMLAttributes, SetStateAction, useState } from 'react'
-import { useFont, useFontSize, useUserFonts } from '@/state/atoms'
+import { AppStore } from '@/state/app-store'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import {
@@ -12,30 +12,28 @@ import { Button } from '@/components/ui/button'
 import { PlusIcon } from 'lucide-react'
 import { AddFontModal } from './add-font-modal'
 import { Dialog } from '@/components/ui/dialog'
-import { generateFontCss } from '@/lib/utils'
 import { Slider } from '@/components/ui/slider'
 import { FontSizeIcon } from '@radix-ui/react-icons'
 import { Setting } from '../setting'
+import { generateFontCss } from '@/utils/string.utils'
 
 export const FontSelect = () => {
-  const [userFonts] = useUserFonts()
-  const [, setFont] = useFont()
+  const { fontSize, userFonts } = AppStore.useStore('userFonts', 'fontSize')
   const [value, setValue] = useState(
     'The Quick Brown fox jumps over the lazy dog.',
   )
-  const [fontSize, setFontSize] = useFontSize()
   const fontSizeSliderValue = (fontSize / 24) * 100 - 50
   const handleFontSizeChange = (value: [number]) => {
     const updatedPercentage = value[0] + 50
     const updatedFontSize = (24 * updatedPercentage) / 100
-    setFontSize(updatedFontSize)
+    AppStore.set({ fontSize: updatedFontSize })
   }
   return (
     <Dialog>
       <Setting
         title='Text Size'
         description='The text size is the size of the text in the game. The default size is 24px.'
-        resetAction={() => setFontSize(DEFAULT_FONT_SIZE)}
+        resetAction={() => AppStore.set({ fontSize: DEFAULT_FONT_SIZE })}
       >
         <div className='flex gap-2'>
           <div className='flex items-center gap-2'>
@@ -49,7 +47,10 @@ export const FontSelect = () => {
           />
         </div>
       </Setting>
-      <Setting title='Fonts' resetAction={() => setFont(DEFAULT_FONT)}>
+      <Setting
+        title='Fonts'
+        resetAction={() => AppStore.set({ currentFont: DEFAULT_FONT })}
+      >
         <Label className='pl-1'>Preview Text</Label>
         <Input
           className='mb-8 resize-none border border-border bg-muted'
@@ -130,11 +131,11 @@ const FontItem = ({
   setValue: Dispatch<SetStateAction<string>>
   titleProps?: HTMLAttributes<HTMLElement>
 }) => {
-  const [currentFont, setCurrentFont] = useFont()
+  const { currentFont } = AppStore.useStore('currentFont')
   return (
     <RadioCard
       className='col-span-2 min-w-[12rem] overflow-x-hidden md:col-span-1'
-      onClick={() => setCurrentFont(font)}
+      onClick={() => AppStore.set({ currentFont: font })}
       isActive={currentFont === font}
     >
       <RadioCardDescription

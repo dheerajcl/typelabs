@@ -4,8 +4,8 @@ import { useHasFocus } from '@/hooks/use-has-focus.hook'
 import { VALID_CHARACTERS_SET } from '@/config/game.config'
 import { engineStore } from '@/state/game-engine.store'
 import { useMetricsStore } from '@/state/metrics.store'
-import { timerStore, useTimer } from '@/state/timer.store'
-import { useFontSize } from '@/state/atoms'
+import { TimerStore } from '@/state/timer.store'
+import { AppStore } from '@/state/app-store'
 
 export const EngineProvider = () => {
   const {
@@ -17,23 +17,16 @@ export const EngineProvider = () => {
     setUserInput,
     generateText,
   } = engineStore()
-  const [fontSize] = useFontSize()
 
   const { updateMetrics } = useMetricsStore('updateMetrics')
-  const { totalTime, hasTimerEnded, isRunning, startTimer } = useTimer(
-    'totalTime',
-    'hasTimerEnded',
-    'isRunning',
-    'startTimer',
-  )
+  const { totalTime, hasTimerEnded, isRunning, startTimer } =
+    TimerStore.useStore('totalTime', 'hasTimerEnded', 'isRunning', 'startTimer')
 
   useHasFocus({
     onBlur: () => setTextAreaFocus(false),
   })
 
-  const backspace = () => {
-    setUserInput(userInput.slice(0, -1))
-  }
+  const backspace = () => setUserInput(userInput.slice(0, -1))
 
   const ctrlBackspace = () => {
     const userInputArr = userInput.split('')
@@ -44,7 +37,7 @@ export const EngineProvider = () => {
 
   function handleKeyInput(e: KeyboardEvent) {
     if (VALID_CHARACTERS_SET.has(e.key)) {
-      const { isPaused } = timerStore.getState()
+      const { isPaused } = TimerStore.store.getState()
       const userInput = engineStore.getState().userInput
       if (isPaused || !userInput) startTimer()
       setUserInput(userInput + e.key)
@@ -57,12 +50,13 @@ export const EngineProvider = () => {
     const letter = document.getElementById(`letter-${userInput.length}`)
     if (!letter) return
 
+    const fontSize = AppStore.store.getState().fontSize
+
     const newPos = {
       x: letter.offsetLeft,
       // Setting the y position from the bottom for consistent caret styles
       y: letter.offsetTop + fontSize * 1.6,
     }
-    console.log(letter.offsetTop, letter.offsetHeight)
     setCaretPosition(newPos)
   }
 

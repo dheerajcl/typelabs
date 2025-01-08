@@ -1,7 +1,7 @@
-import { useKeyboardSound } from '@/state/atoms'
+import { AppStore } from '@/state/app-store'
 import { Check, X } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { KeyboardSoundPackConfig } from '@/assets/sfx/keyboard-soundpacks/keyboard-soundpacks.type'
+import { cn } from '@/utils/class-names.utils'
+import type { KeyboardSoundPackConfig } from '@/config/keyboard.config'
 import {
   RadioCard,
   RadioCardContent,
@@ -18,20 +18,18 @@ export const SoundPackItem = ({
   title,
   ...props
 }: SoundPackItemProps) => {
-  const [currentSoundPack, setSoundPack] = useKeyboardSound()
-  const isActive = soundPack.id === currentSoundPack.id
+  const { soundPack: currentSoundPack } = AppStore.useStore('soundPack')
+
   return (
     <RadioCard
-      onClick={() => {
-        setSoundPack(soundPack)
-      }}
-      isActive={isActive}
+      onClick={() => AppStore.set({ soundPack })}
+      isActive={soundPack.id === currentSoundPack.id}
       {...props}
     >
       <RadioCardDescription
         className={cn(
           'font-bold text-muted-foreground',
-          isActive && 'text-foregrond',
+          soundPack.id === currentSoundPack.id && 'text-foregrond',
         )}
       >
         {title}
@@ -41,7 +39,7 @@ export const SoundPackItem = ({
           className={cn(
             'flex items-center gap-2 text-xs text-muted-foreground',
             {
-              'text-foreground': isActive,
+              'text-foreground': soundPack.id === currentSoundPack.id,
             },
           )}
         >

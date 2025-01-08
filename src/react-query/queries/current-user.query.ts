@@ -1,9 +1,12 @@
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, UseQueryOptions } from '@tanstack/react-query'
+import { QK } from '@/config/react-query.config'
+import { User } from '@spotify/web-api-ts-sdk'
 import { spotifyClient } from '@/config/spotify-client.config'
-import { QUERY_CURRENT_USER } from '../../config/react-query.config'
 
-export const useUserQuery = () =>
+type UserQueryProps = UseQueryOptions<User>
+export const useUserQuery = (opts: Partial<UserQueryProps> = {}) =>
   useQuery({
-    queryKey: [QUERY_CURRENT_USER],
-    queryFn: spotifyClient.getMe,
+    queryKey: [QK.SPOTIFY, QK.SPOTIFY.CURRENT_USER],
+    queryFn: () => spotifyClient.currentUser.profile(),
+    ...opts,
   })

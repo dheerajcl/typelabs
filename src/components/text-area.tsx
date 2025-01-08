@@ -1,16 +1,16 @@
-import { cn } from '@/lib/utils'
-import { useTimer } from '@/state/timer.store'
+import { cn } from '@/utils/class-names.utils'
 import { useEffect, useRef, useState } from 'react'
 import { ThickArrowUpIcon } from '@radix-ui/react-icons'
 import { Focus } from 'lucide-react'
 import { useEngine } from '@/state/game-engine.store'
-import { useFontSize } from '@/state/atoms'
 import { useAutoAnimate } from '@formkit/auto-animate/react'
 import { Caret } from './caret'
 import { TimeSelector } from './test-time-selector'
+import { AppStore } from '@/state/app-store'
+import { TimerStore } from '@/state/timer.store'
 
 export const TextArea = () => {
-  const { isPaused, isRunning } = useTimer('isPaused', 'isRunning')
+  const { isPaused, isRunning } = TimerStore.useStore('isPaused', 'isRunning')
   const {
     textAreaFocus: focus,
     textString,
@@ -30,7 +30,7 @@ export const TextArea = () => {
   const [isCaps, setIsCaps] = useState(false)
 
   const textAreaRef = useRef<HTMLDivElement>(null)
-  const [fontSize] = useFontSize()
+  const { fontSize } = AppStore.useStore('fontSize')
   const lineHeight = fontSize * 1.6
 
   useEffect(() => {
@@ -138,6 +138,6 @@ export const TextArea = () => {
 }
 
 const TimeText = () => {
-  const { timeInt } = useTimer('timeInt')
+  const { timeInt } = TimerStore.useStore('timeInt')
   return <p className='text-2xl text-primary'>{timeInt}</p>
 }

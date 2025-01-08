@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react'
-import { PlaylistTabContent } from './playlist/playlist-tab-content'
-import { PlaylistTab } from './playlist/playlist-tab'
-import { DrawerSkeleton } from './spotify-drawer.skeleton'
-import { generateFontCss } from '@/lib/utils'
-import { MusicPlayer } from './music-player'
-import { usePlayerContext } from '@/state/atoms'
 import { useMyPlaylists } from '@/react-query/queries/my-playlists.query'
-import { PlaylistTabContentSkeleton } from './playlist/playlist-tab-content.skeleton'
 import { ListMusic } from 'lucide-react'
-
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { useState } from 'react'
+import { MusicPlayer } from './music-player'
+import { PlaylistTab } from './playlist/playlist-tab'
+import { PlaylistTabContent } from './playlist/playlist-tab-content'
+import { PlaylistTabContentSkeleton } from './playlist/playlist-tab-content.skeleton'
+import { DrawerSkeleton } from './spotify-drawer.skeleton'
 import {
   Drawer,
   DrawerContent,
@@ -17,40 +13,36 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { usePlaybackState } from 'react-spotify-web-playback-sdk'
+import 'helvatica-neue-lt/index.css'
 
 export const SpotifyDrawer = () => {
+  const [selectedPlaylist, setSelectedPlaylist] = useState('')
   return (
     <Drawer>
-      <DrawerTrigger
-        asChild
-        style={{
-          fontFamily: generateFontCss('Roboto Mono'),
-        }}
-      >
+      <DrawerTrigger className='font-robotoMono' asChild>
         <div className='w-full cursor-pointer'>
           <MusicPlayer />
         </div>
       </DrawerTrigger>
-      <DrawerContent
-        style={{
-          fontFamily: generateFontCss('Helvetica Neue'),
-          letterSpacing: '0.02em',
-        }}
-        className='h-[80%] focus:outline-none'
-      >
-        <Content />
+      <DrawerContent className='h-[80%] overflow-hidden font-player focus:outline-none'>
+        <Content
+          selectedPlaylistState={[selectedPlaylist, setSelectedPlaylist]}
+        />
       </DrawerContent>
     </Drawer>
   )
 }
 
-const Content = () => {
-  const [playerContext] = usePlayerContext()
-  const [activePlaylist, setActivePlaylist] = useState('')
+function Content(props: {
+  selectedPlaylistState: [string, (s: string) => void]
+}) {
+  const [selectedPlaylistId, setSelectedPlaylistId] =
+    props.selectedPlaylistState
   const { data: playlists, isLoading, error: playlistError } = useMyPlaylists()
-  useEffect(() => {
-    setActivePlaylist(playerContext.playlistId)
-  }, [!!playerContext.playlistId])
+
+  const pbState = usePlaybackState()
 
   if (playlistError) {
     return (
@@ -75,7 +67,7 @@ const Content = () => {
           <>
             <div className='relative flex flex-col'>
               <DrawerHeader className='py-0 pb-4 pl-1 transition-all md:pl-4'>
-                <DrawerTitle className='text-left text-sm font-semibold transition-all md:text-xl md:font-bold'>
+                <DrawerTitle className='text-left text-sm font-bold transition-all md:text-xl md:font-bold'>
                   Playlists
                 </DrawerTitle>
               </DrawerHeader>
@@ -85,20 +77,21 @@ const Content = () => {
                   {playlists?.items?.map((playlist) => {
                     return (
                       <PlaylistTab
+                        onClick={() => setSelectedPlaylistId(playlist.id)}
                         key={playlist.id}
                         playlist={playlist}
-                        activePlaylist={activePlaylist}
-                        setActivePlaylist={setActivePlaylist}
+                        isBeingPlayed={pbState?.context.uri === playlist.uri}
+                        isActive={selectedPlaylistId == playlist.id}
                       />
                     )
                   })}
                 </div>
               </ScrollArea>
             </div>
-            {!!activePlaylist && (
-              <PlaylistTabContent activePlaylist={activePlaylist} />
+            {!!selectedPlaylistId && (
+              <PlaylistTabContent activePlaylist={selectedPlaylistId} />
             )}
-            {!activePlaylist && (
+            {!selectedPlaylistId && (
               <h2 className='m-auto flex items-center gap-2 text-xl font-bold'>
                 <ListMusic className='h-10 w-10' />
                 No playlist selected

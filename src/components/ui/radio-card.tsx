@@ -1,4 +1,4 @@
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/class-names.utils'
 import { ComponentProps, HTMLAttributes, ReactNode } from 'react'
 import { Tooltip, TooltipContent, TooltipTrigger } from './tooltip'
 
@@ -39,12 +39,12 @@ export const RadioCard = ({
       <TooltipTrigger asChild>
         <button
           className={cn(
-            'cursor-pointer rounded-md px-4 py-2 text-left outline outline-1 outline-foreground/20 transition-all hover:bg-foreground/5 hover:outline-foreground focus:outline-2 focus:outline-foreground',
+            'cursor-pointer rounded-md px-4 py-2 text-left outline outline-1 outline-foreground/20 transition-all hover:bg-foreground/10 hover:outline-foreground/20 focus:outline-2 focus:outline-foreground',
             {
-              'focus:outline-initial bg-primary/10 outline-2 outline-primary':
+              'focus:outline-initial bg-primary/20 outline-1 outline-primary/50':
                 isActive,
             },
-            className
+            className,
           )}
           {...rest}
         />

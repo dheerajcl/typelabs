@@ -5,51 +5,40 @@ import { FontFamilyIcon, KeyboardIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '../ui/scroll-area'
 import { Tabs, TabsContent } from '../ui/tabs'
 import { FontSelect } from './font-tab/font-tab'
-import { useMemo, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { KEYBINDS } from '@/config/keybinds.config'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { TabButton } from '../compound-ui/tab-button'
-import { useBorderRadius } from '@/state/atoms'
 import { AppearanceTab } from './appearance-tab/appearance-tab'
 import { SoundPackTab } from './soundpack-tab/sound-pack-tab'
 import { CaretTab } from './caret-tab/caret-tab'
 
+const SETTINGS_TABS = [
+  {
+    label: 'Font',
+    icon: <FontFamilyIcon className='rounded-sm border border-foreground/10' />,
+    comp: <FontSelect />,
+  },
+  {
+    label: 'Soundpack',
+    icon: <KeyboardIcon />,
+    comp: <SoundPackTab />,
+  },
+  {
+    label: 'Appearance',
+    icon: <PaintbrushIcon className='h-4 w-4' />,
+    comp: <AppearanceTab />,
+  },
+  {
+    label: 'Caret',
+    icon: <TextCursor className='h-4 w-4' />,
+    comp: <CaretTab />,
+  },
+]
 export const SettingsDialog = () => {
   const dialogTriggerRef = useRef<HTMLButtonElement>(null)
-  const [borderRadius, setBorderRadius] = useBorderRadius()
-  const SETTINGS_TABS = useMemo(
-    () => [
-      {
-        label: 'Font',
-        icon: (
-          <FontFamilyIcon className='rounded-sm border border-foreground/10' />
-        ),
-        comp: <FontSelect />,
-      },
-      {
-        label: 'Soundpack',
-        icon: <KeyboardIcon />,
-        comp: <SoundPackTab />,
-      },
-      {
-        label: 'Appearance',
-        icon: <PaintbrushIcon className='h-4 w-4' />,
-        comp: (
-          <AppearanceTab
-            setBorderRadius={setBorderRadius}
-            borderRadius={borderRadius}
-          />
-        ),
-      },
-      {
-        label: 'Caret',
-        icon: <TextCursor className='h-4 w-4' />,
-        comp: <CaretTab />,
-      },
-    ],
-    [borderRadius, setBorderRadius],
-  )
   const [currentTab, setCurrentTab] = useState(SETTINGS_TABS[0].label)
+
   useHotkeys(KEYBINDS.SETTINGS.hotkey, () => {
     dialogTriggerRef.current?.click()
   })

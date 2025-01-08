@@ -1,12 +1,9 @@
-import { useTimer } from '@/state/timer.store'
+import { AppStore } from '@/state/app-store'
 import { Timer } from 'lucide-react'
 import { Tabs, TabsList, TabsTrigger } from './ui/tabs'
-import { useGameConfig } from '@/state/atoms'
 
 export const TimeSelector = () => {
-  const [config, setConfig] = useGameConfig()
-  const { isRunning } = useTimer('isRunning')
-  if (isRunning) return <div className='h-9' />
+  const { time } = AppStore.useStore('time')
 
   const tabClassNames =
     'rounded-full text-xs data-[state=active]:bg-muted-foreground data-[state=active]:text-background'
@@ -14,10 +11,8 @@ export const TimeSelector = () => {
     <div className='group m-auto flex h-9 w-fit items-center gap-2 rounded-full border border-foreground/10 bg-input pl-4 pr-2 shadow-sm'>
       <Timer className='h-4 w-4 text-muted-foreground' />
       <Tabs
-        value={`${config.time}`}
-        onValueChange={(time) =>
-          setConfig((prev) => ({ ...prev, time: +time }))
-        }
+        value={`${time}`}
+        onValueChange={(newTime) => AppStore.set({ time: +newTime })}
       >
         <TabsList className='h-fit origin-left rounded-full bg-transparent'>
           <TabsTrigger className={tabClassNames} value='15'>

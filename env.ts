@@ -2,7 +2,6 @@ import { z } from 'zod'
 
 const envSchema = z.object({
   CLIENT_ID: z.string(),
-  REDIRECT_URI: z.string(),
   SERVER_URL: z.string(),
 })
 

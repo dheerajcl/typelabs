@@ -1,7 +1,7 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react'
-import { cn } from '@/lib/utils'
+import { cn } from '@/utils/class-names.utils'
 import { Slot } from '@radix-ui/react-slot'
-import { useTimer } from '@/state/timer.store'
+import { TimerStore } from '@/state/timer.store'
 
 type DivProps = React.HTMLAttributes<HTMLDivElement>
 
@@ -19,7 +19,7 @@ export const Box = forwardRef<HTMLDivElement, BoxProps>(
     const Comp = asChild ? Slot : 'div'
 
     const ref = useRef<HTMLDivElement>(null)
-    const { isRunning, isPaused } = useTimer('isRunning', 'isPaused')
+    const { isRunning, isPaused } = TimerStore.useStore('isRunning', 'isPaused')
 
     const handleClickOutside = (e: MouseEvent) => {
       if (ref.current && !ref.current.contains(e.target as Node)) {

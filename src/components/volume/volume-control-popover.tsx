@@ -7,41 +7,31 @@ import {
   SpeakerLoudIcon,
 } from '@radix-ui/react-icons'
 import {
-  keyboardVolumeAtom,
-  uiVolumeAtom,
-  useUiVolume,
-  notificationsVolumeAtom,
-} from '@/state/atoms'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { VolumeSlider } from '@/components/volume/volume-slider'
-import { useSpotifyPlayer } from 'react-spotify-web-playback-sdk'
+import { AppStore } from '@/state/app-store'
 
 const ICONS = [VolumeX, Volume1, Volume2]
 
 export const VolumeControls = () => {
-  const [volume] = useUiVolume()
-  const player = useSpotifyPlayer()
+  const { musicVolume, notificationsVolume, keyboardVolume } =
+    AppStore.useStore('musicVolume', 'notificationsVolume', 'keyboardVolume')
 
   const getIndex = useCallback(() => {
-    if (volume == 0) return 0
-    if (volume > 0.5) return 2
+    if (musicVolume == 0) return 0
+    if (musicVolume > 0.5) return 2
 
     return 1
-  }, [volume])
-
-  useEffect(() => {
-    player?.setVolume(volume / 2)
-  }, [volume])
+  }, [musicVolume])
 
   useEffect(() => {
     const Icon = ICONS[getIndex()]
     setIcon(<Icon className='h-5 w-5' />)
-  }, [volume])
+  }, [musicVolume])
 
   const [icon, setIcon] = useState(<SpeakerLoudIcon className='h-8 w-8' />)
 
@@ -55,7 +45,8 @@ export const VolumeControls = () => {
             </>
           }
           icon={icon}
-          atom={uiVolumeAtom}
+          volume={musicVolume}
+          onChange={(newVol) => AppStore.set({ musicVolume: newVol })}
         />
         <DropdownMenuTrigger asChild>
           <Button
@@ -72,18 +63,29 @@ export const VolumeControls = () => {
           <VolumeSlider
             label='Notifications'
             icon={<Bell className='h-4 w-4' />}
-            atom={notificationsVolumeAtom}
+            volume={notificationsVolume}
+            onChange={(newVol: number) =>
+              AppStore.set({ notificationsVolume: newVol })
+            }
           />
         </DropdownMenuItem>
         <DropdownMenuItem>
           <VolumeSlider
             label='Keyboard'
             icon={<KeyboardIcon className='h-4 w-4' />}
-            atom={keyboardVolumeAtom}
+            volume={keyboardVolume}
+            onChange={(newVol: number) =>
+              AppStore.set({ keyboardVolume: newVol })
+            }
           />
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <VolumeSlider label='Volume' icon={icon} atom={uiVolumeAtom} />
+          <VolumeSlider
+            label='Volume'
+            icon={icon}
+            volume={musicVolume}
+            onChange={(newVol) => AppStore.set({ musicVolume: newVol })}
+          />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

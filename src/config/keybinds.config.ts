@@ -1,4 +1,4 @@
-import { getOS } from '@/lib/utils'
+import { getOS } from '@/utils/os-detector.utils'
 
 export const KEYMAPPER = {
   Control: (() => {

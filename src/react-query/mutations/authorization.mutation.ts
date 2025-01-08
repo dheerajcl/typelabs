@@ -1,30 +1,29 @@
-import { useMutation } from '@tanstack/react-query'
-import { axios } from '@/config/axios.config'
-import { spotifyClient } from '@/config/spotify-client.config'
+import { useMutation, UseMutationOptions } from '@tanstack/react-query'
 
 export type AuthorizationResponse = {
   accessToken: string
   expiresIn: number
-  superAccessToken: string
 }
 
-export const useAuthorizationQuery = (props: {
-  onSuccess?: (data: AuthorizationResponse) => void
-  onError?: (err: Error) => void
-  onSettled?: () => void
-}) =>
-  useMutation({
-    mutationFn: async (code: string | null = null) => {
-      const res = await axios.post(
-        `/authorize`,
-        { code },
-        { withCredentials: true }
-      )
-      const data = res.data
-      const { accessToken, expiresIn, superAccessToken } = data
-      spotifyClient.setAccessToken(accessToken)
-      return { accessToken, superAccessToken, expiresIn }
-    },
+type Props = Omit<
+  UseMutationOptions<AuthorizationResponse, Error, string>,
+  'mutationKey' | 'mutationFn'
+>
 
+export const useAuthorizationQuery = (props: Props) =>
+  useMutation({
+    mutationKey: ['spotify', 'auth'],
+    mutationFn: async (code: string) => {
+      const res = await fetch('api/authorize', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ code }),
+        credentials: 'include',
+      })
+      const { access_token, expires_in } = await res.json()
+      return { accessToken: access_token, expiresIn: expires_in }
+    },
     ...props,
   })

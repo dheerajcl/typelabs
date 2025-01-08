@@ -1,15 +1,15 @@
 import { useQuery } from '@tanstack/react-query'
+import { QK } from '@/config/react-query.config'
 import { spotifyClient } from '@/config/spotify-client.config'
-import { QUERY_MY_PLAYLISTS } from '../../config/react-query.config'
 
 export const useMyPlaylists = () => {
   return useQuery({
-    queryKey: [QUERY_MY_PLAYLISTS],
-    queryFn: async () => {
-      const playlists = await spotifyClient.getUserPlaylists()
-      return playlists
-    },
-    enabled: true,
+    queryKey: [
+      QK.SPOTIFY.ROOT,
+      QK.SPOTIFY.CURRENT_USER.ROOT,
+      QK.SPOTIFY.CURRENT_USER.PLAYLIST,
+    ],
+    queryFn: () => spotifyClient.currentUser.playlists.playlists(50),
     refetchOnWindowFocus: false,
     refetchInterval: false,
     staleTime: 60 * 60 * 1000,

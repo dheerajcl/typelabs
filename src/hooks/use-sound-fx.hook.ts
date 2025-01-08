@@ -1,33 +1,30 @@
-import { useNotificationsVolume } from '@/state/atoms'
-
+import { AppStore } from '@/state/app-store'
+import { Howl } from 'howler'
 import uiSounds from '@/assets/sfx/ui-sounds.wav'
-import useSound from 'use-sound'
 
-const sounds = ['error', 'success', 'neutral', 'click', 'delete'] as const
+export enum NotificationSFX {
+  Error = 'error',
+  Success = 'success',
+  Neutral = 'neutral',
+  Click = 'click',
+  Delete = 'delete',
+}
 
-type sfx = (typeof sounds)[number]
+const howl = new Howl({
+  src: uiSounds,
+  sprite: {
+    [NotificationSFX.Click]: [0, 1000],
+    [NotificationSFX.Delete]: [1000, 430],
+    [NotificationSFX.Error]: [1430, 1000],
+    [NotificationSFX.Neutral]: [2430, 1593],
+    [NotificationSFX.Success]: [4023, 1000],
+  },
+})
 
-export const useSoundFx = () => {
-  const [vol] = useNotificationsVolume()
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [_, { sound }] = useSound(uiSounds, {
-    sprite: {
-      click: [0, 1000],
-      delete: [1000, 430],
-      error: [1430, 1000],
-      neutral: [2430, 1593],
-      success: [4023, 1000],
-    },
-  })
-
-  const play = (soundName: sfx, volume?: number) => {
-    if (sounds.includes(soundName)) {
-      sound?.volume(volume || vol)
-      sound?.play(soundName)
-    } else {
-      console.error(`Sound ${soundName} not found`)
-    }
-  }
-
-  return play
+export function playNotificationSFX(
+  soundName: NotificationSFX,
+  volume?: number,
+) {
+  howl.volume(volume || AppStore.store.getState().notificationsVolume)
+  howl.play(soundName)
 }

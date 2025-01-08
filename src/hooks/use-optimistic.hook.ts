@@ -2,7 +2,7 @@ import { useRef, useState } from 'react'
 export function useOptimistic<T>(
   initialValue: T,
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  updateFn: (value: T) => Promise<any>
+  updateFn: (value: T) => Promise<any>,
 ) {
   const lastValue = useRef<T>(initialValue)
   const [optimisticValue, setOptimisticValue] = useState(initialValue)
