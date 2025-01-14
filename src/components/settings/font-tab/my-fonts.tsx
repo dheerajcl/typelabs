@@ -11,6 +11,7 @@ import { Cross2Icon } from '@radix-ui/react-icons'
 import { cn } from '@/utils/class-names.utils'
 import { NotificationSFX, playNotificationSFX } from '@/hooks/use-sound-fx.hook'
 import { generateFontCss } from '@/utils/string.utils'
+import { For } from '@/components/map'
 
 export const MyFonts = () => {
   const { toast, dismiss } = useToast()
@@ -54,36 +55,38 @@ export const MyFonts = () => {
       <DialogHeader>
         <DialogTitle>My Fonts</DialogTitle>
         <DialogDescription className='flex flex-wrap gap-2 pb-4 pt-2'>
-          {userFonts.map((font, i) => (
-            <Button
-              key={i}
-              variant='secondary'
-              style={{
-                fontFamily: generateFontCss(font),
-              }}
-              onClick={() => AppStore.set({ currentFont: font })}
-              className={cn(
-                'flex h-fit w-fit items-center justify-between gap-4 rounded-md px-2 py-1 text-foreground/80 outline outline-1 outline-foreground/20 hover:bg-foreground/20 hover:text-foreground hover:outline-foreground',
-                font == currentFont &&
-                  'bg-primary/20 text-foreground outline-1 outline-primary/50',
-              )}
-            >
-              {font}
+          <For each={userFonts}>
+            {(font, i) => (
               <Button
-                asChild
-                onClick={(e) => {
-                  e.stopPropagation()
-                  handleRemoveFont(font)
+                key={i}
+                variant='secondary'
+                style={{
+                  fontFamily: generateFontCss(font),
                 }}
-                className='h-5 w-5 rounded-full p-[2px] text-xs hover:bg-background/40'
-                size='icon'
-                variant='ghost'
-                tooltipContent='Remove Font'
+                onClick={() => AppStore.set({ currentFont: font })}
+                className={cn(
+                  'flex h-fit w-fit items-center justify-between gap-4 rounded-md px-2 py-1 text-foreground/80 outline outline-1 outline-foreground/20 hover:bg-foreground/20 hover:text-foreground hover:outline-foreground',
+                  font == currentFont &&
+                    'bg-primary/20 text-foreground outline-1 outline-primary/50',
+                )}
               >
-                <Cross2Icon />
+                {font}
+                <Button
+                  asChild
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    handleRemoveFont(font)
+                  }}
+                  className='h-5 w-5 rounded-full p-[2px] text-xs hover:bg-background/40'
+                  size='icon'
+                  variant='ghost'
+                  tooltipContent='Remove Font'
+                >
+                  <Cross2Icon />
+                </Button>
               </Button>
-            </Button>
-          ))}
+            )}
+          </For>
         </DialogDescription>
       </DialogHeader>
     </>

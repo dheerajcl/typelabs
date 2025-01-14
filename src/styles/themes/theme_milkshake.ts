@@ -1,4 +1,5 @@
 export default {
+	name: "theme_milkshake",
   '--bg-color': '0 0% 100%',
   '--main-color': '222 34% 20%',
   '--caret-color': '222 34% 20%',

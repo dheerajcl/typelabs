@@ -1,4 +1,5 @@
 export default {
+	name: "theme_voc",
   '--bg-color': '303 61% 6%',
   '--main-color': '35 46% 78%',
   '--caret-color': '35 46% 78%',

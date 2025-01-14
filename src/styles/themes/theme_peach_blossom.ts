@@ -1,4 +1,5 @@
 export default {
+	name: "theme_peach_blossom",
   '--bg-color': '0 0% 16%',
   '--main-color': '118 18% 66%',
   '--caret-color': '0 0% 38%',

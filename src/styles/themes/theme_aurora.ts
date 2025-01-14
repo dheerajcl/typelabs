@@ -1,4 +1,5 @@
 export default {
+	name: "theme_aurora",
   '--bg-color': '201 95% 8%',
   '--main-color': '153 100% 46%',
   '--caret-color': '153 100% 46%',

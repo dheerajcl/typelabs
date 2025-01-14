@@ -1,4 +1,5 @@
 export default {
+	name: "theme_terra",
   '--bg-color': '150 14% 5%',
   '--main-color': '93 48% 56%',
   '--caret-color': '93 48% 56%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_sewing_tin",
   '--bg-color': '249 60% 24%',
   '--main-color': '41 81% 73%',
   '--caret-color': '43 93% 77%',

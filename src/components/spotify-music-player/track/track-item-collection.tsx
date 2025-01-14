@@ -1,6 +1,6 @@
 import { ScrollAreaRoot, ScrollAreaViewport } from '@/components/ui/scroll-area'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useTrackListQuery } from '@/react-query/queries/use-tracklist.query'
+import { useTrackListQuery } from '@/react-query/queries/spotify.query'
 import { Playlist, Track } from '@spotify/web-api-ts-sdk'
 import { Clock } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_shadow",
   '--bg-color': '0 0% 0%',
   '--main-color': '0 0% 93%',
   '--caret-color': '0 0% 93%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_ms_cupcakes",
   '--bg-color': '0 0% 100%',
   '--main-color': '192 86% 66%',
   '--caret-color': '0 0% 19%',

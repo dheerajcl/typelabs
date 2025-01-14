@@ -1,4 +1,5 @@
 export default {
+	name: "theme_onedark",
   '--bg-color': '221 15% 22%',
   '--caret-color': '207 82% 66%',
   '--main-color': '207 82% 66%',

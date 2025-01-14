@@ -1,13 +1,18 @@
 import { AppStore } from '@/state/app-store'
 import { Check, X } from 'lucide-react'
 import { cn } from '@/utils/class-names.utils'
-import type { KeyboardSoundPackConfig } from '@/config/keyboard.config'
+import {
+  DEFAULT_SOUNDPACK,
+  SOUND_PACKS,
+  type KeyboardSoundPackConfig,
+} from '@/config/keyboard.config'
 import {
   RadioCard,
   RadioCardContent,
   RadioCardDescription,
   RadioCardProps,
-} from '../../ui/radio-card'
+} from '@/components/ui/radio-card'
+import { useMemo } from 'react'
 
 export type SoundPackItemProps = Omit<RadioCardProps, 'isActive'> & {
   soundPack: KeyboardSoundPackConfig
@@ -18,11 +23,20 @@ export const SoundPackItem = ({
   title,
   ...props
 }: SoundPackItemProps) => {
-  const { soundPack: currentSoundPack } = AppStore.useStore('soundPack')
+  const { soundPack: soundPackId } = AppStore.useStore('soundPack')
+
+  const currentSoundPack = useMemo(() => {
+    const pack = SOUND_PACKS.find((sp) => sp.id == soundPackId)
+    if (!pack) {
+      AppStore.set({ soundPack: DEFAULT_SOUNDPACK.id })
+      return DEFAULT_SOUNDPACK
+    }
+    return pack
+  }, [soundPackId])
 
   return (
     <RadioCard
-      onClick={() => AppStore.set({ soundPack })}
+      onClick={() => AppStore.set({ soundPack: soundPack.id })}
       isActive={soundPack.id === currentSoundPack.id}
       {...props}
     >

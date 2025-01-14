@@ -1,4 +1,5 @@
 export default {
+	name: "theme_fruit_chew",
   '--bg-color': '300 4% 83%',
   '--main-color': '297 52% 25%',
   '--caret-color': '0 70% 43%',

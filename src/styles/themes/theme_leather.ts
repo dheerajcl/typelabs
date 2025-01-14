@@ -1,4 +1,5 @@
 export default {
+	name: "theme_leather",
   '--bg-color': '21 40% 47%',
   '--main-color': '36 100% 87%',
   '--caret-color': '13 84% 61%',

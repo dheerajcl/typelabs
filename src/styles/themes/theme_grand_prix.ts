@@ -1,4 +1,5 @@
 export default {
+	name: "theme_grand_prix",
   '--bg-color': '213 26% 29%',
   '--main-color': '66 62% 51%',
   '--caret-color': '66 62% 51%',

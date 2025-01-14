@@ -1,4 +1,5 @@
 export default {
+	name: "theme_laser",
   '--bg-color': '250 43% 19%',
   '--main-color': '186 100% 34%',
   '--caret-color': '186 100% 34%',

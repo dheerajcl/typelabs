@@ -1,4 +1,5 @@
 export default {
+	name: "theme_sonokai",
   '--bg-color': '225 8% 19%',
   '--main-color': '92 50% 63%',
   '--caret-color': '12 84% 70%',

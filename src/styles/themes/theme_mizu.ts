@@ -1,4 +1,5 @@
 export default {
+	name: "theme_mizu",
   '--bg-color': '203 40% 78%',
   '--main-color': '50 50% 98%',
   '--caret-color': '50 50% 98%',

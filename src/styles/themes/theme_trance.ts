@@ -1,4 +1,5 @@
 export default {
+	name: "theme_trance",
   '--bg-color': '236 100% 5%',
   '--main-color': '332 85% 49%',
   '--caret-color': '332 85% 49%',

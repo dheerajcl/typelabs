@@ -1,4 +1,5 @@
 export default {
+	name: "theme_macroblank",
   '--bg-color': '161 26% 76%',
   '--main-color': '9 79% 42%',
   '--caret-color': '343 3% 45%',

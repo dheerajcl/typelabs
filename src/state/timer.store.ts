@@ -2,15 +2,17 @@
 import create from 'zustand-store-addons'
 import { createSelector } from 'better-zustand-selector'
 import { StoreApi, UseBoundStore } from 'zustand'
+import { toast } from '@/components/ui/use-toast'
+import { AppStore } from './app-store'
 
 type TimerStore = {
   interval: NodeJS.Timeout | null
   isRunning: boolean
   isPaused: boolean
   hasTimerEnded: boolean
-  totalTime: number
   timeLeft: number
   timeInt: number
+  totalTime: number
 
   updateTimeBy: (time: number) => void
   setTotalTime: (time: number) => void
@@ -29,10 +31,11 @@ const store = create<TimerStore>(
     isRunning: false,
     timeInt: 0,
 
-    updateTimeBy(dTime: number) {
+    updateTimeBy(dTime) {
       set((s) => ({ timeLeft: s.timeLeft + dTime }))
     },
-    setTotalTime(time: number) {
+
+    setTotalTime(time) {
       set({
         hasTimerEnded: false,
         totalTime: time,
@@ -62,7 +65,7 @@ const store = create<TimerStore>(
       }, 100)
       set({ hasTimerEnded: false, interval, isPaused: false })
     },
-    pauseTimer: () => {
+    pauseTimer() {
       const state = get()
       if (state.isPaused || !state.isRunning) return
       if (state.interval) clearInterval(state.interval)
@@ -71,7 +74,7 @@ const store = create<TimerStore>(
         timeLeft: state.timeLeft - 0.1,
       })
     },
-    resetTimer: () => {
+    resetTimer() {
       const state = get()
       state.pauseTimer()
       set({

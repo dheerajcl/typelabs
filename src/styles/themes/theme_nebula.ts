@@ -1,4 +1,5 @@
 export default {
+	name: "theme_nebula",
   '--bg-color': '240 23% 17%',
   '--main-color': '325 52% 49%',
   '--caret-color': '90 66% 47%',

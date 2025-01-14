@@ -1,4 +1,5 @@
 export default {
+	name: "theme_pastel",
   '--bg-color': '346 43% 79%',
   '--main-color': '54 90% 85%',
   '--caret-color': '54 90% 85%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_cyberspace",
   '--bg-color': '120 8% 10%',
   '--main-color': '156 100% 40%',
   '--caret-color': '156 100% 40%',

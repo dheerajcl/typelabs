@@ -8,6 +8,7 @@ import { Caret } from './caret'
 import { TimeSelector } from './test-time-selector'
 import { AppStore } from '@/state/app-store'
 import { TimerStore } from '@/state/timer.store'
+import { For } from './map'
 
 export const TextArea = () => {
   const { isPaused, isRunning } = TimerStore.useStore('isPaused', 'isRunning')
@@ -16,7 +17,6 @@ export const TextArea = () => {
     textString,
     userInput,
     appendText,
-    caretPosition: pos,
   } = useEngine(
     'textAreaFocus',
     'textString',
@@ -26,7 +26,6 @@ export const TextArea = () => {
   )
 
   const [capslockRef] = useAutoAnimate()
-  const [scroll, setScroll] = useState(0)
   const [isCaps, setIsCaps] = useState(false)
 
   const textAreaRef = useRef<HTMLDivElement>(null)
@@ -43,21 +42,10 @@ export const TextArea = () => {
   }, [])
 
   useEffect(() => {
-    const textAreaHeight = textAreaRef.current?.offsetHeight || Infinity
-    if (textAreaHeight - scroll <= 4 * lineHeight) appendText()
-
-    /*
-     * If caret is at line 1, scroll to 0
-     * If caret is at last line, scroll to last line such that 3 lines are visible
-     * If at any other line, scroll to the caret position
-     */
-    if (pos.y < 1.5 * lineHeight) return setScroll(0) // 1.5 to avoid flickering
-
-    if (pos.y > textAreaHeight - lineHeight)
-      return setScroll(textAreaHeight - lineHeight)
-
-    setScroll(pos.y - 2 * lineHeight)
-  }, [pos])
+    const letter = document.getElementById(`letter-${userInput.length}`)
+    letter?.scrollIntoView({ block: 'center' })
+    if (textString.length - userInput.length <= 75) appendText()
+  }, [userInput])
 
   return (
     <div>
@@ -78,7 +66,7 @@ export const TextArea = () => {
       >
         <div className='flex w-full justify-between'>
           <TimeText />
-          {isCaps && (
+          {!isCaps && (
             <h3
               ref={capslockRef}
               className='flex items-center gap-1 whitespace-nowrap rounded-md border-2 bg-background px-2 py-1 text-sm animate-out zoom-out-75'
@@ -95,11 +83,7 @@ export const TextArea = () => {
             !focus && 'blur-sm',
           )}
         >
-          <div
-            style={{
-              marginTop: -scroll,
-            }}
-          >
+          <div>
             <div
               ref={textAreaRef}
               className='relative -z-10'
@@ -109,26 +93,43 @@ export const TextArea = () => {
               }}
             >
               <Caret />
-              {textString.split('').map((char, i) => {
-                const id = `letter-${i}`
-                const input = userInput[i]
-                const textError = input !== char && !!input
-                const spaceError = char === ' ' && char !== input && !!input
-                const correct = input === char
-                return (
-                  <span
-                    key={i}
-                    id={id}
-                    className={cn('z-10', {
-                      'text-error': textError,
-                      'bg-error/50': spaceError,
-                      'text-foreground': correct,
-                    })}
-                  >
-                    {char}
-                  </span>
-                )
-              })}
+              <For each={textString.split('')}>
+                {(char, i) => {
+                  const id = `letter-${i}`
+                  const input = userInput[i]
+
+                  const correct = input === char
+
+                  const textError = input !== char && !!input
+                  const spaceError = char === ' ' && char !== input && !!input
+
+                  const isSpace = char == ' '
+                  return (
+                    <span
+                      key={i}
+                      id={id}
+                      className={cn('z-10', {
+                        /* INFO (For future reference)
+                         * When a space character is at the end of a line, the span element has no width
+                         * since spaces don't take up physical space at line endings. This causes issues
+                         * with the typing scroll behavior since we need each character's position for
+                         * proper scrolling.
+                         *
+                         * Adding a tiny 0.1px right border gives the span element a small width,
+                         * even at line endings. This ensures smooth scrolling behavior when typing spaces
+                         * at the end of lines.
+                         */
+                        'border-r-[0.1px] border-transparent': isSpace,
+                        'text-error': textError,
+                        'bg-error/50': spaceError,
+                        'text-foreground': correct,
+                      })}
+                    >
+                      {char}
+                    </span>
+                  )
+                }}
+              </For>
             </div>
           </div>
         </div>

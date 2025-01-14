@@ -1,4 +1,5 @@
 export default {
+	name: "theme_mexican",
   '--bg-color': '37 93% 59%',
   '--main-color': '317 69% 41%',
   '--caret-color': '0 0% 93%',

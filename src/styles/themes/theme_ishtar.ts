@@ -1,4 +1,5 @@
 export default {
+	name: "theme_ishtar",
   '--bg-color': '0 0% 13%',
   '--main-color': '5 85% 31%',
   '--caret-color': '33 53% 51%',

@@ -1,17 +1,16 @@
-import { DEFAULT_FONT } from '@/config/fonts.config'
-import { create } from 'zustand'
-import { persist } from 'zustand/middleware'
-import { createSelector } from 'better-zustand-selector'
-import { DEFAULT_SOUNDPACK } from '@/config/keyboard.config'
+import { toast } from '@/components/ui/use-toast'
 import {
-  CaretStyle,
   CaretSmoothness,
+  CaretStyle,
   DEFAULT_CARET_SMOOTHNESS,
   DEFAULT_CARET_STYLE,
 } from '@/config/caret.config'
+import { DEFAULT_FONT } from '@/config/fonts.config'
+import { DEFAULT_SOUNDPACK } from '@/config/keyboard.config'
+import { createSelector } from 'better-zustand-selector'
+import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import { TimerStore } from './timer.store'
-import { debounce } from '@/utils/helpers'
-import { spotifyClient } from '@/config/spotify-client.config'
 
 type State = {
   // Font
@@ -29,6 +28,7 @@ type State = {
 
   // Game Config
   time: number
+  setTime: (newTime: State['time']) => void
 
   // Appearance
   theme: string
@@ -39,7 +39,7 @@ type State = {
 
 const store = create(
   persist<State>(
-    () => ({
+    (set) => ({
       // Font
       currentFont: DEFAULT_FONT,
       userFonts: [],
@@ -61,33 +61,19 @@ const store = create(
       caretStyle: DEFAULT_CARET_STYLE,
       caretSmoothness: DEFAULT_CARET_SMOOTHNESS,
       borderRadius: 12,
+
+      setTime(time) {
+        if (!TimerStore.get().isRunning) return set({ time })
+        toast({
+          description: "Can't change time when timer is running.",
+        })
+      },
     }),
     {
-      name: 'app-storage',
-      onRehydrateStorage(state) {
-        TimerStore.store.setState({ totalTime: state.time })
-        // if (window.spotifyClient.player) {
-        //   window.spotifyClient.player.setPlaybackVolume(
-        //     (state.musicVolume * 100) >> 0,
-        //   )
-        // }
-      },
+      name: 'app-settings',
     },
   ),
 )
-
-const debouncedUpdateVolume = debounce(
-  (vol: number) => spotifyClient.player.setPlaybackVolume(vol),
-  200,
-)
-store.subscribe((state, prev) => {
-  if (state.time != prev.time) {
-    TimerStore.store.getState().setTotalTime(state.time)
-  }
-  if (state.musicVolume != prev.musicVolume) {
-    debouncedUpdateVolume((state.musicVolume * 100) >> 0)
-  }
-})
 
 export const AppStore = {
   useStore: createSelector(store),

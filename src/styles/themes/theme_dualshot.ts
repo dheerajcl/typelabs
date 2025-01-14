@@ -1,4 +1,5 @@
 export default {
+	name: "theme_dualshot",
   '--bg-color': '0 0% 45%',
   '--main-color': '180 1% 13%',
   '--caret-color': '180 1% 13%',

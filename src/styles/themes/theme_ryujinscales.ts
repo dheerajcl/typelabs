@@ -1,4 +1,5 @@
 export default {
+	name: "theme_ryujinscales",
   '--bg-color': '216 65% 9%',
   '--main-color': '13 85% 64%',
   '--caret-color': '13 84% 61%',

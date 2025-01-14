@@ -1,4 +1,5 @@
 export default {
+	name: "theme_midnight",
   '--bg-color': '218 27% 6%',
   '--main-color': '220 25% 50%',
   '--caret-color': '220 25% 50%',

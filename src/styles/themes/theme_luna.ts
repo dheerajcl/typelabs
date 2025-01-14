@@ -1,4 +1,5 @@
 export default {
+	name: "theme_luna",
   '--bg-color': '254 31% 16%',
   '--main-color': '343 88% 71%',
   '--caret-color': '343 88% 71%',

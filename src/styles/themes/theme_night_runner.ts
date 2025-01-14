@@ -1,4 +1,5 @@
 export default {
+	name: "theme_night_runner",
   '--bg-color': '0 0% 13%',
   '--main-color': '60 100% 51%',
   '--caret-color': '60 100% 51%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_husqy",
   '--bg-color': '0 0% 0%',
   '--main-color': '270 100% 77%',
   '--caret-color': '270 100% 77%',

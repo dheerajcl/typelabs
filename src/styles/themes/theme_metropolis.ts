@@ -1,4 +1,5 @@
 export default {
+	name: "theme_metropolis",
   '--bg-color': '207 49% 12%',
   '--main-color': '173 48% 55%',
   '--caret-color': '173 48% 55%',

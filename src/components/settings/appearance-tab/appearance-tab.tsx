@@ -7,6 +7,7 @@ import {
 } from '@/config/appearance.config'
 import { Setting } from '../setting'
 import { AppStore } from '@/state/app-store'
+import { For } from '@/components/map'
 
 export const AppearanceTab = () => {
   const { borderRadius } = AppStore.useStore('borderRadius')
@@ -20,14 +21,16 @@ export const AppearanceTab = () => {
         }
       >
         <div className='flex gap-4'>
-          {BORDER_RADII.map((radius) => (
-            <BorderRadiusVisualizer
-              key={radius}
-              radius={radius}
-              isActive={radius === borderRadius}
-              onClick={() => AppStore.set({ borderRadius: radius })}
-            />
-          ))}
+          <For each={BORDER_RADII}>
+            {(radius) => (
+              <BorderRadiusVisualizer
+                key={radius}
+                radius={radius}
+                isActive={radius === borderRadius}
+                onClick={() => AppStore.set({ borderRadius: radius })}
+              />
+            )}
+          </For>
         </div>
       </Setting>
       <Setting

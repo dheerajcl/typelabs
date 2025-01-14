@@ -1,5 +1,4 @@
 import { LogOut, Music2 } from 'lucide-react'
-import { useLogout } from '@/react-query/mutations/logout.mutation'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -7,17 +6,20 @@ import {
   DropdownMenuTrigger,
 } from './ui/dropdown-menu'
 import { Button } from './ui/button'
-import { useUserQuery } from '@/react-query/queries/current-user.query'
+import { useUserQuery } from '@/react-query/queries/spotify.query'
 
 export function UserInfo() {
   const { data: user } = useUserQuery()
-  const { mutate: logout, error } = useLogout({
-    onError: () => console.error(error),
-  })
   if (!user) return null
+
+  function logout() {
+    window.spotifyClient.logOut()
+    window.location.reload()
+  }
+
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger>
+      <DropdownMenuTrigger asChild>
         <Button
           variant='ghost'
           tooltipContent={
@@ -27,7 +29,7 @@ export function UserInfo() {
             </div>
           }
           tooltipContentProps={{ className: 'text-xs' }}
-          className='h-fit gap-1 text-xs text-muted-foreground'
+          className='h-fit gap-1 text-xs text-muted-foreground animate-in slide-in-from-right-10'
         >
           <Music2 className='h-3 w-3' />
           {user.display_name}
@@ -35,7 +37,7 @@ export function UserInfo() {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuItem
-          onClick={() => logout()}
+          onClick={logout}
           className='w-full cursor-pointer gap-2 text-destructive'
         >
           <LogOut className='h-5 w-5' /> Logout

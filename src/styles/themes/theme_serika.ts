@@ -1,4 +1,5 @@
 export default {
+	name: "theme_serika",
   '--main-color': '47 84% 48%',
   '--caret-color': '47 84% 48%',
   '--sub-color': '213 6% 68%',

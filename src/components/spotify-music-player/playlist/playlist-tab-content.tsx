@@ -4,7 +4,6 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import { Toggle } from '@/components/ui/toggle'
 import { cn } from '@/utils/class-names.utils'
-import { usePlaylist } from '@/react-query/queries/playlist.query'
 import { AvatarImage } from '@radix-ui/react-avatar'
 import { useQuery, UseQueryOptions } from '@tanstack/react-query'
 import { AlertTriangle, Play, Shuffle } from 'lucide-react'
@@ -15,6 +14,8 @@ import {
 } from 'react-spotify-web-playback-sdk'
 import { PlaylistTabContentSkeleton } from './playlist-tab-content.skeleton'
 import { User } from '@spotify/web-api-ts-sdk'
+import { usePlaylist } from '@/react-query/queries/spotify.query'
+import { failable } from '@/utils/errors.utils'
 
 type PlaylistTabContentProps = {
   activePlaylist: string
@@ -28,7 +29,7 @@ function useSpotifyUser(
     queryKey: ['user', userId],
     queryFn: () => {
       if (!userId) return
-      return spotifyClient.users.profile(userId)
+      return window.spotifyClient.users.profile(userId)
     },
     ...options,
   })
@@ -53,7 +54,10 @@ export const PlaylistTabContent = ({
 
   function handlePlaylistPlay() {
     if (!device?.device_id || !playlist) return
-    spotifyClient.player.startResumePlayback(device.device_id, playlist.uri)
+    window.spotifyClient.player.startResumePlayback(
+      device.device_id,
+      playlist.uri,
+    )
   }
 
   const [hasReachedScrollThreshold, setHasReachedScrollThreshold] =
@@ -170,24 +174,17 @@ export const PlaylistTabContent = ({
 const ShuffleToggle = () => {
   const pbState = usePlaybackState()
   const { device_id } = usePlayerDevice() || {}
-
-  // const { playerContext } = AppStore.useStore('playerContext')
-
-  // const [shuffle, setShuffle] = useOptimistic<boolean>(
-  //   playerContext.shuffle,
-  //   updateShuffle,
-  // )
-  //
-
   const [shuffle, setShuffle] = useState(!pbState?.shuffle)
 
   async function changeShuffle(newShuffle: boolean) {
-    try {
-      // setShuffle(newShuffle)
-      spotifyClient.player.togglePlaybackShuffle(newShuffle, device_id)
-    } catch (err) {
-      console.log(err)
-      // setShuffle(shuffle)
+    setShuffle(newShuffle)
+    const [err] = await failable.async(() =>
+      window.spotifyClient.player.togglePlaybackShuffle(newShuffle, device_id),
+    )
+
+    if (err != null) {
+      console.error(err)
+      setShuffle(shuffle)
     }
   }
 

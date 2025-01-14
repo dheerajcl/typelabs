@@ -1,4 +1,5 @@
 export default {
+	name: "theme_earthsong",
   '--bg-color': '30 11% 15%',
   '--main-color': '122 30% 45%',
   '--caret-color': '192 82% 40%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_hammerhead",
   '--bg-color': '229 73% 4%',
   '--main-color': '170 56% 56%',
   '--caret-color': '170 56% 56%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_modern_ink",
   '--bg-color': '0 0% 100%',
   '--main-color': '10 100% 53%',
   '--caret-color': '0 100% 50%',

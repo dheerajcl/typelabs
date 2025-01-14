@@ -1,4 +1,5 @@
 export default {
+	name: "theme_iceberg_dark",
   '--bg-color': '229 20% 11%',
   '--caret-color': '230 15% 85%',
   '--main-color': '215 37% 65%',

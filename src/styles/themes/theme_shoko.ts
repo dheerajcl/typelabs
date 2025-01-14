@@ -1,4 +1,5 @@
 export default {
+	name: "theme_shoko",
   '--bg-color': '210 22% 84%',
   '--main-color': '196 58% 69%',
   '--caret-color': '196 58% 69%',

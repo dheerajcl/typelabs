@@ -1,4 +1,5 @@
 export default {
+	name: "theme_vaporwave",
   '--bg-color': '237 62% 78%',
   '--main-color': '304 69% 65%',
   '--caret-color': '195 99% 58%',

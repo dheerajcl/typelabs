@@ -1,4 +1,5 @@
 export default {
+	name: "theme_everblush",
   '--bg-color': '198 20% 10%',
   '--caret-color': '180 39% 59%',
   '--main-color': '110 46% 65%',

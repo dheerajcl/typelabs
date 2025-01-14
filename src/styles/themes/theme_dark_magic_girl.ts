@@ -1,4 +1,5 @@
 export default {
+	name: "theme_dark_magic_girl",
   '--bg-color': '202 66% 10%',
   '--main-color': '336 77% 83%',
   '--caret-color': '259 52% 69%',

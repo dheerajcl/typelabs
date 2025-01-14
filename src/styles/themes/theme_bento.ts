@@ -1,4 +1,5 @@
 export default {
+	name: "theme_bento",
   '--bg-color': '218 26% 24%',
   '--main-color': '350 100% 74%',
   '--caret-color': '350 100% 74%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_blue_dolphin",
   '--bg-color': '197 100% 16%',
   '--main-color': '305 100% 90%',
   '--caret-color': '187 100% 42%',

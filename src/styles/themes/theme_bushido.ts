@@ -1,4 +1,5 @@
 export default {
+	name: "theme_bushido",
   '--bg-color': '220 17% 17%',
   '--main-color': '356 81% 61%',
   '--caret-color': '356 81% 61%',

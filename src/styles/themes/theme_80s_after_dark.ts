@@ -1,4 +1,5 @@
 export default {
+	name: "theme_80s_after_dark",
   '--bg-color': '236 33% 16%',
   '--main-color': '330 93% 82%',
   '--caret-color': '195 66% 76%',

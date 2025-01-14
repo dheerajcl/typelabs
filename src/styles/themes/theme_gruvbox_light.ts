@@ -1,4 +1,5 @@
 export default {
+	name: "theme_gruvbox_light",
   '--bg-color': '48 87% 88%',
   '--main-color': '122 21% 51%',
   '--caret-color': '122 21% 51%',

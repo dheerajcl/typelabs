@@ -9,13 +9,13 @@ import { queryClient } from './config/react-query.config.ts'
 import './globals.css'
 import { EngineProvider } from './providers/engine.provider.tsx'
 import { KeyboardAudioProvider } from './providers/keyboard-audio.provider.tsx'
-import { StyleProvider } from './providers/style-provider.tsx'
 import './styles/themes.css'
-import { spotifyClient } from './config/spotify-client.config.ts'
+import { StyleProvider } from './providers/style-provider.tsx'
 
 export const PlayerProvider = (props: { children: React.ReactNode }) => {
   const getOAuthToken = async (callback: (accessToken: string) => void) => {
-    const token = await spotifyClient.getAccessToken()
+    if (!window.spotifyClient) return
+    const token = await window.spotifyClient.getAccessToken()
     if (token) callback(token.access_token)
   }
 

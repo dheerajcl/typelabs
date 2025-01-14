@@ -1,4 +1,5 @@
 export default {
+	name: "theme_lil_dragon",
   '--bg-color': '283 30% 91%',
   '--main-color': '263 60% 60%',
   '--caret-color': '222 34% 20%',

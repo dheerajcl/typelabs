@@ -1,4 +1,5 @@
 export default {
+	name: "theme_deku",
   '--bg-color': '180 93% 28%',
   '--main-color': '2 58% 45%',
   '--caret-color': '2 58% 45%',

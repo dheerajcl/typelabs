@@ -1,5 +1,6 @@
 import { cn } from '@/utils/class-names.utils'
 import { FC, HTMLAttributes } from 'react'
+import { For } from '../map'
 
 type AnimatedPlayIconProps = HTMLAttributes<HTMLDivElement> & {
   paused?: boolean
@@ -22,18 +23,20 @@ export const AnimatedPlayIcon: FC<AnimatedPlayIconProps> = ({
   const { className: barCn, ...rest } = barProps
   return (
     <div className={cn('flex items-center gap-0.5', className)} {...props}>
-      {bars.map((css, index) => (
-        <div
-          key={index}
-          className={cn(
-            'h-4 w-0.5 animate-playing rounded-full bg-foreground/20',
-            css,
-            paused && '!animate-none',
-            barCn,
-          )}
-          {...rest}
-        />
-      ))}
+      <For each={bars}>
+        {(css, index) => (
+          <div
+            key={index}
+            className={cn(
+              'h-4 w-0.5 animate-playing rounded-full bg-foreground/20',
+              css,
+              paused && '!animate-none',
+              barCn,
+            )}
+            {...rest}
+          />
+        )}
+      </For>
     </div>
   )
 }

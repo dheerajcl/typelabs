@@ -1,4 +1,5 @@
 export default {
+	name: "theme_cheesecake",
   '--bg-color': '40 91% 91%',
   '--main-color': '341 55% 36%',
   '--caret-color': '341 54% 35%',

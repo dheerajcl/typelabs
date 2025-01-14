@@ -1,4 +1,5 @@
 export default {
+	name: "theme_retrocast",
   '--bg-color': '184 89% 25%',
   '--main-color': '183 58% 70%',
   '--caret-color': '183 58% 70%',

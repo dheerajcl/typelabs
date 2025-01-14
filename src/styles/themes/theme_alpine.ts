@@ -1,4 +1,5 @@
 export default {
+	name: "theme_alpine",
   '--bg-color': '250 10% 45%',
   '--main-color': '0 0% 100%',
   '--caret-color': '249 10% 37%',

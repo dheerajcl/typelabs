@@ -9,7 +9,7 @@ export type GameButtonProps = {
   shortcut: ReactNode
 }
 
-export const GameButton = (props: GameButtonProps) => {
+export function GameActionButton(props: GameButtonProps) {
   return (
     <Button
       onClick={props.onClick}
@@ -18,9 +18,6 @@ export const GameButton = (props: GameButtonProps) => {
       tooltipContent={
         <div className='mx-auto flex w-fit gap-1'>{props.shortcut}</div>
       }
-      tooltipContentProps={{
-        className: '',
-      }}
     >
       {props.icon} {props.label}
     </Button>

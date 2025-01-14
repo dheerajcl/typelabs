@@ -1,4 +1,5 @@
 export default {
+	name: "theme_rose_pine",
   '--bg-color': '252 15% 13%',
   '--main-color': '189 43% 73%',
   '--caret-color': '35 88% 72%',

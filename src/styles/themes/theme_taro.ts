@@ -1,4 +1,5 @@
 export default {
+	name: "theme_taro",
   '--bg-color': '234 100% 85%',
   '--main-color': '262 27% 8%',
   '--caret-color': '179 100% 46%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_breeze",
   '--bg-color': '28 44% 84%',
   '--main-color': '260 28% 53%',
   '--caret-color': '260 28% 53%',

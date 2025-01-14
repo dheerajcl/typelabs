@@ -1,6 +1,6 @@
-const CLIENT_ID = import.meta.env.VITE_CLIENT_ID
-if (!CLIENT_ID) throw new Error('No client id provided')
+const SPOTIFY_CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID
+if (!SPOTIFY_CLIENT_ID) throw new Error('No client id provided')
 
 export const env = {
-  CLIENT_ID,
+  SPOTIFY_CLIENT_ID,
 }

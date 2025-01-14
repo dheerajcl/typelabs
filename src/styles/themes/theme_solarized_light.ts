@@ -1,4 +1,5 @@
 export default {
+	name: "theme_solarized_light",
   '--bg-color': '44 87% 94%',
   '--main-color': '68 100% 30%',
   '--caret-color': '1 71% 52%',

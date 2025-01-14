@@ -1,4 +1,5 @@
 export default {
+	name: "theme_graen",
   '--bg-color': '150 11% 21%',
   '--main-color': '34 16% 58%',
   '--caret-color': '351 66% 23%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_lavender",
   '--bg-color': '255 19% 71%',
   '--main-color': '250 12% 90%',
   '--caret-color': '250 12% 90%',

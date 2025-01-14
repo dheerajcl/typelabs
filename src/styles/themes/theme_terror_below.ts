@@ -1,4 +1,5 @@
 export default {
+	name: "theme_terror_below",
   '--bg-color': '167 46% 8%',
   '--caret-color': '158 30% 54%',
   '--main-color': '158 30% 54%',

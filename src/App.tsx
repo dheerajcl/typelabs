@@ -2,7 +2,7 @@ import { ListPlus, RotateCw } from 'lucide-react'
 import { useEffect } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Logo } from './assets/svgs/keyboard-icon'
-import { GameButton } from './components/game-button'
+import { GameActionButton } from './components/game-action-button'
 import { NoSpotifyPremiumButton } from './components/no-spotify-premium-button'
 import { Results } from './components/results'
 import { SettingsDialog } from './components/settings/settings-dialog'
@@ -16,7 +16,7 @@ import { VolumeControls } from './components/volume/volume-control-popover'
 import { KEYBINDS } from './config/keybinds.config'
 import { useEngine } from './state/game-engine.store'
 import { TimerStore } from './state/timer.store'
-import { useUserQuery } from './react-query/queries/current-user.query'
+import { useUserQuery } from './react-query/queries/spotify.query'
 
 function App() {
   const { hasTimerEnded, pauseTimer } = TimerStore.useStore(
@@ -63,7 +63,7 @@ function App() {
           <CurrentView />
         </div>
         <div className='flex justify-center gap-2 text-sm'>
-          <GameButton
+          <GameActionButton
             label='Restart'
             icon={<RotateCw className='h-4 w-4' />}
             shortcut={KEYBINDS.RESTART.label}
@@ -72,7 +72,7 @@ function App() {
               restart()
             }}
           />
-          <GameButton
+          <GameActionButton
             label='New'
             icon={<ListPlus className='h-4 w-4' />}
             shortcut={KEYBINDS.NEW_GAME.label}
@@ -102,7 +102,8 @@ const SpotifyPlayer = () => {
 
   if (!user) return <ConnectSpotifyButton />
 
-  if (user?.product !== 'premium') return <NoSpotifyPremiumButton />
+  const product = user?.['product' as keyof typeof user]
+  if (product !== 'premium') return <NoSpotifyPremiumButton />
 
   return <SpotifyDrawer />
 }

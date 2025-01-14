@@ -16,6 +16,7 @@ import { Slider } from '@/components/ui/slider'
 import { FontSizeIcon } from '@radix-ui/react-icons'
 import { Setting } from '../setting'
 import { generateFontCss } from '@/utils/string.utils'
+import { For } from '@/components/map'
 
 export const FontSelect = () => {
   const { fontSize, userFonts } = AppStore.useStore('userFonts', 'fontSize')
@@ -60,14 +61,16 @@ export const FontSelect = () => {
         />
         <Setting subtitle='Preinstalled Fonts'>
           <div className='grid max-h-full grid-cols-2 gap-4'>
-            {FONTS.map((font, i) => (
-              <FontItem
-                key={i}
-                font={font}
-                inputValue={value}
-                setValue={setValue}
-              />
-            ))}
+            <For each={FONTS}>
+              {(font, i) => (
+                <FontItem
+                  key={i}
+                  font={font}
+                  inputValue={value}
+                  setValue={setValue}
+                />
+              )}
+            </For>
           </div>
         </Setting>
 
@@ -103,16 +106,16 @@ export const FontSelect = () => {
           )}
           <div className='grid max-h-full grid-cols-2 gap-4'>
             {!!userFonts.length && (
-              <>
-                {userFonts.map((font, i) => (
+              <For each={userFonts}>
+                {(font, i) => (
                   <FontItem
                     key={i}
                     font={font as (typeof FONTS)[number]}
                     inputValue={value}
                     setValue={setValue}
                   />
-                ))}
-              </>
+                )}
+              </For>
             )}
           </div>
         </Setting>

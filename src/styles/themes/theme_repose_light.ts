@@ -1,4 +1,5 @@
 export default {
+	name: "theme_repose_light",
   '--bg-color': '50 49% 88%',
   '--main-color': '90 1% 37%',
   '--caret-color': '90 1% 37%',

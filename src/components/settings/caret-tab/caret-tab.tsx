@@ -7,6 +7,7 @@ import {
   CaretSmoothness,
   CaretStyle,
 } from '@/config/caret.config'
+import { For } from '@/components/map'
 
 export const CaretTab = () => {
   const { caretStyle, caretSmoothness } = AppStore.useStore(
@@ -20,21 +21,23 @@ export const CaretTab = () => {
         resetAction={() => AppStore.set({ caretStyle: DEFAULT_CARET_STYLE })}
       >
         <div className='flex items-end gap-4'>
-          {Object.values(CaretStyle).map((style) => {
-            return (
-              <RadioCard
-                isActive={caretStyle === style}
-                key={style}
-                onClick={() => AppStore.set({ caretStyle: style })}
-                className='flex aspect-square h-9 w-7 items-center justify-center'
-                tooltipContent={style}
-              >
-                <RadioCardContent>
-                  <CaretStyleVisualizer variant={style} />
-                </RadioCardContent>
-              </RadioCard>
-            )
-          })}
+          <For each={Object.values(CaretStyle)}>
+            {(style) => {
+              return (
+                <RadioCard
+                  isActive={caretStyle === style}
+                  key={style}
+                  onClick={() => AppStore.set({ caretStyle: style })}
+                  className='flex aspect-square h-9 w-7 items-center justify-center'
+                  tooltipContent={style}
+                >
+                  <RadioCardContent>
+                    <CaretStyleVisualizer variant={style} />
+                  </RadioCardContent>
+                </RadioCard>
+              )
+            }}
+          </For>
         </div>
       </Setting>
       <Setting
@@ -44,17 +47,19 @@ export const CaretTab = () => {
         }
       >
         <div className='flex gap-4'>
-          {Object.values(CaretSmoothness).map((key) => {
-            return (
-              <RadioCard
-                isActive={caretSmoothness === key}
-                key={key}
-                onClick={() => AppStore.set({ caretSmoothness: key })}
-              >
-                <RadioCardContent>{key}</RadioCardContent>
-              </RadioCard>
-            )
-          })}
+          <For each={Object.values(CaretSmoothness)}>
+            {(key) => {
+              return (
+                <RadioCard
+                  isActive={caretSmoothness === key}
+                  key={key}
+                  onClick={() => AppStore.set({ caretSmoothness: key })}
+                >
+                  <RadioCardContent>{key}</RadioCardContent>
+                </RadioCard>
+              )
+            }}
+          </For>
         </div>
       </Setting>
     </div>

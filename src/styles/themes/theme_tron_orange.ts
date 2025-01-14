@@ -1,4 +1,5 @@
 export default {
+	name: "theme_tron_orange",
   '--bg-color': '180 37% 8%',
   '--main-color': '58 100% 47%',
   '--caret-color': '58 100% 47%',

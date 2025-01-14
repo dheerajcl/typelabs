@@ -1,4 +1,5 @@
 export default {
+	name: "theme_watermelon",
   '--bg-color': '159 37% 19%',
   '--main-color': '356 57% 62%',
   '--caret-color': '356 57% 62%',

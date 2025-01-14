@@ -8,7 +8,6 @@ import {
 import { KEYBINDS } from '@/config/keybinds.config'
 import { cn } from '@/utils/class-names.utils'
 import { sf_ms } from '@/utils/string.utils'
-import { useMutation } from '@tanstack/react-query'
 import {
   ChevronUp,
   ListMusic,
@@ -27,8 +26,11 @@ import {
 } from 'react-spotify-web-playback-sdk'
 import { Button, ButtonProps } from '../ui/button'
 import { Slider } from '../ui/slider'
-import { useUserQuery } from '@/react-query/queries/current-user.query'
-import { spotifyClient } from '@/config/spotify-client.config'
+import { useUserQuery } from '@/react-query/queries/spotify.query'
+import {
+  useGoToNextTrack,
+  useGoToPreviousTrack,
+} from '@/react-query/mutations/spotify.mutation'
 
 export type MusicPlayerProps = HTMLAttributes<HTMLDivElement>
 
@@ -43,11 +45,6 @@ const DEFAULT_PLAYBACK_STATE = {
   },
 }
 
-const DEFAULT_DEVICE_STATE = {
-  device_id: '',
-  status: 'not-ready',
-}
-
 export const MusicPlayer: FC<MusicPlayerProps> = memo(
   ({ className, ...props }) => {
     const { data: user } = useUserQuery()
@@ -59,38 +56,31 @@ export const MusicPlayer: FC<MusicPlayerProps> = memo(
     } = usePlaybackState() || DEFAULT_PLAYBACK_STATE
 
     const { device_id: deviceId, status: deviceStatus } =
-      usePlayerDevice() || DEFAULT_DEVICE_STATE
+      usePlayerDevice() || {}
 
     useEffect(() => {
       if (!deviceId) return
       updatePlayerName()
-      spotifyClient.player.startResumePlayback(deviceId)
+      window.spotifyClient.player.startResumePlayback(deviceId)
     }, [deviceId])
 
     function updatePlayerName() {
+      if (!player) return
       const name = user?.display_name
-        ? `${user.display_name}'s typelabs`
-        : 'Typelabs'
-      player?.setName(name)
+      player.setName(name ? `${name}'s typelabs` : 'Typelabs')
     }
 
-    const { mutate: handleNextTrack, isPending: isNextPending } = useMutation({
-      mutationFn: () => spotifyClient.player.skipToNext(deviceId),
-      mutationKey: ['nextTrack'],
-    })
-
-    const { mutate: handlePreviousTrack, isPending: isPrevPending } =
-      useMutation({
-        mutationFn: () => spotifyClient.player.skipToPrevious(deviceId),
-        mutationKey: ['previousTrack'],
-      })
+    const { mutate: goToNextTrack, isPending: isGoingToNextTrack } =
+      useGoToNextTrack()
+    const { mutate: goToPreviousTrack, isPending: isGoingToPreviousTrack } =
+      useGoToPreviousTrack()
 
     useHotkeys(KEYBINDS.TOGGLE_PLAY.hotkey, () => player?.togglePlay())
-    useHotkeys(KEYBINDS.NEXT_TRACK.hotkey, () => handleNextTrack(), {
-      ignoreEventWhen: () => isPrevPending || isNextPending,
+    useHotkeys(KEYBINDS.NEXT_TRACK.hotkey, () => goToNextTrack(), {
+      ignoreEventWhen: () => isGoingToPreviousTrack || isGoingToNextTrack,
     })
-    useHotkeys(KEYBINDS.PREVIOUS_TRACK.hotkey, () => handlePreviousTrack(), {
-      ignoreEventWhen: () => isPrevPending || isNextPending,
+    useHotkeys(KEYBINDS.PREVIOUS_TRACK.hotkey, () => goToPreviousTrack(), {
+      ignoreEventWhen: () => isGoingToPreviousTrack || isGoingToNextTrack,
     })
 
     const PlaypauseIcon = paused ? Play : Pause
@@ -150,17 +140,17 @@ export const MusicPlayer: FC<MusicPlayerProps> = memo(
               </div>
               <div className='-ml-20 flex origin-left scale-0 items-center gap-1 transition-all group-hover:ml-0 group-hover:scale-100'>
                 <TrackButton
-                  disabled={isPrevPending}
+                  disabled={isGoingToPreviousTrack}
                   tooltipContent={KEYBINDS.PREVIOUS_TRACK.label}
                   onClick={(e) => {
                     e.stopPropagation()
-                    handlePreviousTrack()
+                    goToPreviousTrack()
                   }}
                 >
-                  {isPrevPending && (
+                  {isGoingToPreviousTrack && (
                     <Loader2 className='h-4 w-4 animate-spin' />
                   )}
-                  {!isPrevPending && <SkipBack className='h-4 w-4' />}
+                  {!isGoingToPreviousTrack && <SkipBack className='h-4 w-4' />}
                 </TrackButton>
 
                 <TrackButton
@@ -173,17 +163,17 @@ export const MusicPlayer: FC<MusicPlayerProps> = memo(
                   <PlaypauseIcon className='h-4 w-4' />
                 </TrackButton>
                 <TrackButton
-                  disabled={isNextPending}
+                  disabled={isGoingToNextTrack}
                   tooltipContent={KEYBINDS.NEXT_TRACK.label}
                   onClick={(e) => {
                     e.stopPropagation()
-                    handleNextTrack()
+                    goToNextTrack()
                   }}
                 >
-                  {isNextPending && (
+                  {isGoingToNextTrack && (
                     <Loader2 className='h-4 w-4 animate-spin' />
                   )}
-                  {!isNextPending && <SkipForward className='h-4 w-4' />}
+                  {!isGoingToNextTrack && <SkipForward className='h-4 w-4' />}
                 </TrackButton>
               </div>
             </div>
@@ -199,40 +189,47 @@ type TrackProgressBarProps = HTMLAttributes<HTMLDivElement>
 
 const TrackProgressBar = (props: TrackProgressBarProps) => {
   const player = useSpotifyPlayer()
-  const { duration, position, paused } =
-    usePlaybackState(true, 100) || DEFAULT_PLAYBACK_STATE
+  const {
+    duration,
+    position: position_remote,
+    paused,
+  } = usePlaybackState(true, 100) || DEFAULT_PLAYBACK_STATE
 
   // SEEK
-  const [positionLocal, setPositionLocal] = useState(0)
+  const [position_local, setPosition_local] = useState(0)
   const [isSeeking, setIsSeeking] = useState(false)
   const [lastPaused, setLastPaused] = useState(false)
 
-  const handleSeek = (val: number[]) => {
+  const seek = (val: number[]) => {
     if (!isSeeking) setIsSeeking(true)
     if (!paused) player?.pause()
     setLastPaused(paused)
 
     const newVal = val[0]
-    setPositionLocal(newVal)
+    setPosition_local(newVal)
   }
   const confirmSeek = () => {
-    const position = (positionLocal * duration) / 100
+    const position = (position_local * duration) / 100
     setTimeout(() => setIsSeeking(false), 200)
     if (!lastPaused) player?.resume()
     player?.seek(position)
   }
 
-  const positionPercentage = (position * 100) / duration
-  const positionLocalMs = (positionLocal / 100) * duration
-  const positionFormatted = sf_ms(isSeeking ? positionLocalMs : position)
+  const positionPercentage_remote = (position_remote * 100) / duration
+  const positionMs_local = (position_local / 100) * duration
+
+  const positionFormatted = sf_ms(
+    isSeeking ? positionMs_local : position_remote,
+  )
   const durationFormatted = sf_ms(duration)
+
   return (
     <>
       <div className='absolute -bottom-1 left-0 h-0.5 w-full scale-100 bg-foreground/10 transition-all group-hover:scale-0 dark:bg-background/20'>
         <div
           className='h-full bg-primary'
           style={{
-            width: positionPercentage + '%',
+            width: positionPercentage_remote + '%',
           }}
         />
       </div>
@@ -245,8 +242,8 @@ const TrackProgressBar = (props: TrackProgressBarProps) => {
           onClick={(e) => {
             e.stopPropagation()
           }}
-          value={[isSeeking ? positionLocal : positionPercentage]}
-          onValueChange={handleSeek}
+          value={[isSeeking ? position_local : positionPercentage_remote]}
+          onValueChange={seek}
           onValueCommit={confirmSeek}
           className='w-full flex-1'
           trackClassName='bg-foreground/10 h-1.5'

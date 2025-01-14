@@ -24,16 +24,16 @@ export const NoSpotifyPremiumButton = () => {
             </p>
             <Button
               asChild
-              variant='secondary'
               size='sm'
-              className='h-auto items-center gap-2 rounded-md py-2 text-xs'
+              variant='secondary'
+              className='h-auto items-center gap-2 rounded-md py-2 text-xs text-foreground'
             >
               <a
                 href='https://www.spotify.com/premium/'
                 target='_blank'
                 rel='noreferrer'
               >
-                Get Premium <Link className='h-4 w-4 text-muted-foreground' />
+                Get Premium <Link className='size-4' />
               </a>
             </Button>
           </div>

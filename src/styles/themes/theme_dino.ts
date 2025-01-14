@@ -1,4 +1,5 @@
 export default {
+	name: "theme_dino",
   '--bg-color': '0 0% 100%',
   '--main-color': '140 65% 55%',
   '--caret-color': '140 65% 55%',

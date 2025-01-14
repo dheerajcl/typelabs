@@ -1,4 +1,5 @@
 export default {
+	name: "theme_our_theme",
   '--bg-color': '354 84% 44%',
   '--main-color': '49 97% 54%',
   '--caret-color': '49 97% 54%',

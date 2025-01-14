@@ -1,4 +1,5 @@
 export default {
+	name: "theme_discord",
   '--bg-color': '223 7% 21%',
   '--main-color': '235 77% 64%',
   '--caret-color': '235 77% 64%',

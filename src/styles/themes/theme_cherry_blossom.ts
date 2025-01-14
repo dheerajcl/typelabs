@@ -1,4 +1,5 @@
 export default {
+	name: "theme_cherry_blossom",
   '--bg-color': '216 5% 21%',
   '--main-color': '305 60% 60%',
   '--caret-color': '0 0% 100%',

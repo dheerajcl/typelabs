@@ -1,4 +1,5 @@
 export default {
+	name: "theme_stealth",
   '--bg-color': '210 50% 1%',
   '--main-color': '204 8% 24%',
   '--caret-color': '22 97% 45%',

@@ -1,4 +1,5 @@
 export default {
+	name: "theme_joker",
   '--bg-color': '271 45% 10%',
   '--main-color': '82 76% 49%',
   '--caret-color': '82 76% 49%',

@@ -1,4 +1,4 @@
-import { useMyPlaylists } from '@/react-query/queries/my-playlists.query'
+import { useMyPlaylists } from '@/react-query/queries/spotify.query'
 import { ListMusic } from 'lucide-react'
 import { useState } from 'react'
 import { MusicPlayer } from './music-player'
@@ -16,9 +16,10 @@ import {
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { usePlaybackState } from 'react-spotify-web-playback-sdk'
 import 'helvatica-neue-lt/index.css'
+import { For } from '../map'
 
 export const SpotifyDrawer = () => {
-  const [selectedPlaylist, setSelectedPlaylist] = useState('')
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState('')
   return (
     <Drawer>
       <DrawerTrigger className='font-robotoMono' asChild>
@@ -28,18 +29,19 @@ export const SpotifyDrawer = () => {
       </DrawerTrigger>
       <DrawerContent className='h-[80%] overflow-hidden font-player focus:outline-none'>
         <Content
-          selectedPlaylistState={[selectedPlaylist, setSelectedPlaylist]}
+          selectedPlaylistId={selectedPlaylistId}
+          setSelectedPlaylistId={setSelectedPlaylistId}
         />
       </DrawerContent>
     </Drawer>
   )
 }
 
-function Content(props: {
-  selectedPlaylistState: [string, (s: string) => void]
-}) {
-  const [selectedPlaylistId, setSelectedPlaylistId] =
-    props.selectedPlaylistState
+type ContentProps = {
+  selectedPlaylistId: string
+  setSelectedPlaylistId: (id: string) => void
+}
+function Content(props: ContentProps) {
   const { data: playlists, isLoading, error: playlistError } = useMyPlaylists()
 
   const pbState = usePlaybackState()
@@ -74,24 +76,28 @@ function Content(props: {
 
               <ScrollArea className='h-full overflow-y-auto'>
                 <div className='flex h-[12rem] flex-col gap-2 pr-4'>
-                  {playlists?.items?.map((playlist) => {
-                    return (
-                      <PlaylistTab
-                        onClick={() => setSelectedPlaylistId(playlist.id)}
-                        key={playlist.id}
-                        playlist={playlist}
-                        isBeingPlayed={pbState?.context.uri === playlist.uri}
-                        isActive={selectedPlaylistId == playlist.id}
-                      />
-                    )
-                  })}
+                  <For each={playlists?.items}>
+                    {(playlist) => {
+                      return (
+                        <PlaylistTab
+                          onClick={() =>
+                            props.setSelectedPlaylistId(playlist.id)
+                          }
+                          key={playlist.id}
+                          playlist={playlist}
+                          isBeingPlayed={pbState?.context.uri === playlist.uri}
+                          isActive={props.selectedPlaylistId == playlist.id}
+                        />
+                      )
+                    }}
+                  </For>
                 </div>
               </ScrollArea>
             </div>
-            {!!selectedPlaylistId && (
-              <PlaylistTabContent activePlaylist={selectedPlaylistId} />
+            {!!props.selectedPlaylistId && (
+              <PlaylistTabContent activePlaylist={props.selectedPlaylistId} />
             )}
-            {!selectedPlaylistId && (
+            {!props.selectedPlaylistId && (
               <h2 className='m-auto flex items-center gap-2 text-xl font-bold'>
                 <ListMusic className='h-10 w-10' />
                 No playlist selected

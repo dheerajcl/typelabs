@@ -12,6 +12,7 @@ import { TabButton } from '../compound-ui/tab-button'
 import { AppearanceTab } from './appearance-tab/appearance-tab'
 import { SoundPackTab } from './soundpack-tab/sound-pack-tab'
 import { CaretTab } from './caret-tab/caret-tab'
+import { For } from '../map'
 
 const SETTINGS_TABS = [
   {
@@ -62,16 +63,18 @@ export const SettingsDialog = () => {
         <div className='max-h-full w-fit'>
           <h2 className='mb-4 text-2xl font-bold'>Settings</h2>
           <div className='flex w-[12rem] flex-col gap-2'>
-            {SETTINGS_TABS.map((tab, i) => (
-              <TabButton
-                key={tab.label}
-                label={tab.label}
-                icon={tab.icon}
-                tabIndex={i}
-                isActive={currentTab === tab.label}
-                setCurrentTab={setCurrentTab}
-              />
-            ))}
+            <For each={SETTINGS_TABS}>
+              {(tab, i) => (
+                <TabButton
+                  key={tab.label}
+                  label={tab.label}
+                  icon={tab.icon}
+                  tabIndex={i}
+                  isActive={currentTab === tab.label}
+                  setCurrentTab={setCurrentTab}
+                />
+              )}
+            </For>
           </div>
         </div>
         <div className='flex flex-1 flex-col'>
@@ -83,13 +86,13 @@ export const SettingsDialog = () => {
               orientation='vertical'
               defaultValue='font'
             >
-              {SETTINGS_TABS.map(({ label, comp }) => {
-                return (
-                  <TabsContent key={label} value={label}>
-                    {comp}
+              <For each={SETTINGS_TABS}>
+                {(tab) => (
+                  <TabsContent key={tab.label} value={tab.label}>
+                    {tab.comp}
                   </TabsContent>
-                )
-              })}
+                )}
+              </For>
             </Tabs>
           </ScrollArea>
         </div>

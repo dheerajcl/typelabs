@@ -1,4 +1,5 @@
 export default {
+	name: "theme_diner",
   '--bg-color': '206 29% 46%',
   '--main-color': '48 46% 56%',
   '--caret-color': '7 43% 47%',

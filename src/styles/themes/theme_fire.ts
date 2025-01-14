@@ -1,4 +1,5 @@
 export default {
+	name: "theme_fire",
   '--bg-color': '0 100% 3%',
   '--main-color': '0 81% 39%',
   '--caret-color': '0 81% 39%',

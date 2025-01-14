@@ -1,4 +1,5 @@
 export default {
+	name: "theme_pink_lemonade",
   '--bg-color': '43 85% 77%',
   '--main-color': '9 85% 77%',
   '--caret-color': '60 40% 98%',

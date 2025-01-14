@@ -1,4 +1,5 @@
 export default {
+	name: "theme_rose_pine_dawn",
   '--bg-color': '35 100% 98%',
   '--main-color': '189 30% 48%',
   '--caret-color': '35 81% 56%',
