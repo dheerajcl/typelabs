@@ -1,5 +1,5 @@
 export type Theme = {
-  '--bg-color': string
+  name: string
   '--main-color': string
   '--caret-color': string
   '--sub-color': string

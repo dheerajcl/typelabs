@@ -1,4 +1,5 @@
-export const theme_alduin = {
+export default {
+	name: "theme_alduin",
   '--bg-color': '0 0% 11%',
   '--main-color': '50 43% 78%',
   '--caret-color': '0 0% 89%',

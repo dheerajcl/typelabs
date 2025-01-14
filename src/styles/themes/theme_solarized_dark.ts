@@ -1,4 +1,5 @@
-export const theme_solarized_dark = {
+export default {
+	name: "theme_solarized_dark",
   '--bg-color': '192 100% 11%',
   '--main-color': '68 100% 30%',
   '--caret-color': '1 71% 52%',

@@ -1,4 +1,5 @@
-export const theme_godspeed = {
+export default {
+	name: "theme_godspeed",
   '--bg-color': '47 39% 86%',
   '--main-color': '201 34% 70%',
   '--caret-color': '45 85% 71%',

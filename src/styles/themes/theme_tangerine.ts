@@ -1,4 +1,5 @@
-export const theme_tangerine = {
+export default {
+	name: "theme_tangerine",
   '--bg-color': '25 100% 94%',
   '--main-color': '20 99% 50%',
   '--caret-color': '78 100% 26%',

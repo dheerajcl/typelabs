@@ -9,25 +9,24 @@ import { FONTS } from '@/config/fonts.config'
 import { ReactNode, useRef } from 'react'
 import { Button } from '../../ui/button'
 import { Input } from '../../ui/input'
-import { useUserFonts } from '@/atoms/atoms'
-import { useToast } from '../../ui/use-toast'
-import { useSoundFx } from '@/hooks/use-sound-fx.hook'
+import { useToast } from '@/components/ui/use-toast'
 import { MyFonts } from './my-fonts'
-import { trim } from '@/lib/utils'
+import { trim } from '@/utils/string.utils'
+import { AppStore } from '@/state/app-store'
+import { NotificationSFX, playNotificationSFX } from '@/hooks/use-sound-fx.hook'
 
 const Content = () => {
   const { toast, dismiss } = useToast()
-  const [userFonts, setUserFonts] = useUserFonts()
-  const playAudio = useSoundFx()
+  const { userFonts } = AppStore.useStore('userFonts')
   const inputRef = useRef<HTMLInputElement>(null)
 
   function removeFonts(fonts: string[]) {
-    playAudio('delete')
+    playNotificationSFX(NotificationSFX.Delete)
     const newUserFonts = new Set(userFonts)
     for (const font of fonts) {
       newUserFonts.delete(font)
     }
-    setUserFonts([...newUserFonts])
+    AppStore.set({ userFonts: [...newUserFonts] })
   }
 
   function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -45,7 +44,7 @@ const Content = () => {
       .map((s) => {
         trueFontInput.push(s)
         const fontAlreadyAdded = [...FONTS, ...userFontsCopy].some(
-          (i) => i.toLowerCase() === s.toLowerCase()
+          (i) => i.toLowerCase() === s.toLowerCase(),
         )
 
         if (!fontAlreadyAdded) {
@@ -55,7 +54,7 @@ const Content = () => {
       })
       .filter(Boolean) as string[]
 
-    setUserFonts(userFontsCopy)
+    AppStore.set({ userFonts: userFontsCopy })
 
     if (inputRef.current) {
       inputRef.current.value = ''
@@ -66,7 +65,7 @@ const Content = () => {
         title: 'Failed to add Fonts',
         description: ' Fonts already exist or the input was invalid.',
       })
-      playAudio('error')
+      playNotificationSFX(NotificationSFX.Error)
       return
     }
 
@@ -81,7 +80,7 @@ const Content = () => {
         ? `${fonts[0]} was added.`
         : `${fonts.map(trim).join(', ')} were added.`
 
-    playAudio('neutral')
+    playNotificationSFX(NotificationSFX.Neutral)
     toast({
       title: toastTitle,
       description: toastDescription,
@@ -99,7 +98,7 @@ const Content = () => {
   }
 
   return (
-    <DialogContent className="sm:max-w-[425px]">
+    <DialogContent className='sm:max-w-[425px]'>
       <MyFonts />
       <DialogHeader>
         <DialogTitle>Add new Font</DialogTitle>
@@ -111,15 +110,15 @@ const Content = () => {
           You can add multiple fonts at once by comma separating them.
         </DialogDescription>
       </DialogHeader>
-      <form action="submit" id="font-form" onSubmit={handleSubmit}>
+      <form action='submit' id='font-form' onSubmit={handleSubmit}>
         <Input
-          className="z-10 border border-border bg-muted"
+          className='z-10 border border-border bg-muted'
           ref={inputRef}
-          form="font-form"
-          id="font-input"
-          placeholder="Roboto Mono, Poppins"
+          form='font-form'
+          id='font-input'
+          placeholder='Roboto Mono, Poppins'
         />
-        <Button type="submit" className="float-right mt-6">
+        <Button type='submit' className='float-right mt-6'>
           Add Fonts
         </Button>
       </form>

@@ -1,15 +1,11 @@
-import { useEffect, useState } from 'react'
-import { PlaylistTabContent } from './playlist/playlist-tab-content'
-import { PlaylistTab } from './playlist/playlist-tab'
-import { DrawerSkeleton } from './spotify-drawer.skeleton'
-import { generateFontCss } from '@/lib/utils'
-import { MusicPlayer } from './music-player'
-import { usePlayerContext } from '@/atoms/atoms'
-import { useMyPlaylists } from '@/react-query/queries/my-playlists.query'
-import { PlaylistTabContentSkeleton } from './playlist/playlist-tab-content.skeleton'
+import { useMyPlaylists } from '@/react-query/queries/spotify.query'
 import { ListMusic } from 'lucide-react'
-
-import { ScrollArea } from '@/components/ui/scroll-area'
+import { useState } from 'react'
+import { MusicPlayer } from './music-player'
+import { PlaylistTab } from './playlist/playlist-tab'
+import { PlaylistTabContent } from './playlist/playlist-tab-content'
+import { PlaylistTabContentSkeleton } from './playlist/playlist-tab-content.skeleton'
+import { DrawerSkeleton } from './spotify-drawer.skeleton'
 import {
   Drawer,
   DrawerContent,
@@ -17,44 +13,42 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from '@/components/ui/drawer'
+import { ScrollArea } from '@/components/ui/scroll-area'
+import { usePlaybackState } from 'react-spotify-web-playback-sdk'
+import 'helvatica-neue-lt/index.css'
+import { For } from '../map'
 
 export const SpotifyDrawer = () => {
+  const [selectedPlaylistId, setSelectedPlaylistId] = useState('')
   return (
     <Drawer>
-      <DrawerTrigger
-        asChild
-        style={{
-          fontFamily: generateFontCss('Roboto Mono'),
-        }}
-      >
-        <div className="w-full cursor-pointer">
+      <DrawerTrigger className='font-robotoMono' asChild>
+        <div className='w-full cursor-pointer'>
           <MusicPlayer />
         </div>
       </DrawerTrigger>
-      <DrawerContent
-        style={{
-          fontFamily: generateFontCss('Helvetica Neue'),
-          letterSpacing: '0.02em',
-        }}
-        className="h-[80%] focus:outline-none"
-      >
-        <Content />
+      <DrawerContent className='h-[80%] overflow-hidden font-player focus:outline-none'>
+        <Content
+          selectedPlaylistId={selectedPlaylistId}
+          setSelectedPlaylistId={setSelectedPlaylistId}
+        />
       </DrawerContent>
     </Drawer>
   )
 }
 
-const Content = () => {
-  const [playerContext] = usePlayerContext()
-  const [activePlaylist, setActivePlaylist] = useState('')
+type ContentProps = {
+  selectedPlaylistId: string
+  setSelectedPlaylistId: (id: string) => void
+}
+function Content(props: ContentProps) {
   const { data: playlists, isLoading, error: playlistError } = useMyPlaylists()
-  useEffect(() => {
-    setActivePlaylist(playerContext.playlistId)
-  }, [!!playerContext.playlistId])
+
+  const pbState = usePlaybackState()
 
   if (playlistError) {
     return (
-      <div className="flex h-[80%] w-full flex-col items-center justify-center">
+      <div className='flex h-[80%] w-full flex-col items-center justify-center'>
         There was an error fetching your playlists.
         <br />
         Please try again later.
@@ -63,8 +57,8 @@ const Content = () => {
   }
 
   return (
-    <div className="flex h-full flex-col justify-between">
-      <div className="mx-auto mt-4 flex w-[calc(100vw-2rem)] max-w-[1200px] flex-1 gap-2 lg:w-[80%]">
+    <div className='flex h-full flex-col justify-between'>
+      <div className='mx-auto mt-4 flex w-[calc(100vw-2rem)] max-w-[1200px] flex-1 gap-2 lg:w-[80%]'>
         {isLoading && (
           <>
             <DrawerSkeleton />
@@ -73,34 +67,39 @@ const Content = () => {
         )}
         {!isLoading && (
           <>
-            <div className="relative flex flex-col">
-              <DrawerHeader className="py-0 pb-4 pl-1 transition-all md:pl-4">
-                <DrawerTitle className="text-left text-sm font-semibold transition-all md:text-xl md:font-bold">
+            <div className='relative flex flex-col'>
+              <DrawerHeader className='py-0 pb-4 pl-1 transition-all md:pl-4'>
+                <DrawerTitle className='text-left text-sm font-bold transition-all md:text-xl md:font-bold'>
                   Playlists
                 </DrawerTitle>
               </DrawerHeader>
 
-              <ScrollArea className="h-full overflow-y-auto">
-                <div className="flex h-[12rem] flex-col gap-2 pr-4">
-                  {playlists?.items?.map((playlist) => {
-                    return (
-                      <PlaylistTab
-                        key={playlist.id}
-                        playlist={playlist}
-                        activePlaylist={activePlaylist}
-                        setActivePlaylist={setActivePlaylist}
-                      />
-                    )
-                  })}
+              <ScrollArea className='h-full overflow-y-auto'>
+                <div className='flex h-[12rem] flex-col gap-2 pr-4'>
+                  <For each={playlists?.items}>
+                    {(playlist) => {
+                      return (
+                        <PlaylistTab
+                          onClick={() =>
+                            props.setSelectedPlaylistId(playlist.id)
+                          }
+                          key={playlist.id}
+                          playlist={playlist}
+                          isBeingPlayed={pbState?.context.uri === playlist.uri}
+                          isActive={props.selectedPlaylistId == playlist.id}
+                        />
+                      )
+                    }}
+                  </For>
                 </div>
               </ScrollArea>
             </div>
-            {!!activePlaylist && (
-              <PlaylistTabContent activePlaylist={activePlaylist} />
+            {!!props.selectedPlaylistId && (
+              <PlaylistTabContent activePlaylist={props.selectedPlaylistId} />
             )}
-            {!activePlaylist && (
-              <h2 className="m-auto flex items-center gap-2 text-xl font-bold">
-                <ListMusic className="h-10 w-10" />
+            {!props.selectedPlaylistId && (
+              <h2 className='m-auto flex items-center gap-2 text-xl font-bold'>
+                <ListMusic className='h-10 w-10' />
                 No playlist selected
               </h2>
             )}

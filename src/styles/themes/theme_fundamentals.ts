@@ -1,4 +1,5 @@
-export const theme_fundamentals = {
+export default {
+	name: "theme_fundamentals",
   '--bg-color': '180 1% 45%',
   '--main-color': '125 17% 57%',
   '--caret-color': '193 66% 28%',

@@ -1,4 +1,5 @@
-export const theme_hanok = {
+export default {
+	name: "theme_hanok",
   '--bg-color': '43 21% 81%',
   '--main-color': '25 32% 24%',
   '--caret-color': '25 32% 24%',

@@ -1,6 +1,5 @@
 import { create } from 'zustand'
-import { useShallow } from 'zustand/react/shallow'
-import { getStoreValuesByKeys } from './utils'
+import { createSelector } from 'better-zustand-selector'
 
 export type Metrics = {
   errorPercentage: number
@@ -13,9 +12,6 @@ export type MetricsStore = Metrics & {
   updateMetrics: (metrics: Metrics) => void
 }
 
-export const useMetricsStore = <T extends keyof MetricsStore>(...keys: T[]) =>
-  metricsStore(useShallow(getStoreValuesByKeys(keys)))
-
 export const metricsStore = create<MetricsStore>((set) => ({
   errorPercentage: 0,
   wpm: 0,
@@ -25,3 +21,5 @@ export const metricsStore = create<MetricsStore>((set) => ({
     set(metrics)
   },
 }))
+
+export const useMetricsStore = createSelector(metricsStore)

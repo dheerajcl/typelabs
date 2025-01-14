@@ -1,4 +1,5 @@
-export const theme_iceberg_light = {
+export default {
+	name: "theme_iceberg_light",
   '--bg-color': '225 10% 92%',
   '--caret-color': '230 25% 20%',
   '--main-color': '220 56% 40%',

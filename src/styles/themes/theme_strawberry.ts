@@ -1,4 +1,5 @@
-export const theme_strawberry = {
+export default {
+	name: "theme_strawberry",
   '--bg-color': '358 83% 73%',
   '--main-color': '60 40% 98%',
   '--caret-color': '60 40% 98%',

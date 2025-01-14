@@ -1,4 +1,5 @@
-export const theme_mashu = {
+export default {
+	name: "theme_mashu",
   '--bg-color': '240 1% 17%',
   '--main-color': '257 20% 51%',
   '--caret-color': '257 20% 51%',

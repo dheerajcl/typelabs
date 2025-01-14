@@ -1,4 +1,5 @@
-export const theme_honey = {
+export default {
+	name: "theme_honey",
   '--bg-color': '42 100% 47%',
   '--main-color': '57 100% 64%',
   '--caret-color': '41 100% 24%',

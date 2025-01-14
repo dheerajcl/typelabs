@@ -1,4 +1,5 @@
-export const theme_superuser = {
+export default {
+	name: "theme_superuser",
   '--bg-color': '222 15% 17%',
   '--main-color': '154 100% 63%',
   '--caret-color': '154 100% 63%',

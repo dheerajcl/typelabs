@@ -1,4 +1,5 @@
-export const theme_darling = {
+export default {
+	name: "theme_darling",
   '--bg-color': '354 96% 89%',
   '--main-color': '0 0% 100%',
   '--caret-color': '0 0% 100%',

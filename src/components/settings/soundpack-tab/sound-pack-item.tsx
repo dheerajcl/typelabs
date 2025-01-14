@@ -1,13 +1,18 @@
-import { useKeyboardSound } from '@/atoms/atoms'
+import { AppStore } from '@/state/app-store'
 import { Check, X } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { KeyboardSoundPackConfig } from '@/assets/sfx/keyboard-soundpacks/keyboard-soundpacks.type'
+import { cn } from '@/utils/class-names.utils'
+import {
+  DEFAULT_SOUNDPACK,
+  SOUND_PACKS,
+  type KeyboardSoundPackConfig,
+} from '@/config/keyboard.config'
 import {
   RadioCard,
   RadioCardContent,
   RadioCardDescription,
   RadioCardProps,
-} from '../../ui/radio-card'
+} from '@/components/ui/radio-card'
+import { useMemo } from 'react'
 
 export type SoundPackItemProps = Omit<RadioCardProps, 'isActive'> & {
   soundPack: KeyboardSoundPackConfig
@@ -18,20 +23,27 @@ export const SoundPackItem = ({
   title,
   ...props
 }: SoundPackItemProps) => {
-  const [currentSoundPack, setSoundPack] = useKeyboardSound()
-  const isActive = soundPack.id === currentSoundPack.id
+  const { soundPack: soundPackId } = AppStore.useStore('soundPack')
+
+  const currentSoundPack = useMemo(() => {
+    const pack = SOUND_PACKS.find((sp) => sp.id == soundPackId)
+    if (!pack) {
+      AppStore.set({ soundPack: DEFAULT_SOUNDPACK.id })
+      return DEFAULT_SOUNDPACK
+    }
+    return pack
+  }, [soundPackId])
+
   return (
     <RadioCard
-      onClick={() => {
-        setSoundPack(soundPack)
-      }}
-      isActive={isActive}
+      onClick={() => AppStore.set({ soundPack: soundPack.id })}
+      isActive={soundPack.id === currentSoundPack.id}
       {...props}
     >
       <RadioCardDescription
         className={cn(
           'font-bold text-muted-foreground',
-          isActive && 'text-foregrond'
+          soundPack.id === currentSoundPack.id && 'text-foregrond',
         )}
       >
         {title}
@@ -41,15 +53,15 @@ export const SoundPackItem = ({
           className={cn(
             'flex items-center gap-2 text-xs text-muted-foreground',
             {
-              'text-foreground': isActive,
-            }
+              'text-foreground': soundPack.id === currentSoundPack.id,
+            },
           )}
         >
           Includes Numpad:
           {soundPack.includes_numpad ? (
-            <Check className="h-4 w-4" />
+            <Check className='h-4 w-4' />
           ) : (
-            <X className="h-4 w-4" />
+            <X className='h-4 w-4' />
           )}
         </p>
       </RadioCardContent>

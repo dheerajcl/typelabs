@@ -1,4 +1,5 @@
-export const theme_repose_dark = {
+export default {
+	name: "theme_repose_dark",
   '--bg-color': '213 9% 20%',
   '--main-color': '51 24% 79%',
   '--caret-color': '51 24% 79%',

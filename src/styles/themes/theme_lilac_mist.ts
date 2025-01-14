@@ -1,4 +1,5 @@
-export const theme_lilac_mist = {
+export default {
+	name: "theme_lilac_mist",
   '--bg-color': '315 100% 99%',
   '--main-color': '324 48% 49%',
   '--caret-color': '308, 53%, 74%, 0.851',

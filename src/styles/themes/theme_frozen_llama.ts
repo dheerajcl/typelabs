@@ -1,4 +1,5 @@
-export const theme_frozen_llama = {
+export default {
+	name: "theme_frozen_llama",
   '--bg-color': '174 77% 78%',
   '--main-color': '265 42% 46%',
   '--caret-color': '0 0% 100%',

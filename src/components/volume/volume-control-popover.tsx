@@ -7,83 +7,85 @@ import {
   SpeakerLoudIcon,
 } from '@radix-ui/react-icons'
 import {
-  keyboardVolumeAtom,
-  uiVolumeAtom,
-  useUiVolume,
-  notificationsVolumeAtom,
-} from '@/atoms/atoms'
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '../ui/dropdown-menu'
 import { VolumeSlider } from '@/components/volume/volume-slider'
-import { useSpotifyPlayer } from 'react-spotify-web-playback-sdk'
+import { AppStore } from '@/state/app-store'
 
 const ICONS = [VolumeX, Volume1, Volume2]
 
 export const VolumeControls = () => {
-  const [volume] = useUiVolume()
-  const player = useSpotifyPlayer()
+  const { musicVolume, notificationsVolume, keyboardVolume } =
+    AppStore.useStore('musicVolume', 'notificationsVolume', 'keyboardVolume')
 
   const getIndex = useCallback(() => {
-    if (volume == 0) return 0
-    if (volume > 0.5) return 2
+    if (musicVolume == 0) return 0
+    if (musicVolume > 0.5) return 2
 
     return 1
-  }, [volume])
-
-  useEffect(() => {
-    player?.setVolume(volume / 2)
-  }, [volume])
+  }, [musicVolume])
 
   useEffect(() => {
     const Icon = ICONS[getIndex()]
-    setIcon(<Icon className="w-5 h-5" />)
-  }, [volume])
+    setIcon(<Icon className='h-5 w-5' />)
+  }, [musicVolume])
 
-  const [icon, setIcon] = useState(<SpeakerLoudIcon className="w-8 h-8" />)
+  const [icon, setIcon] = useState(<SpeakerLoudIcon className='h-8 w-8' />)
 
   return (
     <DropdownMenu>
-      <div className="flex items-end">
+      <div className='flex items-end'>
         <VolumeSlider
           label={
             <>
-              <AudioLines className="h-4 w-4" /> Volume
+              <AudioLines className='h-4 w-4' /> Volume
             </>
           }
           icon={icon}
-          atom={uiVolumeAtom}
+          volume={musicVolume}
+          onChange={(newVol) => AppStore.set({ musicVolume: newVol })}
         />
         <DropdownMenuTrigger asChild>
           <Button
-            size="icon"
-            variant="ghost"
-            className="rounded-full p-3 w-fit h-fit"
+            size='icon'
+            variant='ghost'
+            className='h-fit w-fit rounded-full p-3'
           >
-            <ChevronUpIcon className="w-4 h-4" />
+            <ChevronUpIcon className='h-4 w-4' />
           </Button>
         </DropdownMenuTrigger>
       </div>
       <DropdownMenuContent>
         <DropdownMenuItem>
           <VolumeSlider
-            label="Notifications"
-            icon={<Bell className="w-4 h-4" />}
-            atom={notificationsVolumeAtom}
+            label='Notifications'
+            icon={<Bell className='h-4 w-4' />}
+            volume={notificationsVolume}
+            onChange={(newVol: number) =>
+              AppStore.set({ notificationsVolume: newVol })
+            }
           />
         </DropdownMenuItem>
         <DropdownMenuItem>
           <VolumeSlider
-            label="Keyboard"
-            icon={<KeyboardIcon className="w-4 h-4" />}
-            atom={keyboardVolumeAtom}
+            label='Keyboard'
+            icon={<KeyboardIcon className='h-4 w-4' />}
+            volume={keyboardVolume}
+            onChange={(newVol: number) =>
+              AppStore.set({ keyboardVolume: newVol })
+            }
           />
         </DropdownMenuItem>
         <DropdownMenuItem>
-          <VolumeSlider label="Volume" icon={icon} atom={uiVolumeAtom} />
+          <VolumeSlider
+            label='Volume'
+            icon={icon}
+            volume={musicVolume}
+            onChange={(newVol) => AppStore.set({ musicVolume: newVol })}
+          />
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

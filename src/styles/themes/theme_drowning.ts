@@ -1,4 +1,5 @@
-export const theme_drowning = {
+export default {
+	name: "theme_drowning",
   '--bg-color': '244 23% 12%',
   '--main-color': '219 42% 50%',
   '--caret-color': '219 77% 61%',

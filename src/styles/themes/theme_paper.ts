@@ -1,4 +1,5 @@
-export const theme_paper = {
+export default {
+	name: "theme_paper",
   '--bg-color': '0 0% 93%',
   '--main-color': '0 0% 27%',
   '--caret-color': '0 0% 27%',

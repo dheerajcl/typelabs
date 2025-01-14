@@ -1,4 +1,5 @@
-export const theme_oblivion = {
+export default {
+	name: "theme_oblivion",
   '--bg-color': '120 1% 19%',
   '--main-color': '40 8% 62%',
   '--caret-color': '40 8% 62%',

@@ -1,4 +1,5 @@
-export const theme_camping = {
+export default {
+	name: "theme_camping",
   '--bg-color': '35 69% 94%',
   '--main-color': '108 24% 44%',
   '--caret-color': '108 24% 44%',

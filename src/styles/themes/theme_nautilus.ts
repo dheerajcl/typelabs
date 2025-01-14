@@ -1,4 +1,5 @@
-export const theme_nautilus = {
+export default {
+	name: "theme_nautilus",
   '--bg-color': '215 49% 15%',
   '--main-color': '44 83% 53%',
   '--caret-color': '44 83% 53%',

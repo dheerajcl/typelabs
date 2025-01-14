@@ -1,4 +1,5 @@
-export const theme_miami_nights = {
+export default {
+	name: "theme_miami_nights",
   '--bg-color': '240 4% 10%',
   '--main-color': '333 71% 64%',
   '--caret-color': '333 71% 64%',

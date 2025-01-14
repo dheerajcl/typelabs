@@ -1,4 +1,5 @@
-export const theme_rose_pine_moon = {
+export default {
+	name: "theme_rose_pine_moon",
   '--bg-color': '248 24% 20%',
   '--main-color': '189 43% 73%',
   '--caret-color': '35 88% 72%',

@@ -1,8 +1,15 @@
 import { QueryClient } from '@tanstack/react-query'
 
-export const QUERY_CURRENT_USER = 'currentUser'
-export const QUERY_MY_PLAYLISTS = 'myPlaylists'
-export const QUERY_PLAYLIST = 'playlist'
-export const QUERY_TRACKLIST = 'tracklist'
+export const QK = {
+  SPOTIFY: {
+    ROOT: 'SPOTIFY',
+    PLAYLIST: 'PLAYLIST',
+    CURRENT_USER: {
+      ROOT: 'CURRENT_USER',
+      PLAYLIST: 'MY_PLAYLIST',
+    },
+    TRACKLIST: 'TRACKLIST',
+  },
+}
 
 export const queryClient = new QueryClient()

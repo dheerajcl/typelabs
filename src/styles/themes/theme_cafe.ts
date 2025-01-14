@@ -1,4 +1,5 @@
-export const theme_cafe = {
+export default {
+	name: "theme_cafe",
   '--bg-color': '33 40% 68%',
   '--main-color': '36 14% 7%',
   '--caret-color': '36 14% 7%',

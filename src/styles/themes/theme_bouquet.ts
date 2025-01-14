@@ -1,4 +1,5 @@
-export const theme_bouquet = {
+export default {
+	name: "theme_bouquet",
   '--bg-color': '165 47% 17%',
   '--main-color': '3 65% 76%',
   '--caret-color': '3 65% 76%',

@@ -1,4 +1,5 @@
-export const theme_olivia = {
+export default {
+	name: "theme_olivia",
   '--bg-color': '270 4% 11%',
   '--main-color': '17 50% 74%',
   '--caret-color': '17 50% 74%',

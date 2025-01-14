@@ -1,4 +1,5 @@
-export const theme_viridescent = {
+export default {
+	name: "theme_viridescent",
   '--bg-color': '180 7% 19%',
   '--main-color': '147 43% 71%',
   '--caret-color': '15 57% 86%',

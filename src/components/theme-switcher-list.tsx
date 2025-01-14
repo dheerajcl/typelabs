@@ -1,7 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { Check, Palette, Search } from 'lucide-react'
-import { cn, formatThemeName } from '../lib/utils'
-import { useStyle } from '../atoms/atoms'
+import { formatThemeName } from '@/utils/theme.utils'
+import { cn } from '@/utils/class-names.utils'
+import { applyTheme } from '@/utils/theme.utils'
+import themes from '@/styles/theme-list.json'
+import { AppStore } from '@/state/app-store'
+import Fuse from 'fuse.js'
+import { clamp } from '@/utils/math.utils'
 import {
   Dialog,
   DialogContent,
@@ -12,105 +17,151 @@ import {
 } from './ui/dialog'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
-import styleList from '@/styles/theme-list.json'
-import { applyTheme } from '@/lib/utils'
+import { For } from './map'
+
+const fuse = new Fuse(themes, {
+  keys: ['name', 'id'],
+  threshold: 0.4,
+})
+
+const DIRECTION_MAP = {
+  ArrowUp: -1,
+  ArrowDown: 1,
+}
 
 export const ThemeSwitcherList = () => {
   const scrollerRef = useRef<HTMLDivElement>(null)
-  const [style, setStyle] = useStyle()
+  const { theme: currentTheme } = AppStore.useStore('theme')
   const [isOpen, setIsOpen] = useState(false)
-  const [focusedStyle, setFocusedStyle] = useState(style)
+  const [focusedTheme, setFocusedTheme] = useState(currentTheme)
   const [search, setSearch] = useState('')
   const [isHoverDisabled, setIsHoverDisabled] = useState(false)
 
-  const filteredStyleList = useMemo(() => {
-    const newList = [] as ({ index: number } & (typeof styleList)[number])[]
-    styleList.map((s, i) => {
-      const includesName = s.name.toLowerCase().includes(search.toLowerCase())
-      const includesIndex = `${i + 1}`.includes(search)
-
-      if (includesName || includesIndex) {
-        newList.push({ ...s, index: i })
-      }
-    })
-    return newList
+  // Optimized search filtering using useMemo to prevent unnecessary recalculations
+  const filteredThemes = useMemo(() => {
+    if (!search) return themes
+    return fuse.search(search).map((result) => result.item)
   }, [search])
 
-  const handleMouseMove = () => setIsHoverDisabled(false)
+  const updateTheme = () => AppStore.set({ theme: focusedTheme })
 
-  const handleKeyDown = (e: KeyboardEvent) => {
-    if (filteredStyleList.length === 0) return
-    setFocusedStyle((prev) => {
-      const prevIdx = filteredStyleList.findIndex((s) => s.name === prev)
-      let newIdx = prevIdx
-      if (!isHoverDisabled) setIsHoverDisabled(true)
+  const handleKeyboardNavigation = (e: KeyboardEvent) => {
+    if (!(e.key in DIRECTION_MAP)) return
+    if (filteredThemes.length === 0) return
 
-      if (e.key === 'ArrowUp') {
-        newIdx = prevIdx - 1
-        if (prevIdx === 0) newIdx = filteredStyleList.length - 1
-      }
-      if (e.key === 'ArrowDown') {
-        newIdx = prevIdx + 1
-        if (prevIdx === filteredStyleList.length - 1) newIdx = 0
-      }
+    setFocusedTheme((prev) => {
+      const currIdx = filteredThemes.findIndex((s) => s.name === prev)
+      if (currIdx === -1) return prev
 
-      const el = document.getElementById(`style-${newIdx}`)
-      const scrollerHeight = scrollerRef.current?.offsetHeight || 0
-      const elHeight = el?.offsetHeight || 0
-      const elPos = (el?.getBoundingClientRect().y || 0) - 2 * elHeight
-      const scrollerStart = scrollerRef.current?.offsetTop || 0
-      const scrollerEnd = scrollerStart + scrollerHeight
-      if (el && (elPos < scrollerStart || elPos > scrollerEnd))
-        el.scrollIntoView()
+      setIsHoverDisabled(true)
 
-      return filteredStyleList[newIdx].name
+      const direction = DIRECTION_MAP[e.key as keyof typeof DIRECTION_MAP]
+      const newIndex = clamp(0, currIdx + direction, filteredThemes.length - 1)
+
+      const newTheme = filteredThemes[newIndex]
+      if (!newTheme) return prev
+
+      document.getElementById(`style-${newTheme.id}`)?.scrollIntoView({
+        inline: 'nearest',
+        block: 'nearest',
+      })
+
+      return newTheme.name
     })
-    if (e.key === 'Enter') updateStyle()
+
+    if (e.key === 'Enter') updateTheme()
   }
-  const updateStyle = () => setStyle(focusedStyle)
 
-  useEffect(() => {
-    if (!filteredStyleList.length) return
-    setFocusedStyle(filteredStyleList[0].name)
-  }, [filteredStyleList])
+  const onMouseMove = () => setIsHoverDisabled(false)
 
   useEffect(() => {
     if (!isOpen) return
-    document.addEventListener('mousemove', handleMouseMove)
-    return () => document.removeEventListener('mousemove', handleMouseMove)
-  }, [search, isOpen])
+    document.addEventListener('mousemove', onMouseMove)
+    document.addEventListener('keydown', handleKeyboardNavigation)
+
+    return () => {
+      document.removeEventListener('mousemove', onMouseMove)
+      document.removeEventListener('keydown', handleKeyboardNavigation)
+    }
+  }, [isOpen, search, focusedTheme])
+
+  useEffect(() => {
+    if (!isOpen || !filteredThemes.length) return
+    setFocusedTheme(filteredThemes[0].name)
+  }, [filteredThemes, isOpen])
 
   useEffect(() => {
     if (!isOpen) return
-    document.addEventListener('keydown', handleKeyDown)
-    return () => document.removeEventListener('keydown', handleKeyDown)
-  }, [focusedStyle, search, isOpen])
-
-  useEffect(() => {
-    if (!isOpen) return
-    const timeout = setTimeout(() => applyTheme(focusedStyle), 100)
+    const timeout = setTimeout(() => applyTheme(focusedTheme), 100)
     return () => clearTimeout(timeout)
-  }, [focusedStyle])
+  }, [focusedTheme, isOpen])
+
+  type Theme = (typeof themes)[0]
+
+  const renderThemeItem = useCallback(
+    (theme: Theme) => {
+      if (!theme) return null
+
+      const { id, name, mainColor, textColor, subColor } = theme
+      const isFocusedTheme = name === focusedTheme
+      const isCurrentTheme = name === currentTheme
+
+      return (
+        <div
+          key={id}
+          id={`style-${id}`}
+          onMouseEnter={() => !isHoverDisabled && setFocusedTheme(name)}
+          onClick={updateTheme}
+          className={cn(
+            'flex cursor-pointer items-center justify-between rounded-sm border border-transparent px-2 py-1 text-foreground',
+            isCurrentTheme && 'border-primary/50 bg-primary/20 shadow-md',
+            isFocusedTheme && 'bg-foreground/20',
+          )}
+        >
+          <p className={cn(isCurrentTheme && 'flex items-center gap-1')}>
+            {isCurrentTheme ? (
+              <Check className='-mb-1 h-4 w-4' />
+            ) : (
+              <span className='mr-1 text-xs text-muted-foreground'>{id}.</span>
+            )}
+            {formatThemeName(name)}
+          </p>
+          <div className='flex gap-1'>
+            <For each={[mainColor, textColor, subColor]}>
+              {(color, i) => (
+                <div
+                  key={i}
+                  style={{ backgroundColor: color }}
+                  className='flex h-3 w-3 items-center gap-1 rounded-full border border-foreground'
+                />
+              )}
+            </For>
+          </div>
+        </div>
+      )
+    },
+    [focusedTheme, currentTheme, isHoverDisabled, formatThemeName],
+  )
 
   return (
     <Dialog
       onOpenChange={(open) => {
         setIsOpen(open)
-        !open && applyTheme(style)
+        !open && applyTheme(currentTheme)
       }}
     >
       <DialogTrigger asChild>
         <Button
-          variant="ghost"
-          className="h-fit gap-1 text-xs text-muted-foreground"
+          variant='ghost'
+          className='h-fit gap-1 text-xs text-muted-foreground'
         >
-          <Palette className="h-3 w-3" />
-          {style}
+          <Palette className='h-3 w-3' />
+          {currentTheme}
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex h-fit max-h-[80%] min-w-full flex-col overflow-hidden sm:min-w-[80%]">
-        <DialogHeader className="w-full">
-          <DialogTitle className="text-xl font-semibold">Themes</DialogTitle>
+      <DialogContent className='flex h-fit max-h-[80%] min-w-full flex-col overflow-hidden sm:min-w-[80%]'>
+        <DialogHeader className='w-full'>
+          <DialogTitle className='text-xl font-semibold'>Themes</DialogTitle>
           <DialogDescription>
             Select a theme to change the color scheme of the app.
             <br />
@@ -120,64 +171,21 @@ export const ThemeSwitcherList = () => {
         <Input
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          startIcon={<Search className="h-4 w-4" />}
-          placeholder="Search"
-          className="bg w-full border border-border"
+          startIcon={<Search className='h-4 w-4' />}
+          placeholder='Search'
+          className='bg w-full border border-border'
         />
 
         <div
           ref={scrollerRef}
-          className="scroll flex flex-col gap-1 overflow-y-auto"
+          className='scroll flex flex-col gap-1 overflow-y-auto'
         >
-          {!filteredStyleList.length && (
-            <h2 className="px-2 font-bold">No themes found :(</h2>
-          )}
-          {filteredStyleList.map((currStyle, idx) => {
-            if (!currStyle) return
-            const { index: i, name } = currStyle
-            const isActive = name === focusedStyle
-            const isSelected = name === style
-            return (
-              <div
-                id={`style-${idx}`}
-                onMouseEnter={() => !isHoverDisabled && setFocusedStyle(name)}
-                onClick={updateStyle}
-                className={cn(
-                  'flex cursor-pointer items-center justify-between rounded-sm border-2 border-transparent px-2 py-1 text-foreground',
-                  isSelected && 'border-primary bg-primary/20',
-                  isActive && 'bg-foreground/20'
-                )}
-              >
-                <p className={cn(isSelected && 'flex items-center gap-1')}>
-                  {isSelected && <Check className="-mb-1 h-4 w-4" />}
-                  {!isSelected && (
-                    <span className="mr-1 text-xs text-muted-foreground">
-                      {i + 1}.
-                    </span>
-                  )}
-
-                  {formatThemeName(name)}
-                </p>
-                <div className="flex gap-1">
-                  {[
-                    currStyle.mainColor,
-                    currStyle.textColor,
-                    currStyle.subColor,
-                  ].map((color, i) => {
-                    return (
-                      <div
-                        style={{
-                          backgroundColor: color,
-                        }}
-                        className="flex h-3 w-3 items-center gap-1 rounded-full border border-foreground"
-                        key={i}
-                      />
-                    )
-                  })}
-                </div>
-              </div>
-            )
-          })}
+          <For
+            each={filteredThemes}
+            whenEmpty={<h2 className='px-2 font-bold'>No themes found :(</h2>}
+          >
+            {renderThemeItem}
+          </For>
         </div>
       </DialogContent>
     </Dialog>

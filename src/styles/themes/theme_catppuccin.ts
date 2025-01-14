@@ -1,4 +1,5 @@
-export const theme_catppuccin = {
+export default {
+	name: "theme_catppuccin",
   '--bg-color': '240 21% 15%',
   '--caret-color': '0 59% 88%',
   '--main-color': '267 84% 81%',

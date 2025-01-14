@@ -1,4 +1,5 @@
-export const theme_dracula = {
+export default {
+	name: "theme_dracula",
   '--bg-color': '231 15% 18%',
   '--main-color': '265 89% 78%',
   '--caret-color': '265 89% 78%',

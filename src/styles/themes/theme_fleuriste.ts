@@ -1,4 +1,5 @@
-export const theme_fleuriste = {
+export default {
+	name: "theme_fleuriste",
   '--bg-color': '36 30% 68%',
   '--main-color': '162 17% 30%',
   '--caret-color': '37 21% 45%',

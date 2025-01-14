@@ -1,4 +1,5 @@
-export const theme_mint = {
+export default {
+	name: "theme_mint",
   '--bg-color': '204 90% 19%',
   '--main-color': '147 64% 61%',
   '--caret-color': '147 64% 61%',

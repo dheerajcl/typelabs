@@ -1,4 +1,5 @@
-export const theme_soaring_skies = {
+export default {
+	name: "theme_soaring_skies",
   '--bg-color': '32 100% 97%',
   '--main-color': '196 84% 64%',
   '--caret-color': '248 77% 27%',

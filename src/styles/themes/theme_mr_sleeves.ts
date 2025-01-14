@@ -1,4 +1,5 @@
-export const theme_mr_sleeves = {
+export default {
+	name: "theme_mr_sleeves",
   '--bg-color': '200 11% 84%',
   '--main-color': '13 46% 73%',
   '--caret-color': '209 35% 67%',

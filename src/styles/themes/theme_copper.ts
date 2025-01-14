@@ -1,4 +1,5 @@
-export const theme_copper = {
+export default {
+	name: "theme_copper",
   '--bg-color': '13 25% 21%',
   '--main-color': '13 39% 52%',
   '--caret-color': '12 51% 51%',

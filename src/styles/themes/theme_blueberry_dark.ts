@@ -1,4 +1,5 @@
-export const theme_blueberry_dark = {
+export default {
+	name: "theme_blueberry_dark",
   '--bg-color': '222 33% 19%',
   '--main-color': '209 100% 84%',
   '--caret-color': '314 52% 39%',

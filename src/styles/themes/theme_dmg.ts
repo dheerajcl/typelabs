@@ -1,4 +1,5 @@
-export const theme_dmg = {
+export default {
+	name: "theme_dmg",
   '--bg-color': '210 3% 86%',
   '--main-color': '332 76% 39%',
   '--caret-color': '231 45% 40%',

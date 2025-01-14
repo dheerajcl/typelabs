@@ -1,4 +1,5 @@
-export const theme_modern_dolch_light = {
+export default {
+	name: "theme_modern_dolch_light",
   '--bg-color': '0 0% 86%',
   '--caret-color': '167 42% 69%',
   '--main-color': '167 42% 69%',

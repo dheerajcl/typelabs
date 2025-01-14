@@ -1,4 +1,5 @@
-export const theme_future_funk = {
+export default {
+	name: "theme_future_funk",
   '--bg-color': '267 46% 19%',
   '--main-color': '37 45% 94%',
   '--caret-color': '37 45% 94%',

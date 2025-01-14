@@ -1,4 +1,5 @@
-export const theme_norse = {
+export default {
+	name: "theme_norse",
   '--bg-color': '240 1% 14%',
   '--main-color': '193 43% 30%',
   '--caret-color': '193 43% 30%',

@@ -1,4 +1,5 @@
-export const theme_lime = {
+export default {
+	name: "theme_lime",
   '--bg-color': '203 7% 52%',
   '--main-color': '83 50% 52%',
   '--caret-color': '83 50% 52%',

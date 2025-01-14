@@ -1,4 +1,5 @@
-export const theme_terminal = {
+export default {
+	name: "theme_terminal",
   '--bg-color': '210 4% 10%',
   '--caret-color': '79 76% 37%',
   '--main-color': '79 76% 37%',

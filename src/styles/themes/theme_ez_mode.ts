@@ -1,4 +1,5 @@
-export const theme_ez_mode = {
+export default {
+	name: "theme_ez_mode",
   '--bg-color': '208 100% 39%',
   '--main-color': '315 94% 68%',
   '--caret-color': '118 67% 57%',

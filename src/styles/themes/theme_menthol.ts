@@ -1,4 +1,5 @@
-export const theme_menthol = {
+export default {
+	name: "theme_menthol",
   '--bg-color': '164 100% 38%',
   '--main-color': '0 0% 100%',
   '--caret-color': '158 96% 80%',

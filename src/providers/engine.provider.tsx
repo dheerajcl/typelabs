@@ -2,9 +2,10 @@ import { useEffect } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { useHasFocus } from '@/hooks/use-has-focus.hook'
 import { VALID_CHARACTERS_SET } from '@/config/game.config'
-import { engineStore } from '@/global-state/game-engine.store'
-import { useMetricsStore } from '@/global-state/metrics.store'
-import { timerStore, useTimer } from '@/global-state/timer.store'
+import { engineStore } from '@/state/game-engine.store'
+import { useMetricsStore } from '@/state/metrics.store'
+import { TimerStore } from '@/state/timer.store'
+import { AppStore } from '@/state/app-store'
 
 export const EngineProvider = () => {
   const {
@@ -18,20 +19,14 @@ export const EngineProvider = () => {
   } = engineStore()
 
   const { updateMetrics } = useMetricsStore('updateMetrics')
-  const { totalTime, hasTimerEnded, isRunning, startTimer } = useTimer(
-    'totalTime',
-    'hasTimerEnded',
-    'isRunning',
-    'startTimer'
-  )
+  const { totalTime, hasTimerEnded, isRunning, startTimer } =
+    TimerStore.useStore('totalTime', 'hasTimerEnded', 'isRunning', 'startTimer')
 
   useHasFocus({
     onBlur: () => setTextAreaFocus(false),
   })
 
-  const backspace = () => {
-    setUserInput(userInput.slice(0, -1))
-  }
+  const backspace = () => setUserInput(userInput.slice(0, -1))
 
   const ctrlBackspace = () => {
     const userInputArr = userInput.split('')
@@ -42,7 +37,7 @@ export const EngineProvider = () => {
 
   function handleKeyInput(e: KeyboardEvent) {
     if (VALID_CHARACTERS_SET.has(e.key)) {
-      const { isPaused } = timerStore.getState()
+      const { isPaused } = TimerStore.store.getState()
       const userInput = engineStore.getState().userInput
       if (isPaused || !userInput) startTimer()
       setUserInput(userInput + e.key)
@@ -51,11 +46,16 @@ export const EngineProvider = () => {
 
   function updateCaretPosition() {
     const { userInput } = engineStore.getState()
+
     const letter = document.getElementById(`letter-${userInput.length}`)
     if (!letter) return
+
+    const fontSize = AppStore.store.getState().fontSize
+
     const newPos = {
       x: letter.offsetLeft,
-      y: letter.offsetTop + letter.offsetHeight,
+      // Setting the y position from the bottom for consistent caret styles
+      y: letter.offsetTop + fontSize * 1.6,
     }
     setCaretPosition(newPos)
   }
@@ -94,7 +94,7 @@ export const EngineProvider = () => {
     ignoreEventWhen: () => !engineStore.getState().textAreaFocus,
   })
 
-  return <></>
+  return null
 }
 
 const getErrorPercentage = (input: string, trueStr: string) => {
