@@ -1,30 +1,96 @@
-# React + TypeScript + Vite
+# TypeLabs
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, customizable typing application inspired by [monkeytype](https://monkeytype.com) built with React, TypeScript, and Vite. Practice your typing skills with a beautiful interface and extensive theme customization.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- 🎨 160+ Built-in themes
+- 🎵 Spotify integration for music playback
+- ⚡️ Fast and responsive typing experience
+- ⌨️ Keyboard shortcuts support
+- Sound effects and volume controls
+- 🎯 Custom font support
+- 📱 Responsive design
 
-## Expanding the ESLint configuration
+## Tech Stack
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+- React 18
+- TypeScript
+- Vite
+- Tailwind CSS
+- Zustand (State Management)
+- React Query
+- Radix UI Components
+- Spotify Web API
 
-- Configure the top-level `parserOptions` property like this:
+## Getting Started
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+
+### Installation
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/frstycodes/typelabs.git
+cd typelabs
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+2. Install dependencies:
+
+```bash
+bun install
+```
+
+3. Create a `.env` file in the root directory with your Spotify API credentials:
+
+```bash
+VITE_SPOTIFY_CLIENT_ID=your_client_id
+```
+
+4. Start the development server:
+
+```bash
+bun run dev
+```
+
+
+## Building for Production
+
+To create a production build:
+
+```bash
+bun run build
+```
+
+## Project Structure
+
+```
+typelabs/
+├── src/
+│   ├── components/    # React components
+│   ├── hooks/         # Custom React hooks
+│   ├── state/         # Zustand store and state management
+│   ├── styles/        # Theme definitions and global styles
+│   ├── utils/         # Utility functions
+│   └── config/        # Configuration files
+├── public/            # Static assets
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request.
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feat/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feat/AmazingFeature`)
+5. Open a Pull Request
+
+## License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## Acknowledgments
+
+- Inspired by [monkeytype](https://monkeytype.com) and themes used from [monkeytype's github repo](https://github.com/monkeytypegame/monkeytype)
+- Built with [shadcn/ui](https://ui.shadcn.com/) components
