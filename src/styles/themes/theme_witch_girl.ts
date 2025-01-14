@@ -1,4 +1,4 @@
-export const theme_witch_girl = {
+export default {
   '--bg-color': '2 51% 90%',
   '--main-color': '155 17% 40%',
   '--caret-color': '158 16% 73%',

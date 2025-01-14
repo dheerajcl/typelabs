@@ -1,4 +1,4 @@
-export const theme_sweden = {
+export default {
   '--bg-color': '208 100% 32%',
   '--main-color': '48 100% 50%',
   '--caret-color': '0 0% 71%',

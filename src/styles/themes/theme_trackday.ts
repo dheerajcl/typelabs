@@ -1,4 +1,4 @@
-export const theme_trackday = {
+export default {
   '--bg-color': '227 19% 34%',
   '--main-color': '7 72% 56%',
   '--caret-color': '224 29% 39%',

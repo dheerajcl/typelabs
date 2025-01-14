@@ -1,4 +1,4 @@
-export const theme_aether = {
+export default {
   '--bg-color': '210 33% 9%',
   '--main-color': '312 37% 89%',
   '--caret-color': '312 37% 89%',

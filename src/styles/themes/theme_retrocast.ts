@@ -1,4 +1,4 @@
-export const theme_retrocast = {
+export default {
   '--bg-color': '184 89% 25%',
   '--main-color': '183 58% 70%',
   '--caret-color': '183 58% 70%',

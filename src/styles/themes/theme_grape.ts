@@ -1,4 +1,4 @@
-export const theme_grape = {
+export default {
   '--bg-color': '283 100% 12%',
   '--main-color': '34 100% 50%',
   '--caret-color': '34 100% 50%',

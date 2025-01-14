@@ -1,4 +1,4 @@
-export const theme_blueberry_light = {
+export default {
   '--bg-color': '227 57% 91%',
   '--main-color': '209 20% 39%',
   '--caret-color': '341 71% 57%',

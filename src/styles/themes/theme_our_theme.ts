@@ -1,4 +1,4 @@
-export const theme_our_theme = {
+export default {
   '--bg-color': '354 84% 44%',
   '--main-color': '49 97% 54%',
   '--caret-color': '49 97% 54%',

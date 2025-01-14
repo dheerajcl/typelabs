@@ -1,4 +1,4 @@
-export const theme_stealth = {
+export default {
   '--bg-color': '210 50% 1%',
   '--main-color': '204 8% 24%',
   '--caret-color': '22 97% 45%',

@@ -1,4 +1,4 @@
-export const theme_comfy = {
+export default {
   '--bg-color': '212 20% 36%',
   '--main-color': '8 78% 87%',
   '--caret-color': '194 31% 71%',

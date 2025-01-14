@@ -1,4 +1,4 @@
-export const theme_floret = {
+export default {
   '--bg-color': '187 100% 9%',
   '--main-color': '46 100% 71%',
   '--caret-color': '57 52% 51%',

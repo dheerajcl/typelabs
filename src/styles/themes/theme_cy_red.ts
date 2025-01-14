@@ -1,4 +1,4 @@
-export const theme_cy_red = {
+export default {
   '--bg-color': '0 49% 29%',
   '--main-color': '0 74% 61%',
   '--caret-color': '0 49% 22%',

@@ -1,4 +1,4 @@
-export const theme_matrix = {
+export default {
   '--bg-color': '0 0% 0%',
   '--main-color': '115 100% 50%',
   '--caret-color': '115 100% 50%',

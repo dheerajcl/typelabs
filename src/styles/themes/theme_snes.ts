@@ -1,4 +1,4 @@
-export const theme_snes = {
+export default {
   '--bg-color': '255 3% 75%',
   '--main-color': '257 42% 41%',
   '--caret-color': '258 46% 40%',

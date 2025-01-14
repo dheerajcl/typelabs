@@ -1,4 +1,4 @@
-export const theme_laser = {
+export default {
   '--bg-color': '250 43% 19%',
   '--main-color': '186 100% 34%',
   '--caret-color': '186 100% 34%',

@@ -1,4 +1,4 @@
-export const theme_deku = {
+export default {
   '--bg-color': '180 93% 28%',
   '--main-color': '2 58% 45%',
   '--caret-color': '2 58% 45%',

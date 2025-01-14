@@ -1,4 +1,4 @@
-export const theme_terror_below = {
+export default {
   '--bg-color': '167 46% 8%',
   '--caret-color': '158 30% 54%',
   '--main-color': '158 30% 54%',

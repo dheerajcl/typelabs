@@ -1,4 +1,4 @@
-export const theme_horizon = {
+export default {
   '--bg-color': '228 15% 13%',
   '--main-color': '31 33% 65%',
   '--caret-color': '0 0% 73%',

@@ -1,4 +1,4 @@
-export const theme_watermelon = {
+export default {
   '--bg-color': '159 37% 19%',
   '--main-color': '356 57% 62%',
   '--caret-color': '356 57% 62%',

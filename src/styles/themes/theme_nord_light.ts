@@ -1,4 +1,4 @@
-export const theme_nord_light = {
+export default {
   '--bg-color': '218 27% 94%',
   '--caret-color': '179 25% 65%',
   '--main-color': '179 25% 65%',

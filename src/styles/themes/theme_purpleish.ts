@@ -1,4 +1,4 @@
-export const theme_purpleish = {
+export default {
   '--bg-color': '240 25% 16%',
   '--main-color': '260 54% 56%',
   '--caret-color': '260 54% 56%',

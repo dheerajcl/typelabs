@@ -1,4 +1,4 @@
-export const theme_bushido = {
+export default {
   '--bg-color': '220 17% 17%',
   '--main-color': '356 81% 61%',
   '--caret-color': '356 81% 61%',

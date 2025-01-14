@@ -1,4 +1,4 @@
-export const theme_wavez = {
+export default {
   '--bg-color': '199 25% 15%',
   '--main-color': '102 71% 55%',
   '--caret-color': '102 71% 55%',

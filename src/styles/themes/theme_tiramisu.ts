@@ -1,4 +1,4 @@
-export const theme_tiramisu = {
+export default {
   '--bg-color': '35 19% 77%',
   '--main-color': '30 39% 59%',
   '--caret-color': '14 27% 39%',

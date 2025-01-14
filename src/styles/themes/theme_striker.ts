@@ -1,4 +1,4 @@
-export const theme_striker = {
+export default {
   '--bg-color': '211 76% 29%',
   '--main-color': '156 7% 85%',
   '--caret-color': '156 7% 85%',

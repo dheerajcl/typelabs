@@ -1,4 +1,4 @@
-export const theme_pulse = {
+export default {
   '--bg-color': '0 0% 9%',
   '--main-color': '182 78% 42%',
   '--caret-color': '182 78% 42%',

@@ -1,4 +1,4 @@
-export const theme_midnight = {
+export default {
   '--bg-color': '218 27% 6%',
   '--main-color': '220 25% 50%',
   '--caret-color': '220 25% 50%',

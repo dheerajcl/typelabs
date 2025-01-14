@@ -1,4 +1,4 @@
-export const theme_nord = {
+export default {
   '--bg-color': '220 17% 17%',
   '--caret-color': '218 27% 94%',
   '--main-color': '193 43% 67%',

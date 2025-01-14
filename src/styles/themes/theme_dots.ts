@@ -1,4 +1,4 @@
-export const theme_dots = {
+export default {
   '--bg-color': '227 28% 10%',
   '--caret-color': '0 0% 100%',
   '--main-color': '0 0% 100%',

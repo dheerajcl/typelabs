@@ -1,4 +1,4 @@
-export const theme_taro = {
+export default {
   '--bg-color': '234 100% 85%',
   '--main-color': '262 27% 8%',
   '--caret-color': '179 100% 46%',

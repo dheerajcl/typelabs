@@ -1,4 +1,4 @@
-export const theme_9009 = {
+export default {
   '--bg-color': '45 26% 91%',
   '--main-color': '180 6% 3%',
   '--caret-color': '122 17% 57%',

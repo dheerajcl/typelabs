@@ -1,4 +1,4 @@
-export const theme_milkshake = {
+export default {
   '--bg-color': '0 0% 100%',
   '--main-color': '222 34% 20%',
   '--caret-color': '222 34% 20%',

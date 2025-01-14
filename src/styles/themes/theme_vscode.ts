@@ -1,4 +1,4 @@
-export const theme_vscode = {
+export default {
   '--bg-color': '0 0% 12%',
   '--main-color': '204 100% 40%',
   '--caret-color': '207 61% 59%',

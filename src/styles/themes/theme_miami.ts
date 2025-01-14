@@ -1,4 +1,4 @@
-export const theme_miami = {
+export default {
   '--bg-color': '341 87% 64%',
   '--main-color': '178 96% 45%',
   '--caret-color': '140 84% 80%',

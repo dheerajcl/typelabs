@@ -1,4 +1,4 @@
-export const theme_dualshot = {
+export default {
   '--bg-color': '0 0% 45%',
   '--main-color': '180 1% 13%',
   '--caret-color': '180 1% 13%',

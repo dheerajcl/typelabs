@@ -1,4 +1,4 @@
-export const theme_incognito = {
+export default {
   '--bg-color': '0 0% 5%',
   '--main-color': '36 100% 50%',
   '--caret-color': '36 100% 50%',

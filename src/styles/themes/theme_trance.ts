@@ -1,4 +1,4 @@
-export const theme_trance = {
+export default {
   '--bg-color': '236 100% 5%',
   '--main-color': '332 85% 49%',
   '--caret-color': '332 85% 49%',

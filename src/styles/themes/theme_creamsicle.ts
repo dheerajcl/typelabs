@@ -1,4 +1,4 @@
-export const theme_creamsicle = {
+export default {
   '--bg-color': '19 100% 71%',
   '--main-color': '60 40% 98%',
   '--caret-color': '60 40% 98%',

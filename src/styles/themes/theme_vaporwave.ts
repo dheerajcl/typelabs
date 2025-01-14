@@ -1,4 +1,4 @@
-export const theme_vaporwave = {
+export default {
   '--bg-color': '237 62% 78%',
   '--main-color': '304 69% 65%',
   '--caret-color': '195 99% 58%',

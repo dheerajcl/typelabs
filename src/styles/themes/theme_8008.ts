@@ -1,4 +1,4 @@
-export const theme_8008 = {
+export default {
   '--bg-color': '217 15% 24%',
   '--main-color': '342 88% 63%',
   '--caret-color': '342 88% 63%',

@@ -1,4 +1,4 @@
-export const theme_rainbow_trail = {
+export default {
   '--bg-color': '0 0% 96%',
   '--main-color': '0 0% 21%',
   '--caret-color': '0 0% 5%',

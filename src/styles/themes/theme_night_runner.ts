@@ -1,4 +1,4 @@
-export const theme_night_runner = {
+export default {
   '--bg-color': '0 0% 13%',
   '--main-color': '60 100% 51%',
   '--caret-color': '60 100% 51%',

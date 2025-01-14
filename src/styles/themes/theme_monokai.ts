@@ -1,4 +1,4 @@
-export const theme_monokai = {
+export default {
   '--bg-color': '70 8% 15%',
   '--main-color': '80 76% 53%',
   '--caret-color': '190 81% 67%',

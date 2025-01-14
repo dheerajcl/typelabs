@@ -1,4 +1,4 @@
-export const theme_peaches = {
+export default {
   '--bg-color': '43 33% 82%',
   '--main-color': '13 65% 62%',
   '--caret-color': '13 65% 62%',

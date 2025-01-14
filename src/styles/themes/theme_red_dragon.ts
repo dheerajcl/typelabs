@@ -1,4 +1,4 @@
-export const theme_red_dragon = {
+export default {
   '--bg-color': '356 41% 7%',
   '--main-color': '2 100% 60%',
   '--caret-color': '2 100% 60%',

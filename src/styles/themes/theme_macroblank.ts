@@ -1,4 +1,4 @@
-export const theme_macroblank = {
+export default {
   '--bg-color': '161 26% 76%',
   '--main-color': '9 79% 42%',
   '--caret-color': '343 3% 45%',

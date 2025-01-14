@@ -1,4 +1,4 @@
-export const theme_anti_hero = {
+export default {
   '--bg-color': '240 100% 9%',
   '--main-color': '0 100% 84%',
   '--caret-color': '0 0% 100%',

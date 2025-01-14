@@ -1,4 +1,4 @@
-export const theme_botanical = {
+export default {
   '--bg-color': '173 14% 55%',
   '--main-color': '193 27% 94%',
   '--caret-color': '176 19% 72%',

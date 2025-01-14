@@ -1,4 +1,4 @@
-export const theme_magic_girl = {
+export default {
   '--bg-color': '0 0% 100%',
   '--main-color': '336 77% 83%',
   '--caret-color': '334 72% 63%',

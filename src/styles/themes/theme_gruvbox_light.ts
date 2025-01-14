@@ -1,4 +1,4 @@
-export const theme_gruvbox_light = {
+export default {
   '--bg-color': '48 87% 88%',
   '--main-color': '122 21% 51%',
   '--caret-color': '122 21% 51%',

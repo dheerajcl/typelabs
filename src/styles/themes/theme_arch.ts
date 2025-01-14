@@ -1,4 +1,4 @@
-export const theme_arch = {
+export default {
   '--bg-color': '228 17% 6%',
   '--main-color': '175 30% 61%',
   '--caret-color': '175 30% 61%',

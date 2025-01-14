@@ -1,4 +1,4 @@
-export const theme_peach_blossom = {
+export default {
   '--bg-color': '0 0% 16%',
   '--main-color': '118 18% 66%',
   '--caret-color': '0 0% 38%',

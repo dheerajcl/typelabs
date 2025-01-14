@@ -1,4 +1,4 @@
-export const theme_dark = {
+export default {
   '--bg-color': '0 0% 7%',
   '--main-color': '0 0% 93%',
   '--caret-color': '0 0% 93%',

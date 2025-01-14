@@ -1,4 +1,4 @@
-export const theme_ryujinscales = {
+export default {
   '--bg-color': '216 65% 9%',
   '--main-color': '13 85% 64%',
   '--caret-color': '13 84% 61%',

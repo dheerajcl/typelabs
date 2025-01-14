@@ -1,4 +1,4 @@
-export const theme_desert_oasis = {
+export default {
   '--bg-color': '41 100% 92%',
   '--main-color': '45 99% 41%',
   '--caret-color': '216 99% 61%',

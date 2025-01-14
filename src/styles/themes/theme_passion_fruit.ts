@@ -1,4 +1,4 @@
-export const theme_passion_fruit = {
+export default {
   '--bg-color': '338 58% 31%',
   '--main-color': '347 79% 80%',
   '--caret-color': '0 0% 100%',

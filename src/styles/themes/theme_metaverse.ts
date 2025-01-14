@@ -1,4 +1,4 @@
-export const theme_metaverse = {
+export default {
   '--bg-color': '0 0% 14%',
   '--main-color': '356 69% 50%',
   '--caret-color': '356 69% 50%',

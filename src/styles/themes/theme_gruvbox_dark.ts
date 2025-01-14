@@ -1,4 +1,4 @@
-export const theme_gruvbox_dark = {
+export default {
   '--bg-color': '0 0% 16%',
   '--main-color': '40 73% 49%',
   '--caret-color': '42 95% 58%',

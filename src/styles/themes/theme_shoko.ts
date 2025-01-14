@@ -1,4 +1,4 @@
-export const theme_shoko = {
+export default {
   '--bg-color': '210 22% 84%',
   '--main-color': '196 58% 69%',
   '--caret-color': '196 58% 69%',

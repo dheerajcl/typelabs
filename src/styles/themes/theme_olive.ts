@@ -1,4 +1,4 @@
-export const theme_olive = {
+export default {
   '--bg-color': '52 40% 86%',
   '--caret-color': '63 15% 51%',
   '--main-color': '63 15% 51%',

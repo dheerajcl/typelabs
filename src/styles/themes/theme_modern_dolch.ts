@@ -1,4 +1,4 @@
-export const theme_modern_dolch = {
+export default {
   '--bg-color': '220 3% 18%',
   '--main-color': '174 58% 68%',
   '--caret-color': '174 58% 68%',

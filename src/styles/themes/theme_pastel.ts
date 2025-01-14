@@ -1,4 +1,4 @@
-export const theme_pastel = {
+export default {
   '--bg-color': '346 43% 79%',
   '--main-color': '54 90% 85%',
   '--caret-color': '54 90% 85%',

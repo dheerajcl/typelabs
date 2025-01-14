@@ -1,4 +1,4 @@
-export const theme_fledgling = {
+export default {
   '--bg-color': '273 8% 23%',
   '--main-color': '351 96% 71%',
   '--caret-color': '0 0% 28%',

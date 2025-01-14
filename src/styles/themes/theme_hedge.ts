@@ -1,4 +1,4 @@
-export const theme_hedge = {
+export default {
   '--bg-color': '99 31% 28%',
   '--main-color': '98 32% 45%',
   '--caret-color': '57 68% 84%',

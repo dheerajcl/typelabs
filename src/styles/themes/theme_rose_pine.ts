@@ -1,4 +1,4 @@
-export const theme_rose_pine = {
+export default {
   '--bg-color': '252 15% 13%',
   '--main-color': '189 43% 73%',
   '--caret-color': '35 88% 72%',

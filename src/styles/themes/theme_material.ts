@@ -1,4 +1,4 @@
-export const theme_material = {
+export default {
   '--bg-color': '200 19% 18%',
   '--main-color': '174 42% 65%',
   '--caret-color': '174 42% 65%',

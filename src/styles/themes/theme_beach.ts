@@ -1,4 +1,4 @@
-export const theme_beach = {
+export default {
   '--bg-color': '48 100% 84%',
   '--main-color': '152 36% 70%',
   '--caret-color': '41 100% 68%',

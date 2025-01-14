@@ -1,4 +1,4 @@
-export const theme_breeze = {
+export default {
   '--bg-color': '28 44% 84%',
   '--main-color': '260 28% 53%',
   '--caret-color': '260 28% 53%',

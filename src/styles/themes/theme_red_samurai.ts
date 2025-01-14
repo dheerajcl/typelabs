@@ -1,4 +1,4 @@
-export const theme_red_samurai = {
+export default {
   '--bg-color': '353 61% 32%',
   '--main-color': '32 44% 61%',
   '--caret-color': '32 44% 61%',

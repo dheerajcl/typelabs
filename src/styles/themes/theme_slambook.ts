@@ -1,4 +1,4 @@
-export const theme_slambook = {
+export default {
   '--bg-color': '56 100% 94%',
   '--main-color': '246 100% 5%',
   '--caret-color': '102 68% 29%',

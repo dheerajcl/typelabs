@@ -1,4 +1,4 @@
-export const theme_sewing_tin_light = {
+export default {
   '--bg-color': '0 0% 100%',
   '--main-color': '249 57% 29%',
   '--caret-color': '43 93% 77%',

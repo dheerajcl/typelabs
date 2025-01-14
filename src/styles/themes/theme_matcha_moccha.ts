@@ -1,4 +1,4 @@
-export const theme_matcha_moccha = {
+export default {
   '--bg-color': '21 38% 23%',
   '--main-color': '101 44% 57%',
   '--caret-color': '101 44% 57%',

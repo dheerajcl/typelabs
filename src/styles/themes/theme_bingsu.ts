@@ -1,4 +1,4 @@
-export const theme_bingsu = {
+export default {
   '--bg-color': '349 11% 69%',
   '--main-color': '337 15% 45%',
   '--caret-color': '312 11% 91%',

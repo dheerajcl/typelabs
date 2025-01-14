@@ -1,4 +1,4 @@
-export const theme_muted = {
+export default {
   '--bg-color': '0 0% 32%',
   '--main-color': '262 46% 80%',
   '--caret-color': '179 49% 79%',

@@ -1,4 +1,4 @@
-export const theme_mountain = {
+export default {
   '--bg-color': '0 0% 6%',
   '--main-color': '0 0% 91%',
   '--caret-color': '0 0% 96%',

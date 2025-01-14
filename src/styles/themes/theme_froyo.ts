@@ -1,4 +1,4 @@
-export const theme_froyo = {
+export default {
   '--bg-color': '41 27% 84%',
   '--main-color': '180 1% 49%',
   '--caret-color': '180 1% 49%',

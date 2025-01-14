@@ -1,4 +1,4 @@
-export const theme_carbon = {
+export default {
   '--bg-color': '0 0% 19%',
   '--main-color': '25 93% 51%',
   '--caret-color': '25 93% 51%',

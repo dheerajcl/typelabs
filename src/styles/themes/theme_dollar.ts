@@ -1,4 +1,4 @@
-export const theme_dollar = {
+export default {
   '--bg-color': '60 23% 86%',
   '--main-color': '120 12% 48%',
   '--caret-color': '135 3% 27%',

@@ -1,4 +1,4 @@
-export const theme_retro = {
+export default {
   '--bg-color': '43 25% 81%',
   '--main-color': '40 12% 10%',
   '--caret-color': '40 12% 10%',

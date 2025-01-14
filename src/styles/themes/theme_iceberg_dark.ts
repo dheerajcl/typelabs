@@ -1,4 +1,4 @@
-export const theme_iceberg_dark = {
+export default {
   '--bg-color': '229 20% 11%',
   '--caret-color': '230 15% 85%',
   '--main-color': '215 37% 65%',

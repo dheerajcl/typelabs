@@ -1,4 +1,4 @@
-export const theme_dark_note = {
+export default {
   '--bg-color': '0 0% 12%',
   '--main-color': '35 82% 72%',
   '--caret-color': '326 11% 88%',

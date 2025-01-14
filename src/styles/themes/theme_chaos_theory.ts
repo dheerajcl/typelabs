@@ -1,4 +1,4 @@
-export const theme_chaos_theory = {
+export default {
   '--bg-color': '248 29% 10%',
   '--main-color': '317 97% 73%',
   '--caret-color': '210 31% 90%',

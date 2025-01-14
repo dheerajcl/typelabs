@@ -1,4 +1,4 @@
-export const theme_rudy = {
+export default {
   '--bg-color': '212 41% 17%',
   '--caret-color': '37 34% 52%',
   '--main-color': '37 34% 52%',

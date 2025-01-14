@@ -1,4 +1,4 @@
-export const theme_dev = {
+export default {
   '--bg-color': '217 19% 13%',
   '--main-color': '195 72% 49%',
   '--caret-color': '220 22% 38%',

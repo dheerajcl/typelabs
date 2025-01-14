@@ -1,4 +1,4 @@
-export const theme_iv_spade = {
+export default {
   '--bg-color': '0 0% 5%',
   '--main-color': '35 35% 57%',
   '--caret-color': '0 0% 75%',

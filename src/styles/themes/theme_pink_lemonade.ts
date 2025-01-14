@@ -1,4 +1,4 @@
-export const theme_pink_lemonade = {
+export default {
   '--bg-color': '43 85% 77%',
   '--main-color': '9 85% 77%',
   '--caret-color': '60 40% 98%',

@@ -1,4 +1,4 @@
-export const theme_bliss = {
+export default {
   '--bg-color': '180 1% 15%',
   '--main-color': '15 57% 86%',
   '--caret-color': '15 57% 86%',

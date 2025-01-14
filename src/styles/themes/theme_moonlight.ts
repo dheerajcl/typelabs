@@ -1,4 +1,4 @@
-export const theme_moonlight = {
+export default {
   '--bg-color': '216 23% 13%',
   '--main-color': '35 45% 59%',
   '--caret-color': '36 31% 43%',

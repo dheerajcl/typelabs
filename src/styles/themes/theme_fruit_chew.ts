@@ -1,4 +1,4 @@
-export const theme_fruit_chew = {
+export default {
   '--bg-color': '300 4% 83%',
   '--main-color': '297 52% 25%',
   '--caret-color': '0 70% 43%',

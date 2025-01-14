@@ -1,4 +1,4 @@
-export const theme_solarized_light = {
+export default {
   '--bg-color': '44 87% 94%',
   '--main-color': '68 100% 30%',
   '--caret-color': '1 71% 52%',

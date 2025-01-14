@@ -1,4 +1,4 @@
-export const theme_iv_clover = {
+export default {
   '--bg-color': '0 0% 63%',
   '--main-color': '355 17% 29%',
   '--caret-color': '0 0% 55%',

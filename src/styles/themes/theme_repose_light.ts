@@ -1,4 +1,4 @@
-export const theme_repose_light = {
+export default {
   '--bg-color': '50 49% 88%',
   '--main-color': '90 1% 37%',
   '--caret-color': '90 1% 37%',

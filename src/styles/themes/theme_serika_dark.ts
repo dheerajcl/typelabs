@@ -1,4 +1,4 @@
-export const theme_serika_dark = {
+export default {
   '--bg-color': '216 5% 21%',
   '--main-color': '47 84% 48%',
   '--caret-color': '47 84% 48%',

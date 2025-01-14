@@ -1,4 +1,4 @@
-export const theme_evil_eye = {
+export default {
   '--bg-color': '199 100% 38%',
   '--main-color': '37 45% 94%',
   '--caret-color': '37 45% 94%',

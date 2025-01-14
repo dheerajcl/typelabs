@@ -1,4 +1,4 @@
-export const theme_dino = {
+export default {
   '--bg-color': '0 0% 100%',
   '--main-color': '140 65% 55%',
   '--caret-color': '140 65% 55%',
