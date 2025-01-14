@@ -66,7 +66,7 @@ export const TextArea = () => {
       >
         <div className='flex w-full justify-between'>
           <TimeText />
-          {!isCaps && (
+          {isCaps && (
             <h3
               ref={capslockRef}
               className='flex items-center gap-1 whitespace-nowrap rounded-md border-2 bg-background px-2 py-1 text-sm animate-out zoom-out-75'
