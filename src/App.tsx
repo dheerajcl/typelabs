@@ -1,5 +1,5 @@
 import { ListPlus, RotateCw } from 'lucide-react'
-import { useEffect } from 'react'
+import { Suspense, useEffect } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Logo } from './assets/svgs/keyboard-icon'
 import { KEYBINDS } from './config/keybinds.config'
@@ -41,8 +41,6 @@ function App() {
   useHotkeys(KEYBINDS.NEW_GAME.hotkey, generateText)
   useHotkeys(KEYBINDS.RESTART.hotkey, restart)
 
-  const CurrentView = showResults ? Results : TextArea
-
   return (
     <div className='mx-auto flex h-screen w-[calc(100%-64px)] max-w-[1200px] flex-col md:w-[80%]'>
       <div className='flex w-full items-center py-4'>
@@ -62,7 +60,13 @@ function App() {
         className='duration-400 relative flex flex-1 flex-col justify-center transition-all animate-in fade-in-0 slide-in-from-bottom-10 focus:outline-none'
       >
         <div className='max-w-full'>
-          <CurrentView />
+          {showResults ? (
+            <Suspense>
+              <Results />
+            </Suspense>
+          ) : (
+            <TextArea />
+          )}
         </div>
         <div className='flex justify-center gap-2 text-sm'>
           <GameActionButton

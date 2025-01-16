@@ -1,6 +1,6 @@
 import { PaintbrushIcon, SettingsIcon, TextCursor } from 'lucide-react'
 import { Button } from '../ui/button'
-import { Dialog, DialogContent, DialogTrigger } from '../ui/dialog'
+import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { FontFamilyIcon, KeyboardIcon } from '@radix-ui/react-icons'
 import { ScrollArea } from '../ui/scroll-area'
 import { Tabs, TabsContent } from '../ui/tabs'
@@ -58,6 +58,7 @@ export function SettingsDialog() {
         </Button>
       </DialogTrigger>
       <DialogContent className='flex h-3/4 w-full max-w-5xl overflow-hidden'>
+        <DialogTitle className='sr-only'>Settings</DialogTitle>
         <div className='max-h-full w-fit'>
           <h2 className='mb-4 text-2xl font-bold'>Settings</h2>
           <div className='flex w-[12rem] flex-col gap-2'>
