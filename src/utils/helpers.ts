@@ -1,3 +1,5 @@
+import React from 'react'
+
 export function debounce<TArgs extends unknown[], TReturn>(
   fn: (...args: TArgs) => TReturn,
   delay: number,
@@ -12,4 +14,10 @@ export function debounce<TArgs extends unknown[], TReturn>(
       }, delay)
     }) as TReturn
   }
+}
+export function lazy<T extends unknown>(
+  importer: () => Promise<React.ComponentType<T>>,
+) {
+  const module = () => importer().then((m) => ({ default: m }))
+  return React.lazy(module)
 }

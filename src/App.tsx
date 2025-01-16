@@ -2,21 +2,23 @@ import { ListPlus, RotateCw } from 'lucide-react'
 import { useEffect } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Logo } from './assets/svgs/keyboard-icon'
-import { GameActionButton } from './components/game-action-button'
-import { NoSpotifyPremiumButton } from './components/no-spotify-premium-button'
-import { Results } from './components/results'
-import { SettingsDialog } from './components/settings/settings-dialog'
-import { ConnectSpotifyButton } from './components/spotify-music-player/connect-spotify-button'
-import { SpotifyDrawer } from './components/spotify-music-player/spotify-drawer'
-import { UserInfo } from './components/spotify-user-info'
-import { TextArea } from './components/text-area'
-import { ThemeSwitcherList } from './components/theme-switcher-list'
-import { Box } from './components/ui/box'
-import { VolumeControls } from './components/volume/volume-control-popover'
 import { KEYBINDS } from './config/keybinds.config'
 import { useEngine } from './state/game-engine.store'
 import { TimerStore } from './state/timer.store'
-import { useUserQuery } from './react-query/queries/spotify.query'
+import { lazy } from './utils/helpers'
+import { Box } from './components/ui/box'
+import { GameActionButton } from './components/game-action-button'
+import { TextArea } from './components/text-area'
+
+const SettingsDialog = lazy(() =>
+  import('@/components/settings/settings-dialog').then((m) => m.SettingsDialog),
+)
+
+const Results = lazy(() =>
+  import('./components/results').then((m) => m.Results),
+)
+
+const Footer = lazy(() => import('./footer').then((m) => m.Footer))
 
 function App() {
   const { hasTimerEnded, pauseTimer } = TimerStore.useStore(
@@ -83,27 +85,9 @@ function App() {
           />
         </div>
       </Box>
-      <Box gameResponsive className='flex w-full items-end gap-2 py-2'>
-        <VolumeControls />
-        <SpotifyPlayer />
-        <div className='fixed bottom-0 right-0 flex flex-col items-end p-1'>
-          <UserInfo />
-          <ThemeSwitcherList />
-        </div>
-      </Box>
+      <Footer />
     </div>
   )
 }
 
 export default App
-
-const SpotifyPlayer = () => {
-  const { data: user } = useUserQuery()
-
-  if (!user) return <ConnectSpotifyButton />
-
-  const product = user?.['product' as keyof typeof user]
-  if (product !== 'premium') return <NoSpotifyPremiumButton />
-
-  return <SpotifyDrawer />
-}

@@ -1,6 +1,5 @@
 import { cn } from '@/utils/class-names.utils'
 import { formatThemeName } from '@/utils/theme.utils'
-import colors from '@/styles/theme-list.json'
 import { AppStore } from '@/state/app-store'
 import {
   RadioCard,
@@ -8,34 +7,33 @@ import {
   RadioCardDescription,
 } from '@/components/ui/radio-card'
 import { For } from '@/components/map'
+import { useThemes } from '@/react-query/queries/lazy-modules.query'
 
 export const ThemeSwitcher = () => {
+  const { data: themes } = useThemes()
   const { theme } = AppStore.useStore('theme')
 
   return (
     <div className='grid w-full grid-cols-6 flex-wrap gap-4'>
-      <For each={colors}>
-        {(color) => {
-          const primary = color.mainColor
-          const bg = color.bgColor
-          const text = color.textColor
-          const displayColors = [primary, bg, text]
-          const isActive = color.name === theme
+      <For each={themes}>
+        {({ mainColor, bgColor, textColor, name: themeName }) => {
+          const displayColors = [mainColor, bgColor, textColor]
+          const isActive = themeName === theme
 
           return (
             <RadioCard
-              key={color.name}
+              key={themeName}
               isActive={isActive}
               className={cn(
                 'col-span-6 flex-grow md:col-span-3',
                 isActive && 'shadow-md outline-primary/50',
               )}
               onClick={() => {
-                AppStore.set({ theme: color.name })
+                AppStore.set({ theme: themeName })
               }}
             >
               <RadioCardDescription className='mb-1 flex items-center justify-between font-medium'>
-                {formatThemeName(color.name)}
+                {formatThemeName(themeName)}
                 <div className='flex gap-1'>
                   <For each={displayColors}>
                     {(col, i) => (
@@ -53,7 +51,7 @@ export const ThemeSwitcher = () => {
               <RadioCardContent
                 className='flex flex-col gap-2'
                 style={{
-                  background: bg,
+                  background: bgColor,
                 }}
               ></RadioCardContent>
             </RadioCard>

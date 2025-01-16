@@ -36,7 +36,7 @@ const SETTINGS_TABS = [
     comp: <CaretTab />,
   },
 ]
-export const SettingsDialog = () => {
+export function SettingsDialog() {
   const dialogTriggerRef = useRef<HTMLButtonElement>(null)
   const [currentTab, setCurrentTab] = useState(SETTINGS_TABS[0].label)
 
@@ -52,9 +52,7 @@ export const SettingsDialog = () => {
           variant='ghost'
           className='group gap-2 p-2'
           tooltipContent={KEYBINDS.SETTINGS.label}
-          tooltipContentProps={{
-            className: 'text-xs',
-          }}
+          tooltipContentProps={{ className: 'text-xs' }}
         >
           <SettingsIcon className='h-4 text-muted-foreground/60 transition-all group-hover:animate-spinOnce group-hover:text-accent-foreground' />
         </Button>

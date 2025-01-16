@@ -32,6 +32,7 @@ type State = {
 
   // Appearance
   theme: string
+  previewedTheme: string | null
   borderRadius: number
   caretStyle: CaretStyle
   caretSmoothness: CaretSmoothness
@@ -57,6 +58,7 @@ const store = create(
 
       // Appearance
       theme: 'carbon',
+      previewedTheme: null,
       fontSize: 24,
       caretStyle: DEFAULT_CARET_STYLE,
       caretSmoothness: DEFAULT_CARET_SMOOTHNESS,
@@ -71,6 +73,10 @@ const store = create(
     }),
     {
       name: 'app-settings',
+      partialize: (state) => {
+        state.previewedTheme = null
+        return state
+      },
     },
   ),
 )

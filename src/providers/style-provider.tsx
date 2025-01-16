@@ -1,11 +1,7 @@
 import { AppStore } from '@/state/app-store'
 import { TimerStore } from '@/state/timer.store'
 import { debounce } from '@/utils/helpers'
-import {
-  applySavedTheme,
-  applyTheme,
-  saveThemeToLocalStorage,
-} from '@/utils/theme.utils'
+
 import { useEffect } from 'react'
 
 const debouncedUpdateVolume = debounce(
@@ -17,14 +13,21 @@ const root = document.documentElement
 
 export const StyleProvider = () => {
   const { setTotalTime } = TimerStore.useStore('setTotalTime')
-  const { currentFont, time, theme, musicVolume, borderRadius } =
-    AppStore.useStore(
-      'currentFont',
-      'time',
-      'theme',
-      'musicVolume',
-      'borderRadius',
-    )
+  const {
+    currentFont,
+    previewedTheme,
+    time,
+    theme,
+    musicVolume,
+    borderRadius,
+  } = AppStore.useStore(
+    'currentFont',
+    'time',
+    'previewedTheme',
+    'theme',
+    'musicVolume',
+    'borderRadius',
+  )
 
   useEffect(() => {
     root.attributeStyleMap.set('--radius', `${borderRadius}px`)
@@ -39,17 +42,10 @@ export const StyleProvider = () => {
   }, [musicVolume])
 
   useEffect(() => {
-    applyTheme(theme)
-    saveThemeToLocalStorage(theme)
-  }, [theme])
-
-  useEffect(() => {
-    applySavedTheme()
-  }, [])
-
-  useEffect(() => {
     setTotalTime(time)
   }, [time])
 
-  return null
+  return (
+    <link rel='stylesheet' href={`/css/theme_${previewedTheme ?? theme}.css`} />
+  )
 }

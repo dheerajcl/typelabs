@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Check, Palette, Search } from 'lucide-react'
-import { formatThemeName } from '@/utils/theme.utils'
+import { Check, Loader2, Palette, Search } from 'lucide-react'
+import { formatThemeName, stopPreviewingTheme } from '@/utils/theme.utils'
 import { cn } from '@/utils/class-names.utils'
-import { applyTheme } from '@/utils/theme.utils'
-import themes from '@/styles/theme-list.json'
+import { previewTheme } from '@/utils/theme.utils'
 import { AppStore } from '@/state/app-store'
 import Fuse from 'fuse.js'
 import { clamp } from '@/utils/math.utils'
@@ -18,38 +17,46 @@ import {
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { For } from './map'
-
-const fuse = new Fuse(themes, {
-  keys: ['name', 'id'],
-  threshold: 0.4,
-})
+import { debounce } from '@/utils/helpers'
+import { useThemes } from '@/react-query/queries/lazy-modules.query'
 
 const DIRECTION_MAP = {
   ArrowUp: -1,
   ArrowDown: 1,
 }
 
+const debouncedPreviewTheme = debounce(previewTheme, 100)
 export const ThemeSwitcherList = () => {
+  const { data: themes = [], isLoading: isThemesLoading } = useThemes()
+
+  const fuse = useMemo(
+    () =>
+      new Fuse(themes, {
+        keys: ['name', 'id'],
+        threshold: 0.4,
+      }),
+    [themes],
+  )
+
   const scrollerRef = useRef<HTMLDivElement>(null)
-  const { theme: currentTheme } = AppStore.useStore('theme')
   const [isOpen, setIsOpen] = useState(false)
-  const [focusedTheme, setFocusedTheme] = useState(currentTheme)
   const [search, setSearch] = useState('')
   const [isHoverDisabled, setIsHoverDisabled] = useState(false)
 
-  // Optimized search filtering using useMemo to prevent unnecessary recalculations
+  const { theme: appliedTheme } = AppStore.useStore('theme')
+  const [previewedTheme, setPreviewedTheme] = useState(appliedTheme)
+
   const filteredThemes = useMemo(() => {
     if (!search) return themes
     return fuse.search(search).map((result) => result.item)
-  }, [search])
+  }, [search, themes])
 
-  const updateTheme = () => AppStore.set({ theme: focusedTheme })
-
-  const handleKeyboardNavigation = (e: KeyboardEvent) => {
-    if (!(e.key in DIRECTION_MAP)) return
+  function handleKeyboardNavigation(e: KeyboardEvent) {
     if (filteredThemes.length === 0) return
 
-    setFocusedTheme((prev) => {
+    setPreviewedTheme((prev) => {
+      if (!(e.key in DIRECTION_MAP)) return prev
+
       const currIdx = filteredThemes.findIndex((s) => s.name === prev)
       if (currIdx === -1) return prev
 
@@ -72,7 +79,13 @@ export const ThemeSwitcherList = () => {
     if (e.key === 'Enter') updateTheme()
   }
 
-  const onMouseMove = () => setIsHoverDisabled(false)
+  function updateTheme() {
+    AppStore.set({ theme: previewedTheme })
+  }
+
+  function onMouseMove() {
+    setIsHoverDisabled(false)
+  }
 
   useEffect(() => {
     if (!isOpen) return
@@ -83,18 +96,16 @@ export const ThemeSwitcherList = () => {
       document.removeEventListener('mousemove', onMouseMove)
       document.removeEventListener('keydown', handleKeyboardNavigation)
     }
-  }, [isOpen, search, focusedTheme])
+  }, [isOpen, search, previewedTheme])
 
   useEffect(() => {
     if (!isOpen || !filteredThemes.length) return
-    setFocusedTheme(filteredThemes[0].name)
+    setPreviewedTheme(filteredThemes[0].name)
   }, [filteredThemes, isOpen])
 
   useEffect(() => {
-    if (!isOpen) return
-    const timeout = setTimeout(() => applyTheme(focusedTheme), 100)
-    return () => clearTimeout(timeout)
-  }, [focusedTheme, isOpen])
+    debouncedPreviewTheme(previewedTheme)
+  }, [previewedTheme])
 
   type Theme = (typeof themes)[0]
 
@@ -103,14 +114,14 @@ export const ThemeSwitcherList = () => {
       if (!theme) return null
 
       const { id, name, mainColor, textColor, subColor } = theme
-      const isFocusedTheme = name === focusedTheme
-      const isCurrentTheme = name === currentTheme
+      const isFocusedTheme = name === previewedTheme
+      const isCurrentTheme = name === appliedTheme
 
       return (
         <div
           key={id}
           id={`style-${id}`}
-          onMouseEnter={() => !isHoverDisabled && setFocusedTheme(name)}
+          onMouseEnter={() => !isHoverDisabled && setPreviewedTheme(name)}
           onClick={updateTheme}
           className={cn(
             'flex cursor-pointer items-center justify-between rounded-sm border border-transparent px-2 py-1 text-foreground',
@@ -140,14 +151,14 @@ export const ThemeSwitcherList = () => {
         </div>
       )
     },
-    [focusedTheme, currentTheme, isHoverDisabled, formatThemeName],
+    [previewedTheme, appliedTheme, isHoverDisabled, formatThemeName, isOpen],
   )
 
   return (
     <Dialog
       onOpenChange={(open) => {
         setIsOpen(open)
-        !open && applyTheme(currentTheme)
+        !open && stopPreviewingTheme()
       }}
     >
       <DialogTrigger asChild>
@@ -156,7 +167,7 @@ export const ThemeSwitcherList = () => {
           className='h-fit gap-1 text-xs text-muted-foreground'
         >
           <Palette className='h-3 w-3' />
-          {currentTheme}
+          {appliedTheme}
         </Button>
       </DialogTrigger>
       <DialogContent className='flex h-fit max-h-[80%] min-w-full flex-col overflow-hidden sm:min-w-[80%]'>
@@ -182,7 +193,13 @@ export const ThemeSwitcherList = () => {
         >
           <For
             each={filteredThemes}
-            whenEmpty={<h2 className='px-2 font-bold'>No themes found :(</h2>}
+            whenEmpty={
+              isThemesLoading ? (
+                <Loader2 className='size-5 animate-spin' />
+              ) : (
+                <h2 className='px-2 font-bold'>No themes found :(</h2>
+              )
+            }
           >
             {renderThemeItem}
           </For>
