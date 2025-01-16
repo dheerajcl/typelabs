@@ -1,5 +1,5 @@
 import { ListPlus, RotateCw } from 'lucide-react'
-import { Suspense, useEffect } from 'react'
+import { useEffect } from 'react'
 import { useHotkeys } from 'react-hotkeys-hook'
 import { Logo } from './assets/svgs/keyboard-icon'
 import { KEYBINDS } from './config/keybinds.config'
@@ -9,13 +9,10 @@ import { lazy } from './utils/helpers'
 import { Box } from './components/ui/box'
 import { GameActionButton } from './components/game-action-button'
 import { TextArea } from './components/text-area'
+import { Results } from './components/results'
 
 const SettingsDialog = lazy(() =>
   import('@/components/settings/settings-dialog').then((m) => m.SettingsDialog),
-)
-
-const Results = lazy(() =>
-  import('./components/results').then((m) => m.Results),
 )
 
 const Footer = lazy(() => import('./footer').then((m) => m.Footer))
@@ -60,13 +57,7 @@ function App() {
         className='duration-400 relative flex flex-1 flex-col justify-center transition-all animate-in fade-in-0 slide-in-from-bottom-10 focus:outline-none'
       >
         <div className='max-w-full'>
-          {showResults ? (
-            <Suspense>
-              <Results />
-            </Suspense>
-          ) : (
-            <TextArea />
-          )}
+          {showResults ? <Results /> : <TextArea />}
         </div>
         <div className='flex justify-center gap-2 text-sm'>
           <GameActionButton
