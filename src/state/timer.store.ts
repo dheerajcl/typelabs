@@ -7,6 +7,7 @@ import { AppStore } from './app-store'
 
 type TimerStore = {
   interval: NodeJS.Timeout | null
+  startTime: number
   isRunning: boolean
   isPaused: boolean
   hasTimerEnded: boolean
@@ -25,6 +26,7 @@ const store = create<TimerStore>(
   (set, get) => ({
     totalTime: 0,
     interval: null,
+    startTime: 0,
     isPaused: false,
     timeLeft: 0,
     hasTimerEnded: false,

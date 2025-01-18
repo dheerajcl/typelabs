@@ -1,4 +1,4 @@
-import { PaintbrushIcon, SettingsIcon, TextCursor } from 'lucide-react'
+import { PaintbrushIcon, SettingsIcon, TextCursor, BarChart2 } from 'lucide-react'
 import { Button } from '../ui/button'
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from '../ui/dialog'
 import { FontFamilyIcon, KeyboardIcon } from '@radix-ui/react-icons'
@@ -13,6 +13,7 @@ import { AppearanceTab } from './appearance-tab/appearance-tab'
 import { SoundPackTab } from './soundpack-tab/sound-pack-tab'
 import { CaretTab } from './caret-tab/caret-tab'
 import { For } from '../map'
+import { StatisticsDashboard } from '../statistics/statistics-dashborad'
 
 const SETTINGS_TABS = [
   {
@@ -35,6 +36,11 @@ const SETTINGS_TABS = [
     icon: <TextCursor className='h-4 w-4' />,
     comp: <CaretTab />,
   },
+  {
+    label: 'Statistics',
+    icon: <BarChart2 className='h-4 w-4' />,
+    comp: <StatisticsDashboard />,
+  }
 ]
 export function SettingsDialog() {
   const dialogTriggerRef = useRef<HTMLButtonElement>(null)
