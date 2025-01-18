@@ -1,4 +1,3 @@
-import { usePrevious } from '@/hooks/use-previous.hook'
 import { AppStore } from '@/state/app-store'
 import { TimerStore } from '@/state/timer.store'
 import { debounce } from '@/utils/helpers'
