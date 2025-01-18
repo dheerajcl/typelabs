@@ -1,3 +1,4 @@
+import { usePrevious } from '@/hooks/use-previous.hook'
 import { AppStore } from '@/state/app-store'
 import { TimerStore } from '@/state/timer.store'
 import { debounce } from '@/utils/helpers'
@@ -11,7 +12,7 @@ const debouncedUpdateVolume = debounce(
 
 const root = document.documentElement
 
-export const StyleProvider = () => {
+export function AppSettingsProvider() {
   const { setTotalTime } = TimerStore.useStore('setTotalTime')
   const {
     currentFont,
@@ -46,6 +47,12 @@ export const StyleProvider = () => {
   }, [time])
 
   return (
-    <link rel='stylesheet' href={`/css/theme_${previewedTheme ?? theme}.css`} />
+    <>
+      <link rel='stylesheet' href={`/css/theme_${theme}.css`} />
+      <link
+        rel='stylesheet'
+        href={`/css/theme_${previewedTheme ?? theme}.css`}
+      />
+    </>
   )
 }

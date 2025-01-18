@@ -9,7 +9,7 @@ import { queryClient } from './config/react-query.config.ts'
 import './globals.css'
 import { EngineProvider } from './providers/engine.provider.tsx'
 import { KeyboardAudioProvider } from './providers/keyboard-audio.provider.tsx'
-import { StyleProvider } from './providers/style-provider.tsx'
+import { AppSettingsProvider } from './providers/app-settings.provider.tsx'
 
 const getOAuthToken = async (callback: (accessToken: string) => void) => {
   if (!window.spotifyClient) return
@@ -31,7 +31,7 @@ export const PlayerProvider = (props: { children: React.ReactNode }) => {
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <QueryClientProvider client={queryClient}>
-    <StyleProvider />
+    <AppSettingsProvider />
     <PlayerProvider>
       <TooltipProvider delayDuration={100}>
         <App />
