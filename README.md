@@ -10,7 +10,6 @@ A modern, customizable typing application inspired by [monkeytype](https://monke
 - ⌨️ Keyboard shortcuts support
 - Sound effects and volume controls
 - 🎯 Custom font support
-- 📱 Responsive design
 
 ## Tech Stack
 
@@ -20,7 +19,7 @@ A modern, customizable typing application inspired by [monkeytype](https://monke
 - Tailwind CSS
 - Zustand (State Management)
 - React Query
-- Radix UI Components
+- Shadcn UI Components
 - Spotify Web API
 
 ## Getting Started
