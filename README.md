@@ -9,7 +9,7 @@ A modern, customizable typing application inspired by [monkeytype](https://monke
 - ⚡️ Fast and responsive typing experience
 - ⌨️ Keyboard shortcuts support
 - Sound effects and volume controls
-- 🎯 Custom font support
+- Custom font support
 
 ## Tech Stack
 
